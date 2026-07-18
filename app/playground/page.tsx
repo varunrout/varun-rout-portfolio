@@ -43,7 +43,7 @@ export default async function PlaygroundPage() {
         <Reveal>
           <DemoFrame
             title="Model scorecard"
-            intro="Every model across the portfolio in one place. Sort by value or test count, filter by domain. The benchmark is the point: a metric with nothing to beat is greyed."
+            intro="Every model across the portfolio, one card each. Filter by domain. The benchmark is the point: each card sits its value beside the incumbent, and a metric with nothing to beat is greyed."
             provenance="Hand-typed from committed results (content/metrics.ts). Football and retail are open or synthetic data; energy and consulting are professional results."
           >
             <ModelScorecard />
