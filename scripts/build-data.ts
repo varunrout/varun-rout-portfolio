@@ -16,7 +16,7 @@
  */
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join, resolve, dirname } from 'node:path';
+import { join, resolve } from 'node:path';
 import { parse } from 'csv-parse/sync';
 
 const REPO_ROOT = process.env.REPO_ROOT;

@@ -27,6 +27,7 @@
     "@visx/tooltip": "^4.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "lucide-react": "^1.25.0",
     "motion": "^12.42.2",
     "next": "15.5.20",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/eslint-plugin-next": "15.5.20",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.43",
     "@types/react": "^19",
@@ -47,6 +49,7 @@
     "csv-parse": "^7.0.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.20",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.1",
     "typescript": "^5"

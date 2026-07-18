@@ -1,26 +1,131 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+/*
+ * Design tokens — PORTFOLIO_BUILD_BRIEF.md section 3. Dark theme only, no light variant.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.875rem;
+
+  --bg: #0a0a0f;
+  --bg-2: #101018;
+  --panel: #14141d;
+  --panel-2: #181824;
+  --line: #2c2c3a;
+  --txt: #f3f3f7;
+  --muted-ink: #9c9cad;
+  --dim: #6e6e80;
+  --pink: #ff2e7e;
+  --cyan: #28e0c6;
+  --violet: #b14bf4;
+  --amber: #f5b841;
+  --grad: linear-gradient(120deg, #ff2e7e, #b14bf4 55%, #28e0c6 120%);
+
+  --background: var(--bg);
+  --foreground: var(--txt);
+  --card: var(--panel);
+  --card-foreground: var(--txt);
+  --popover: var(--panel-2);
+  --popover-foreground: var(--txt);
+  --primary: var(--pink);
+  --primary-foreground: #0a0a0f;
+  --secondary: var(--panel-2);
+  --secondary-foreground: var(--txt);
+  --muted: var(--panel-2);
+  --muted-foreground: var(--muted-ink);
+  --accent: var(--panel-2);
+  --accent-foreground: var(--txt);
+  --destructive: #e5484d;
+  --destructive-foreground: var(--txt);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--pink);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-txt: var(--txt);
+  --color-dim: var(--dim);
+  --color-pink: var(--pink);
+  --color-cyan: var(--cyan);
+  --color-violet: var(--violet);
+  --color-amber: var(--amber);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  font-feature-settings: "cv11", "ss01";
+}
+
+::selection {
+  background: color-mix(in oklch, var(--pink), transparent 70%);
+  color: var(--txt);
+}
+
+/* Background grid, used sparingly (hero only) per brief: do not animate the background. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+.text-gradient {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
