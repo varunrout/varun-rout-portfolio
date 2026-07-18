@@ -17,21 +17,26 @@ export function CountUp({
   duration?: number;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  // Vertical-only margin: a bare '-80px' also shrinks the left/right detection band, which on narrow
+  // viewports leaves a short, left-aligned number span outside it so the observer never fires and the
+  // count-up stays at 0. '-80px 0px' keeps the trigger offset vertical and the horizontal band full-width.
+  const inView = useInView(ref, { once: true, margin: '-80px 0px' });
   const reduceMotion = useReducedMotion();
-  const [display, setDisplay] = useState(0);
+  const [animated, setAnimated] = useState(0);
 
   useEffect(() => {
-    if (!inView || reduceMotion) return;
+    if (reduceMotion || !inView) return;
     const controls = animate(0, value, {
       duration,
       ease: 'easeOut',
-      onUpdate: (v) => setDisplay(v),
+      onUpdate: (v) => setAnimated(v),
     });
     return () => controls.stop();
   }, [inView, value, duration, reduceMotion]);
 
-  const shown = reduceMotion ? (inView ? value : 0) : display;
+  // Reduced motion shows the final value straight away (no gate on inView, never stuck at 0);
+  // otherwise the animated value, which counts up once the element scrolls into view.
+  const shown = reduceMotion ? value : animated;
 
   return (
     <span ref={ref} className="font-mono tabular-nums">
