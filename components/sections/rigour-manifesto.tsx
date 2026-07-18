@@ -37,10 +37,10 @@ export function RigourManifesto() {
         </h2>
       </Reveal>
 
-      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+      <div className="mt-10 grid gap-5 sm:auto-rows-fr sm:grid-cols-2">
         {habits.map((habit, i) => (
           <Reveal key={habit.title} delay={i * 0.05}>
-            <div className="rounded-xl border border-line bg-panel p-6">
+            <div className="h-full rounded-xl border border-line bg-panel p-6">
               <span className="font-mono text-sm text-pink">0{i + 1}</span>
               <h3 className="mt-2 text-lg font-medium text-txt">{habit.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{habit.body}</p>
