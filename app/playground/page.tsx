@@ -8,6 +8,7 @@ import { UpliftExplorer } from '@/components/demos/uplift-explorer';
 export const metadata: Metadata = {
   title: 'Playground',
   description: 'Interactive demos: a model scorecard, a forecast error visualiser, an uplift decile explorer, and an xG shot-map explorer.',
+  alternates: { canonical: '/playground' },
 };
 
 const comingSoon = [

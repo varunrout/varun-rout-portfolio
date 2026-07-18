@@ -20,9 +20,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
+  const url = `/work/${project.slug}`;
   return {
     title: project.title,
     description: project.summary,
+    alternates: { canonical: url },
+    openGraph: {
+      title: project.title,
+      description: project.summary,
+      url,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: project.title,
+      description: project.summary,
+    },
   };
 }
 

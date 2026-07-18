@@ -5,6 +5,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'About',
   description: 'How Varun Rout works, and the move from energy markets into applied data science.',
+  alternates: { canonical: '/about' },
 };
 
 const habits = [

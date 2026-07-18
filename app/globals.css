@@ -14,7 +14,8 @@
   --line: #2c2c3a;
   --txt: #f3f3f7;
   --muted-ink: #9c9cad;
-  --dim: #6e6e80;
+  /* --dim bumped from #6e6e80 to clear WCAG AA 4.5:1 on both --bg and --panel. */
+  --dim: #7e7e90;
   --pink: #ff2e7e;
   --cyan: #28e0c6;
   --violet: #b14bf4;
