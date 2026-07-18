@@ -6,6 +6,8 @@ import { Reveal } from '@/components/motion/reveal';
 import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { UpliftExplorer } from '@/components/demos/uplift-explorer';
+import { ShotMapExplorer } from '@/components/demos/shot-map-explorer';
+import { getShots } from '@/lib/shots';
 import { projects, getProject } from '@/content/projects';
 
 export function generateStaticParams() {
@@ -60,6 +62,8 @@ export default async function ProjectPage({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
+
+  const shots = project.demo === 'shotmap' ? await getShots() : [];
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6">
@@ -178,6 +182,25 @@ export default async function ProjectPage({
             <div className="mt-6">
               <ModelScorecard />
             </div>
+          </section>
+        </Reveal>
+      )}
+
+      {project.demo === 'shotmap' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Explore the shots</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              A sample of real shots, my CxG beside StatsBomb&apos;s own xG on the same shots. Toggle the metric
+              or the diff, filter by team, match or pressure, and watch the calibration recompute.
+            </p>
+            <div className="mt-6">
+              <ShotMapExplorer shots={shots} />
+            </div>
+            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
+              <span className="text-cyan">Data provenance.</span> 440-shot sample from the CxG diagnostic model,
+              benchmarked against StatsBomb xG. Open StatsBomb data, served from Supabase; full set in the repo.
+            </p>
           </section>
         </Reveal>
       )}

@@ -4,24 +4,18 @@ import { DemoFrame } from '@/components/demos/demo-frame';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
 import { UpliftExplorer } from '@/components/demos/uplift-explorer';
+import { ShotMapExplorer } from '@/components/demos/shot-map-explorer';
+import { getShots } from '@/lib/shots';
 
 export const metadata: Metadata = {
   title: 'Playground',
-  description: 'Interactive demos: a model scorecard, a forecast error visualiser, an uplift decile explorer, and an xG shot-map explorer.',
+  description: 'Interactive demos: an xG shot-map explorer, a model scorecard, a forecast error visualiser, and an uplift decile explorer.',
   alternates: { canonical: '/playground' },
 };
 
-const comingSoon = [
-  {
-    name: 'xG shot-map explorer',
-    status: 'Needs a shot-level export from the CxG model',
-    body:
-      'An SVG pitch of real shots, toggling between my CxG and StatsBomb’s own xG, with a diff mode so ' +
-      'over- and under-valued shots pop. Ships once the export exists.',
-  },
-];
+export default async function PlaygroundPage() {
+  const shots = await getShots();
 
-export default function PlaygroundPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
       <Reveal>
@@ -30,16 +24,26 @@ export default function PlaygroundPage() {
           Demos a reviewer can poke at.
         </h1>
         <p className="mt-4 max-w-xl text-dim">
-          These read from the same static, committed data as the rest of the site. No demo here renders an
-          invented number: where a real export is not ready yet, it says so instead of faking it.
+          These read from committed project outputs and a Supabase-backed sample of real shots. No demo renders
+          an invented number: every value traces to a committed result or a real model output.
         </p>
       </Reveal>
 
       <div className="mt-12 space-y-8">
         <Reveal>
           <DemoFrame
+            title="xG shot-map explorer"
+            intro="Real shots on an attacking-half pitch, coloured by value. Toggle between my CxG and StatsBomb's own xG, or a diff mode so over- and under-valued shots pop. Filter by team, match or pressure; the panel recomputes mean value and Brier calibration live."
+            provenance="A 440-shot sample from the CxG diagnostic model (opponent-adjusted-metrics), benchmarked against StatsBomb xG on the same shots. Open StatsBomb data, served from Supabase. Full set lives in the repo."
+          >
+            <ShotMapExplorer shots={shots} />
+          </DemoFrame>
+        </Reveal>
+
+        <Reveal>
+          <DemoFrame
             title="Model scorecard"
-            intro="Every model across the portfolio in one table. Sort by value or test count, filter by domain. The benchmark column is the point: a metric with nothing to beat is greyed."
+            intro="Every model across the portfolio in one place. Sort by value or test count, filter by domain. The benchmark is the point: a metric with nothing to beat is greyed."
             provenance="Hand-typed from committed results (content/metrics.ts). Football and retail are open or synthetic data; energy and consulting are professional results."
           >
             <ModelScorecard />
@@ -65,20 +69,6 @@ export default function PlaygroundPage() {
             <UpliftExplorer />
           </DemoFrame>
         </Reveal>
-
-        {comingSoon.map((demo) => (
-          <Reveal key={demo.name}>
-            <div className="rounded-xl border border-line bg-panel p-6">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <h2 className="text-lg font-medium text-txt">{demo.name}</h2>
-                <span className="rounded-full border border-amber/30 px-2.5 py-0.5 text-xs text-amber">
-                  {demo.status}
-                </span>
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground">{demo.body}</p>
-            </div>
-          </Reveal>
-        ))}
       </div>
     </div>
   );
