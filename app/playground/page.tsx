@@ -1,39 +1,28 @@
 import type { Metadata } from 'next';
 import { Reveal } from '@/components/motion/reveal';
+import { DemoFrame } from '@/components/demos/demo-frame';
+import { ModelScorecard } from '@/components/demos/model-scorecard';
+import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
 
 export const metadata: Metadata = {
   title: 'Playground',
-  description: 'Four interactive demos: an xG shot-map explorer, an uplift decile explorer, a forecast error visualiser, and a model scorecard.',
+  description: 'Interactive demos: a model scorecard, a forecast error visualiser, an uplift decile explorer, and an xG shot-map explorer.',
 };
 
-const demos = [
-  {
-    name: 'xG shot-map explorer',
-    status: 'Needs a shot-level export from the CxG model; ships once available',
-    body:
-      'An SVG pitch of real shots, toggling between my CxG and StatsBomb’s own xG, with a diff mode so ' +
-      'over- and under-valued shots pop.',
-  },
+const comingSoon = [
   {
     name: 'Uplift decile explorer',
-    status: 'Data ready, demo in progress',
+    status: 'Data committed; demo in progress',
     body:
       'The Qini curve and per-decile uplift from the retail X-learner, with a slider to target the top K% of ' +
       'customers and see captured uplift recompute live.',
   },
   {
-    name: 'Forecast error visualiser',
-    status: 'Data ready, demo in progress',
+    name: 'xG shot-map explorer',
+    status: 'Needs a shot-level export from the CxG model',
     body:
-      'Before/after accuracy across E.ON residual-load forecasting, Manor Park demand forecasting, and the ' +
-      'UoB attendance-forecasting capstone.',
-  },
-  {
-    name: 'Model scorecard',
-    status: 'Data ready, demo in progress',
-    body:
-      'Every model across the portfolio in one sortable, filterable table: metric, benchmark, dataset, and ' +
-      'whether it is real, synthetic, or open data.',
+      'An SVG pitch of real shots, toggling between my CxG and StatsBomb’s own xG, with a diff mode so ' +
+      'over- and under-valued shots pop. Ships once the export exists.',
   },
 ];
 
@@ -43,17 +32,37 @@ export default function PlaygroundPage() {
       <Reveal>
         <p className="font-mono text-sm text-cyan">Playground</p>
         <h1 className="mt-2 text-4xl font-semibold tracking-[-0.02em] text-txt">
-          Four demos, still being built in the open.
+          Demos a reviewer can poke at.
         </h1>
         <p className="mt-4 max-w-xl text-dim">
-          These read from the same static, committed data as the rest of the site. No demo here will ever
-          render an invented number: where a real export is not ready yet, it says so instead of faking it.
+          These read from the same static, committed data as the rest of the site. No demo here renders an
+          invented number: where a real export is not ready yet, it says so instead of faking it.
         </p>
       </Reveal>
 
-      <div className="mt-12 space-y-4">
-        {demos.map((demo, i) => (
-          <Reveal key={demo.name} delay={i * 0.05}>
+      <div className="mt-12 space-y-8">
+        <Reveal>
+          <DemoFrame
+            title="Model scorecard"
+            intro="Every model across the portfolio in one table. Sort by value or test count, filter by domain. The benchmark column is the point: a metric with nothing to beat is greyed."
+            provenance="Hand-typed from committed results (content/metrics.ts). Football and retail are open or synthetic data; energy and consulting are professional results."
+          >
+            <ModelScorecard />
+          </DemoFrame>
+        </Reveal>
+
+        <Reveal>
+          <DemoFrame
+            title="Forecast error visualiser"
+            intro="Before/after accuracy across three roles. E.ON and Manor Park are professional results; UoB is the MSc capstone. Aggregate deltas only, no invented time series."
+            provenance="Aggregate figures from MASTER_PROFILE.md, generated into data/forecast.json. E.ON and Manor Park report accuracy improvement; UoB reports out-of-sample MAE, which is a count and lower-better."
+          >
+            <ForecastVisualiser />
+          </DemoFrame>
+        </Reveal>
+
+        {comingSoon.map((demo) => (
+          <Reveal key={demo.name}>
             <div className="rounded-xl border border-line bg-panel p-6">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-lg font-medium text-txt">{demo.name}</h2>

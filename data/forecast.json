@@ -1,0 +1,66 @@
+{
+  "provenance": "E.ON and Manor Park are professional results; UoB is the MSc capstone. Aggregate deltas only.",
+  "eon": {
+    "label": "E.ON residual-load forecasting",
+    "series": [
+      {
+        "metric": "Forward curve, far seasons",
+        "unit": "%",
+        "improvement": 15
+      },
+      {
+        "metric": "Forward curve, near seasons",
+        "unit": "%",
+        "improvement": 9.7
+      },
+      {
+        "metric": "Christmas-period demand RMSE",
+        "unit": "%",
+        "improvement": 18
+      }
+    ],
+    "note": "Residual RMSE improved ~0.3 to 0.5 GWh/h; Christmas fix ~0.35 GWh/h. Correlation ~0.84."
+  },
+  "manorPark": {
+    "label": "Manor Park multi-horizon demand",
+    "series": [
+      {
+        "metric": "Weekly",
+        "unit": "%",
+        "improvement": 28
+      },
+      {
+        "metric": "Monthly",
+        "unit": "%",
+        "improvement": 19
+      },
+      {
+        "metric": "Quarterly",
+        "unit": "%",
+        "improvement": 37
+      }
+    ],
+    "note": "Across ~7,000 SKUs (Shopify, Amazon, eBay, The Range)."
+  },
+  "uob": {
+    "label": "UoB attendance forecasting (MAE, lower is better; counts not %)",
+    "series": [
+      {
+        "category": "Cardio",
+        "before": 23.8,
+        "after": 11.2
+      },
+      {
+        "category": "Holistic",
+        "before": 26.5,
+        "after": 13.4
+      },
+      {
+        "category": "Toning",
+        "before": 14.3,
+        "after": 10.3
+      }
+    ],
+    "note": "GridSearchCV Random Forest vs classical baselines on out-of-sample MAE."
+  }
+}

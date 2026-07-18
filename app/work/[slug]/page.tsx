@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Reveal } from '@/components/motion/reveal';
+import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
+import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { projects, getProject } from '@/content/projects';
 
 export function generateStaticParams() {
@@ -120,6 +122,31 @@ export default async function ProjectPage({
           )}
         </section>
       </Reveal>
+
+      {project.demo === 'forecast' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Explore the deltas</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              The same before/after figures, interactive. Toggle between the three roles.
+            </p>
+            <div className="mt-6">
+              <ForecastVisualiser />
+            </div>
+          </section>
+        </Reveal>
+      )}
+
+      {project.demo === 'scorecard' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Model scorecard</h2>
+            <div className="mt-6">
+              <ModelScorecard />
+            </div>
+          </section>
+        </Reveal>
+      )}
     </div>
   );
 }
