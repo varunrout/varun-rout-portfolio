@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Reveal } from '@/components/motion/reveal';
 import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
+import { UpliftExplorer } from '@/components/demos/uplift-explorer';
 import { projects, getProject } from '@/content/projects';
 
 export function generateStaticParams() {
@@ -133,6 +134,26 @@ export default async function ProjectPage({
             <div className="mt-6">
               <ForecastVisualiser />
             </div>
+          </section>
+        </Reveal>
+      )}
+
+      {project.demo === 'uplift' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Explore the uplift</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Observed uplift per predicted decile and the Qini curve from the X-learner. Slide to target the
+              top K% of customers and see the captured incremental response recompute.
+            </p>
+            <div className="mt-6">
+              <UpliftExplorer />
+            </div>
+            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
+              <span className="text-cyan">Data provenance.</span> Synthetic retail data; demonstrates method,
+              not a measured commercial outcome. Per-decile rows and headline figures come from committed
+              retail-intelligence outputs (data/uplift-deciles.json).
+            </p>
           </section>
         </Reveal>
       )}

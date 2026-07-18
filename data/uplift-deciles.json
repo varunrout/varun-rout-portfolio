@@ -1,0 +1,101 @@
+{
+  "provenance": "retail-intelligence phase_uplift_v2 (X-learner, synthetic data). Per-decile rows from phase_uplift_v2_decile_summary.csv; headline from phase_uplift_v2_model_comparison.csv. The Qini series is derived (cumulative n_treatment * observed_uplift). Demonstrates method, not a measured commercial outcome.",
+  "headline": {
+    "ate": 0.044366344372566174,
+    "topDecile": 0.07544313140409453,
+    "qiniArea": 744.8096057026382,
+    "spearman": 0.406060606060606
+  },
+  "deciles": [
+    {
+      "decile": 1,
+      "n": 2052,
+      "n_treatment": 1673,
+      "n_control": 379,
+      "observed_uplift": 0.07544313140409453,
+      "cumulative": 0.07544313140409453,
+      "qini": 126.21635883905016
+    },
+    {
+      "decile": 2,
+      "n": 2052,
+      "n_treatment": 1725,
+      "n_control": 327,
+      "observed_uplift": 0.06364579178300758,
+      "cumulative": 0.06954446159355106,
+      "qini": 236.00534966473822
+    },
+    {
+      "decile": 3,
+      "n": 2052,
+      "n_treatment": 1706,
+      "n_control": 346,
+      "observed_uplift": 0.04834009853017909,
+      "cumulative": 0.06247634057242707,
+      "qini": 318.4735577572238
+    },
+    {
+      "decile": 4,
+      "n": 2052,
+      "n_treatment": 1729,
+      "n_control": 323,
+      "observed_uplift": 0.014731398632327447,
+      "cumulative": 0.050540105087402164,
+      "qini": 343.9441459925179
+    },
+    {
+      "decile": 5,
+      "n": 2052,
+      "n_treatment": 1736,
+      "n_control": 316,
+      "observed_uplift": 0.022953975383538466,
+      "cumulative": 0.045022879146629426,
+      "qini": 383.7922472583407
+    },
+    {
+      "decile": 6,
+      "n": 2051,
+      "n_treatment": 1724,
+      "n_control": 327,
+      "observed_uplift": 0.056597983496172066,
+      "cumulative": 0.046952063204886534,
+      "qini": 481.36717080574135
+    },
+    {
+      "decile": 7,
+      "n": 2052,
+      "n_treatment": 1736,
+      "n_control": 316,
+      "observed_uplift": 0.053177681852651204,
+      "cumulative": 0.04784143729742434,
+      "qini": 573.6836265019439
+    },
+    {
+      "decile": 8,
+      "n": 2052,
+      "n_treatment": 1728,
+      "n_control": 324,
+      "observed_uplift": 0.054012345679012363,
+      "cumulative": 0.048612800845122844,
+      "qini": 667.0169598352772
+    },
+    {
+      "decile": 9,
+      "n": 2052,
+      "n_treatment": 1660,
+      "n_control": 392,
+      "observed_uplift": 0.03032333415293828,
+      "cumulative": 0.046580637879324566,
+      "qini": 717.3536945291548
+    },
+    {
+      "decile": 10,
+      "n": 2052,
+      "n_treatment": 1614,
+      "n_control": 438,
+      "observed_uplift": 0.02641272427899713,
+      "cumulative": 0.044563846519291815,
+      "qini": 759.9838315154562
+    }
+  ]
+}

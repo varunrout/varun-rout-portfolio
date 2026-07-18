@@ -3,6 +3,7 @@ import { Reveal } from '@/components/motion/reveal';
 import { DemoFrame } from '@/components/demos/demo-frame';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
+import { UpliftExplorer } from '@/components/demos/uplift-explorer';
 
 export const metadata: Metadata = {
   title: 'Playground',
@@ -10,13 +11,6 @@ export const metadata: Metadata = {
 };
 
 const comingSoon = [
-  {
-    name: 'Uplift decile explorer',
-    status: 'Data committed; demo in progress',
-    body:
-      'The Qini curve and per-decile uplift from the retail X-learner, with a slider to target the top K% of ' +
-      'customers and see captured uplift recompute live.',
-  },
   {
     name: 'xG shot-map explorer',
     status: 'Needs a shot-level export from the CxG model',
@@ -58,6 +52,16 @@ export default function PlaygroundPage() {
             provenance="Aggregate figures from MASTER_PROFILE.md, generated into data/forecast.json. E.ON and Manor Park report accuracy improvement; UoB reports out-of-sample MAE, which is a count and lower-better."
           >
             <ForecastVisualiser />
+          </DemoFrame>
+        </Reveal>
+
+        <Reveal>
+          <DemoFrame
+            title="Uplift decile explorer"
+            intro="The Qini curve and per-decile uplift from the retail X-learner. Slide to target the top K% of customers and watch the captured incremental response recompute."
+            provenance="Per-decile rows from retail-intelligence/outputs/phase_uplift_v2_decile_summary.csv and headline figures from phase_uplift_v2_model_comparison.csv, generated into data/uplift-deciles.json. Synthetic retail data; demonstrates method, not a measured commercial outcome."
+          >
+            <UpliftExplorer />
           </DemoFrame>
         </Reveal>
 

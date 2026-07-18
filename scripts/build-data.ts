@@ -43,69 +43,133 @@ function write(name: string, data: unknown) {
 /* 1. UPLIFT DECILES  (retail-intelligence, REAL committed output)     */
 /* ------------------------------------------------------------------ */
 /**
- * CONFIRM THESE against the real file header before first run. The audited file is
- * outputs/phase_uplift_v2_model_comparison.csv, but the per-decile table may live in a sibling CSV.
- * Point UPLIFT_CSV at whichever file holds the decile rows, and map the columns here.
+ * Confirmed against the real committed files (2026-07-18). The per-decile table lives in
+ * phase_uplift_v2_decile_summary.csv; phase_uplift_v2_model_comparison.csv holds the single-row
+ * headline (ATE, top-decile, Qini area, Spearman). Both are git-tracked in retail-intelligence.
+ *
+ * REPO_ROOT is the checkout parent. The retail-intelligence output dir is resolved from a couple of
+ * candidate layouts so this works whether the repo sits under `Retail/` or directly under REPO_ROOT.
  */
-const UPLIFT_CSV = join(
-  REPO_ROOT ?? '',
-  'Retail/retail-intelligence/outputs/phase_uplift_v2_model_comparison.csv',
-);
+const UPLIFT_OUTPUT_CANDIDATES = [
+  'Retail/retail-intelligence/outputs',
+  'retail-intelligence/outputs',
+];
+const UPLIFT_DECILE_FILE = 'phase_uplift_v2_decile_summary.csv';
+const UPLIFT_SUMMARY_FILE = 'phase_uplift_v2_model_comparison.csv';
+
+// Real header of phase_uplift_v2_decile_summary.csv. `n` is derived (n_treatment + n_control); the
+// Qini curve is derived from committed values (see below), not read from a column.
 const UPLIFT_COLS = {
   decile: 'decile', // 1..10, 1 = highest predicted uplift
-  n: 'n',
+  n_treatment: 'n_treatment',
+  n_control: 'n_control',
   observed_uplift: 'observed_uplift',
-  cumulative: 'cumulative_uplift',
-  qini: 'qini',
+  cumulative: 'cumulative_observed_uplift',
+} as const;
+
+// Real header of phase_uplift_v2_model_comparison.csv (single row).
+const UPLIFT_SUMMARY_COLS = {
+  ate: 'overall_ate_test',
+  topDecile: 'top1_decile_observed_uplift',
+  qiniArea: 'qini_like_area',
+  spearman: 'spearman_rank_corr',
 } as const;
 
 type UpliftDecile = {
   decile: number;
   n: number;
+  n_treatment: number;
+  n_control: number;
   observed_uplift: number;
   cumulative: number;
-  qini: number;
+  qini: number; // cumulative incremental responders = cumSum(n_treatment * observed_uplift). Derived.
 };
 
-function buildUplift() {
-  if (!REPO_ROOT) fail('REPO_ROOT is not set. Add it to .env.local (see header).');
-  if (!existsSync(UPLIFT_CSV)) {
-    fail(
-      `uplift source not found at ${UPLIFT_CSV}. ` +
-        'Point UPLIFT_CSV at the committed decile CSV in retail-intelligence and re-run.',
-    );
+function resolveUpliftDir(): string {
+  for (const rel of UPLIFT_OUTPUT_CANDIDATES) {
+    const dir = join(REPO_ROOT ?? '', rel);
+    if (existsSync(join(dir, UPLIFT_DECILE_FILE))) return dir;
   }
-  const rows: Record<string, string>[] = parse(readFileSync(UPLIFT_CSV, 'utf8'), {
-    columns: true,
-    skip_empty_lines: true,
-    trim: true,
-  });
-  const header = Object.keys(rows[0] ?? {});
-  for (const col of Object.values(UPLIFT_COLS)) {
+  fail(
+    `uplift decile CSV not found. Looked for ${UPLIFT_DECILE_FILE} under: ` +
+      UPLIFT_OUTPUT_CANDIDATES.map((r) => join(REPO_ROOT ?? '', r)).join(' | ') +
+      '. Set REPO_ROOT to the checkout that contains the committed retail-intelligence outputs.',
+  );
+}
+
+function readCsv(path: string): Record<string, string>[] {
+  return parse(readFileSync(path, 'utf8'), { columns: true, skip_empty_lines: true, trim: true });
+}
+
+function requireCols(header: string[], cols: readonly string[], path: string) {
+  for (const col of cols) {
     if (!header.includes(col)) {
       fail(
-        `column "${col}" missing from ${UPLIFT_CSV}. ` +
-          `Found columns: [${header.join(', ')}]. Update UPLIFT_COLS to match the real header.`,
+        `column "${col}" missing from ${path}. ` +
+          `Found columns: [${header.join(', ')}]. Update the column map to match the real header.`,
       );
     }
   }
-  const num = (v: string, col: string, i: number) => {
+}
+
+function buildUplift() {
+  if (!REPO_ROOT) fail('REPO_ROOT is not set. Add it to .env.local (see header).');
+  const dir = resolveUpliftDir();
+  const decilePath = join(dir, UPLIFT_DECILE_FILE);
+  const summaryPath = join(dir, UPLIFT_SUMMARY_FILE);
+  if (!existsSync(summaryPath)) fail(`uplift summary not found at ${summaryPath}.`);
+
+  const decileRows = readCsv(decilePath);
+  requireCols(Object.keys(decileRows[0] ?? {}), Object.values(UPLIFT_COLS), decilePath);
+
+  const summaryRows = readCsv(summaryPath);
+  requireCols(Object.keys(summaryRows[0] ?? {}), Object.values(UPLIFT_SUMMARY_COLS), summaryPath);
+  if (summaryRows.length !== 1) fail(`expected one summary row in ${summaryPath}, got ${summaryRows.length}`);
+
+  const num = (v: string, col: string, i: number, path: string) => {
     const n = Number(v);
-    if (Number.isNaN(n)) fail(`non-numeric "${v}" in column ${col}, row ${i + 1} of ${UPLIFT_CSV}`);
+    if (Number.isNaN(n)) fail(`non-numeric "${v}" in column ${col}, row ${i + 1} of ${path}`);
     return n;
   };
-  const deciles: UpliftDecile[] = rows.map((r, i) => ({
-    decile: num(r[UPLIFT_COLS.decile], UPLIFT_COLS.decile, i),
-    n: num(r[UPLIFT_COLS.n], UPLIFT_COLS.n, i),
-    observed_uplift: num(r[UPLIFT_COLS.observed_uplift], UPLIFT_COLS.observed_uplift, i),
-    cumulative: num(r[UPLIFT_COLS.cumulative], UPLIFT_COLS.cumulative, i),
-    qini: num(r[UPLIFT_COLS.qini], UPLIFT_COLS.qini, i),
-  }));
-  if (deciles.length < 5) fail(`expected a decile table, got ${deciles.length} rows from ${UPLIFT_CSV}`);
+
+  // Sort by decile so the cumulative Qini derivation follows the ranking (1 = highest predicted).
+  const sorted = [...decileRows].sort(
+    (a, b) => Number(a[UPLIFT_COLS.decile]) - Number(b[UPLIFT_COLS.decile]),
+  );
+  let cumQini = 0;
+  const deciles: UpliftDecile[] = sorted.map((r, i) => {
+    const nT = num(r[UPLIFT_COLS.n_treatment], UPLIFT_COLS.n_treatment, i, decilePath);
+    const nC = num(r[UPLIFT_COLS.n_control], UPLIFT_COLS.n_control, i, decilePath);
+    const observed = num(r[UPLIFT_COLS.observed_uplift], UPLIFT_COLS.observed_uplift, i, decilePath);
+    // Standard Qini increment per decile: incremental responders vs matched control = n_treatment * uplift.
+    cumQini += nT * observed;
+    return {
+      decile: num(r[UPLIFT_COLS.decile], UPLIFT_COLS.decile, i, decilePath),
+      n: nT + nC,
+      n_treatment: nT,
+      n_control: nC,
+      observed_uplift: observed,
+      cumulative: num(r[UPLIFT_COLS.cumulative], UPLIFT_COLS.cumulative, i, decilePath),
+      qini: cumQini,
+    };
+  });
+  if (deciles.length < 5) fail(`expected a decile table, got ${deciles.length} rows from ${decilePath}`);
+
+  const s = summaryRows[0];
+  const headline = {
+    ate: num(s[UPLIFT_SUMMARY_COLS.ate], UPLIFT_SUMMARY_COLS.ate, 0, summaryPath),
+    topDecile: num(s[UPLIFT_SUMMARY_COLS.topDecile], UPLIFT_SUMMARY_COLS.topDecile, 0, summaryPath),
+    qiniArea: num(s[UPLIFT_SUMMARY_COLS.qiniArea], UPLIFT_SUMMARY_COLS.qiniArea, 0, summaryPath),
+    spearman: num(s[UPLIFT_SUMMARY_COLS.spearman], UPLIFT_SUMMARY_COLS.spearman, 0, summaryPath),
+  };
 
   write('uplift-deciles.json', {
-    provenance: 'retail-intelligence (synthetic data). Demonstrates method, not a measured commercial outcome.',
-    headline: { ate: 0.0444, topDecile: 0.0754, qiniArea: 744.8, spearman: 0.406 },
+    provenance:
+      'retail-intelligence phase_uplift_v2 (X-learner, synthetic data). Per-decile rows from ' +
+      'phase_uplift_v2_decile_summary.csv; headline from phase_uplift_v2_model_comparison.csv. The Qini ' +
+      'series is derived (cumulative n_treatment * observed_uplift). Demonstrates method, not a measured ' +
+      'commercial outcome.',
+    headline,
     deciles,
   });
 }
