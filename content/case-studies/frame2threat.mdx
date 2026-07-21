@@ -1,0 +1,108 @@
+---
+title: Freeze-frame context bought me +0.0014 AUC
+thesis: Adding 41 freeze-frame positional features to a possession-danger model moved ROC AUC from 0.8807 to 0.8822. The feature set nobody audits is usually the expensive one, and this is what it looks like when it does not pay.
+published: 2026-07-21
+readingMinutes: 6
+tier: full
+draft: true
+---
+
+## The claim
+
+Richer data does not automatically mean a better model, and the gap between those two things is where
+a lot of engineering effort quietly disappears.
+
+I had event data for a possession-danger model, and I had StatsBomb 360 freeze frames: the positions
+of the other players on the pitch at the moment of each event. That is materially more information. It
+is also more expensive to obtain, store, join and maintain. Adding 41 features derived from it moved
+test ROC AUC from 0.8807 to 0.8822, a gain of 0.0014. Precision-recall AUC moved by the same order,
+0.8911 to 0.8925.
+
+The claim is that this result should be published rather than buried, because the counterfactual, a
+write-up that says "I incorporated 360 freeze-frame data", is technically true, sounds impressive, and
+tells the reader nothing about whether it was worth doing.
+
+## Why the obvious approach fails
+
+The obvious approach is to add the richer feature set, observe that the metric went up, and report
+that the richer data improved the model. Both halves of that sentence are true here. It is still
+misleading.
+
+It fails because the size of the improvement is the entire question. A gain of 0.0014 AUC is
+indistinguishable from noise at most sample sizes, and it certainly does not justify a data dependency
+that costs you an order of magnitude more in storage and join complexity. Reporting direction without
+magnitude turns an engineering decision into a marketing sentence.
+
+It also fails because nobody audits feature sets after the fact. Once "uses 360 data" is in the
+description, it stays there, and the pipeline that produces those 41 features has to be maintained
+forever. The cost is recurring and the benefit was measured once. This is how models accumulate
+expensive appendages that no one can justify removing, because no one recorded what they bought in the
+first place.
+
+## What I did instead
+
+I ran the comparison as an ablation rather than an addition. Same model, same split, same target: one
+fit on event features only, one on event features plus the 41 derived from freeze frames. That gives a
+number for what the 360 data bought, in isolation, rather than a number for how good the final model
+is.
+
+The ablation is the cheap part and it is routinely skipped. Most feature work is evaluated by
+comparing the new model to whatever came before, which conflates the new features with every other
+change made in the same iteration. Holding everything else fixed is the only way the resulting number
+means anything.
+
+I kept the losing configuration in the results file. The event-only run is still there next to the
+event-plus-360 run, which is what makes this post possible at all: the evidence that the expensive
+features did not pay is committed, not reconstructed from memory.
+
+## The result, next to its benchmark
+
+The benchmark here is the event-only model. That is the right comparison, because the question is not
+"is this model good" but "did the extra data earn its place".
+
+| Feature set | Test ROC AUC | Test PR AUC |
+|---|---|---|
+| Event only | 0.8807 | 0.8911 |
+| Event + 360 freeze frames (41 extra features) | 0.8822 | 0.8925 |
+| Difference | +0.0014 | +0.0014 |
+
+For context on the ceiling, the wider project's possession-level models score considerably higher: a
+GRU on possession sequences reaches 0.9524 test ROC AUC and an ensemble with XGBoost reaches 0.965.
+Those are a different framing of the problem, not the same task with better features, so they are not
+the benchmark for this question. Mixing them in would be exactly the conflation this post is arguing
+against.
+
+## What surprised me, or what I got wrong
+
+<Todo>
+Awaiting your briefing. Specific prompts:
+
+- Did you expect the 360 features to move the needle more than 0.0014, and at what point did it become
+  clear they would not?
+- Do you think the freeze-frame information is genuinely uninformative for this target, or that your
+  41 derived features failed to capture what is in it? Those are very different conclusions.
+- Would you have kept the 360 dependency if this were a production system rather than a portfolio piece?
+</Todo>
+
+## What I would not claim
+
+- I do not claim that freeze-frame data is useless. I claim that the 41 features I derived from it
+  bought 0.0014 AUC on this target, which is a narrower statement.
+- I have not tested whether that difference is statistically significant. On this sample it should be
+  assumed not to be.
+- The higher possession-level figures (0.9524, 0.965) are a different task framing and are not evidence
+  about the 360 features either way.
+- This project was substantially AI-scaffolded: a majority of its commits were authored by an automated
+  agent. I describe what the work does and what the results are, and I do not present it as hand-written
+  end-to-end implementation.
+
+## What I would do next
+
+<Todo>
+Awaiting your briefing. Specific prompts:
+
+- Would you drop the 360 pipeline entirely on this evidence, or keep it for a different target where it
+  might pay?
+- Is there a specific freeze-frame representation (pitch control, space occupancy) you would try before
+  concluding the data does not help?
+</Todo>

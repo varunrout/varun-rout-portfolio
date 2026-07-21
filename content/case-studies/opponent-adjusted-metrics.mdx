@@ -1,0 +1,115 @@
+---
+title: I benchmarked my expected goals against StatsBomb's and lost
+thesis: My contextual xG scores 0.80920 ROC AUC against StatsBomb's own 0.81957 on the same 15,623 shots. Publishing that gap is more useful than hiding it, because a model with no incumbent beside it is an untested claim.
+published: 2026-07-21
+readingMinutes: 6
+tier: full
+draft: true
+---
+
+## The claim
+
+I built a contextual expected-goals model and evaluated it against StatsBomb's own xG on exactly the
+same shots. Mine scored 0.80920 ROC AUC. Theirs scored 0.81957. I lost by 0.01037.
+
+That number is on my portfolio, next to the model, in the same size type. The argument of this post is
+that publishing it is the correct decision, and that a portfolio full of metrics with nothing beside
+them is not evidence of anything at all.
+
+The reasoning is simple. An AUC of 0.809 sounds good. It sounds good because most readers have no
+reference point for what a shot-quality model should score, and 0.8 is comfortably above the 0.5 of a
+coin flip. Put StatsBomb's number next to it and the reader immediately knows two things I would
+otherwise have to be trusted on: that the metric is being computed sanely, and roughly where the
+ceiling is. The benchmark is doing the reader's verification for them.
+
+## Why the obvious approach fails
+
+The obvious approach is to report the metric alone. It is the default in almost every portfolio and
+most blog posts, and it fails because an isolated metric is uninterpretable in both directions.
+
+It cannot demonstrate success, because the reader has no scale. Is 0.809 good for expected goals? For
+a churn model that would be respectable. For a fraud model it would be poor. For shot quality, where
+the outcome is dominated by shot location and finishing is close to a coin flip conditional on
+location, the reachable range is narrower than people expect. Without a reference the number carries
+no information.
+
+It also cannot demonstrate failure, which is the more dangerous half. A model that quietly has a
+target leak, or is evaluated on a split that overlaps its training data, will often post a very good
+isolated number. Nothing about a lone 0.95 tells you whether you have built something excellent or
+made an evaluation mistake. Comparing to a mature external model on identical rows is one of the
+cheapest sanity checks available, and it catches the class of error that unit tests do not.
+
+There is a second failure specific to portfolios. If every number on the page is favourable, a
+technical reader assumes selection: that the unfavourable ones were quietly not reported. One honest
+loss does more for the credibility of the other numbers than another win would.
+
+## What I did instead
+
+I evaluated on the same 15,623 shots StatsBomb had already scored, so the comparison is like for like
+rather than across different samples or filters. The models are scikit-learn estimators, deliberately
+simple, because the point of the exercise was the contextual features rather than the estimator.
+
+I also reported calibration alongside discrimination. The CxG model's Brier score is 0.07325.
+Discrimination asks whether the model ranks shots correctly; calibration asks whether a shot the model
+calls 0.2 actually goes in about a fifth of the time. A model can rank well and still be systematically
+overconfident, and for anything downstream, aggregating expected goals over a match or a season, the
+calibration is what matters. Reporting AUC alone would have hidden that dimension entirely.
+
+The decision I want to flag is that I did not tune against the benchmark. It would have been easy to
+iterate on features until the gap closed, and the resulting number would have been meaningless: at
+that point StatsBomb's model is functioning as a validation set and the comparison is no longer
+independent. The gap is reported from the first honest evaluation.
+
+## The result, next to its benchmark
+
+On 15,623 shots, open StatsBomb data:
+
+| Model | ROC AUC | Brier |
+|---|---|---|
+| StatsBomb xG (incumbent) | 0.81957 | not reported here |
+| My CxG | 0.80920 | 0.07325 |
+
+The gap is 0.01037 ROC AUC in StatsBomb's favour.
+
+What that gap does mean: their model is better at ordering shots by the probability of a goal than
+mine is, on this sample. It is a commercial model with more data, more features and years of
+iteration behind it, and losing to it by a hundredth of an AUC point is the expected outcome.
+
+What it does not mean: that the gap is large in practice, or that it is even reliably a gap. A 0.01
+difference in AUC on a sample of this size is small enough that the ordering could plausibly change on
+another sample, and I have not published a confidence interval for the difference. Anyone treating
+0.01037 as a precisely measured quantity is over-reading it, including me.
+
+## What surprised me, or what I got wrong
+
+<Todo>
+Awaiting your briefing. Specific prompts:
+
+- Did you expect to be within 0.01 of StatsBomb, or was the gap smaller or larger than you predicted
+  when you first ran the comparison?
+- Was there a moment where you were tempted to iterate until you beat it, and what stopped you?
+- Did the contextual features add anything measurable over a location-and-angle baseline, or was that
+  the disappointing part?
+</Todo>
+
+## What I would not claim
+
+- I do not claim to have beaten StatsBomb. I did not.
+- I do not claim the 0.01037 gap is statistically distinguishable from zero. I have not computed a
+  confidence interval on the difference, so the honest statement is that the two are close and mine is
+  behind.
+- The model is not the tech headline it might appear to be. These are scikit-learn estimators, and I
+  do not describe this work as gradient-boosting or LightGBM based.
+- This is open StatsBomb data, not proprietary tracking data, and the result does not transfer
+  automatically to other competitions or seasons.
+
+## What I would do next
+
+<Todo>
+Awaiting your briefing. Specific prompts:
+
+- Would a paired bootstrap on the AUC difference be the next thing, given you already use that
+  approach elsewhere?
+- Is closing the gap even the goal, or is the contextual angle a different objective from raw
+  discrimination?
+</Todo>

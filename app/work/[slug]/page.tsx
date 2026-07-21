@@ -9,6 +9,7 @@ import { UpliftExplorer } from '@/components/demos/uplift-explorer';
 import { ShotMapExplorer } from '@/components/demos/shot-map-explorer';
 import { CxaExplorer } from '@/components/demos/cxa-explorer';
 import { getShots } from '@/lib/shots';
+import { getCaseStudy } from '@/lib/case-studies';
 import { projects, getProject } from '@/content/projects';
 
 export function generateStaticParams() {
@@ -65,6 +66,7 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   const shots = project.demo === 'shotmap' ? await getShots() : [];
+  const caseStudy = await getCaseStudy(slug);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6">
@@ -223,6 +225,29 @@ export default async function ProjectPage({
               the model is provisionally promoted.
             </p>
           </section>
+        </Reveal>
+      )}
+      {caseStudy && (
+        <Reveal delay={0.05}>
+          <article className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <p className="font-mono text-sm text-cyan">The write-up</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em] text-txt sm:text-3xl">
+              {caseStudy.meta.title}
+            </h2>
+            <p className="mt-3 text-[15px] leading-7 text-dim">{caseStudy.meta.thesis}</p>
+            <p className="mt-3 font-mono text-xs text-dim">
+              <time dateTime={caseStudy.meta.published}>
+                {new Date(caseStudy.meta.published).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </time>
+              {' · '}
+              {caseStudy.meta.readingMinutes} min read
+            </p>
+            <div className="mt-6 border-t border-line/60 pt-2">{caseStudy.content}</div>
+          </article>
         </Reveal>
       )}
     </div>

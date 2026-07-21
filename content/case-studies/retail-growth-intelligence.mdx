@@ -1,0 +1,109 @@
+---
+title: Your uplift model ranks badly and is still worth deploying
+thesis: Ranking quality and targeting value are different things, and conflating them is the most common mistake in uplift modelling. This model has mediocre rank correlation and still captures 1.7 times the average treatment effect in its top decile.
+published: 2026-07-21
+readingMinutes: 6
+tier: full
+draft: true
+---
+
+## The claim
+
+An uplift model can rank customers badly and still be worth deploying. Those are two different
+questions, and most write-ups collapse them into one number. The model here has a Spearman rank
+correlation of 0.406 between predicted and observed uplift, which is not good. Its observed uplift is
+not even monotonic in the predicted decile: decile four is the worst-performing group in the entire
+population, below decile ten. And yet the top decile shows 7.54 percentage points of uplift against an
+average treatment effect of 4.44, a multiple of 1.7. If you are choosing who to target, that is a
+useful model. If you are claiming to have ordered your customers correctly, it is not.
+
+The distinction matters commercially. Targeting only requires that the top slice is genuinely better
+than average. Ranking requires that every position is correct relative to every other. Campaign
+budgets depend on the first. Analysts habitually report the second and then act on the first.
+
+## Why the obvious approach fails
+
+The obvious approach is to fit a model of treatment response, sort by predicted uplift, and report a
+rank correlation or an AUUC as evidence the model works. It fails for two reasons.
+
+First, individual uplift is never observed. For any given customer you see the outcome under
+treatment or under control, never both. So there is no per-row label to correlate against. Every
+"rank correlation" in uplift modelling is computed against a *grouped* estimate: bucket the
+population, difference the treatment and control rates within each bucket, and compare that to the
+predicted ordering. The metric is measuring something noisier than it appears.
+
+Second, that grouping is exactly where the noise lives. Each decile here holds roughly 2,050
+customers, but the split between treatment and control is uneven, and the control arms are small.
+Decile four has 1,729 treated against 323 control. An uplift estimate differencing two rates where
+one is computed on 323 people carries a wide interval. A single bad decile estimate wrecks a rank
+correlation while barely touching the thing you actually care about, which is whether the top slice
+converts better.
+
+## What I did instead
+
+The model is a two-stage X-learner with LightGBM in the second stage, fitted on synthetic retail data.
+The X-learner is the right family here because it handles the imbalanced treatment assignment in this
+data better than a naive two-model approach: it imputes the treatment effect for each arm using the
+other arm's outcome model, then blends the two estimates with the propensity score. That blending is
+what stops the small control arms from dominating.
+
+The decision that matters is what I evaluated on. Instead of leading with rank correlation, I
+evaluated the thing the model would actually be used for: if you target the top K percent of
+customers, what fraction of the total incremental response do you capture, and how does that compare
+to targeting K percent at random? That is the Qini curve, and it answers the deployment question
+directly.
+
+I kept both numbers on the page. The rank correlation is unflattering and it stays, because a reader
+who only sees the Qini area would reasonably assume the ordering is trustworthy throughout.
+
+## The result, next to its benchmark
+
+Observed uplift by predicted decile, in percentage points, decile one being the highest predicted:
+
+| Decile | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Uplift (pp) | 7.54 | 6.36 | 4.83 | 1.47 | 2.30 | 5.66 | 5.32 | 5.40 | 3.03 | 2.64 |
+
+The benchmark for the top decile is the average treatment effect across the whole population, 4.44
+percentage points. The top decile delivers 7.54, a multiple of 1.70. The benchmark for the Qini curve
+is random targeting, the diagonal. The model's Qini area is 744.8 against that diagonal.
+
+The benchmark for the ranking claim is a monotonic sequence, and the model plainly fails it. Deciles
+six, seven and eight all beat deciles four and five. Spearman rank correlation is 0.406.
+
+So: useful for targeting, unreliable as an ordering. Both statements are true of the same model, and
+only one of them is usually reported.
+
+## What surprised me, or what I got wrong
+
+<Todo>
+Awaiting your briefing. Specific prompts:
+
+- Decile four coming in at 1.47pp, below decile ten's 2.64pp, is the oddest thing in the table.
+  Did you expect the middle of the distribution to be that noisy, or did it look like a bug first?
+- Did you check whether decile four is a genuine effect or a small-control-arm artefact, and what
+  did that check show?
+- Was there a point where you considered dropping the rank correlation from the reporting, and what
+  made you keep it?
+</Todo>
+
+## What I would not claim
+
+- This is synthetic data. It demonstrates the method, it is not a measured commercial outcome, and
+  no revenue figure attaches to it.
+- There was no holdout campaign. The uplift figures come from the evaluation split of the same
+  synthetic generating process, not from a live test.
+- The Qini area of 744.8 is in units of incremental responders under this data's scale. It is not
+  comparable to a Qini area computed on a different population.
+- The ordering is not trustworthy outside the top two or three deciles, and nothing here should be
+  read as a validated customer ranking.
+
+## What I would do next
+
+<Todo>
+Awaiting your briefing. Specific prompts:
+
+- Would you rebalance the control arms, add bootstrap intervals per decile, or something else first?
+- Is there a version of this you would want to run against real campaign data, and what would you
+  need to make that safe?
+</Todo>
