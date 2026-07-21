@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { projects } from '@/content/projects';
+import { site } from '@/lib/site';
 
-const BASE_URL = 'https://varunrout.dev';
+const BASE_URL = site.url;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
