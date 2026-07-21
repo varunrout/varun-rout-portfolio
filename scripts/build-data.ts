@@ -175,6 +175,155 @@ function buildUplift() {
 }
 
 /* ------------------------------------------------------------------ */
+/* 1c. CxA  (opponent-adjusted-metrics, portfolio export)              */
+/* ------------------------------------------------------------------ */
+/**
+ * Diagnostic v1 CxA against its OWN baseline, over 1,091,388 action rows. There is no off-the-shelf
+ * xA to compare against, so this is an INTERNAL baseline, never an industry incumbent. The demo copy
+ * must say so (see content-rules.md rule 5 on this repo).
+ *
+ * Sources, all under outputs/portfolio/cxa/ in opponent-adjusted-metrics. That directory is gitignored,
+ * so this reads it via REPO_ROOT and the generated data/cxa.json is what ships.
+ *   headline_metrics.json | top_players_by_cxa.csv | top_teams_by_cxa.csv | feature_driver_summary.csv
+ */
+const CXA_DIR_CANDIDATES = [
+  'Football/opponent-adjusted-metrics/outputs/portfolio/cxa',
+  'opponent-adjusted-metrics/outputs/portfolio/cxa',
+];
+const CXA_HEADLINE_FILE = 'headline_metrics.json';
+const CXA_PLAYERS_FILE = 'top_players_by_cxa.csv';
+const CXA_TEAMS_FILE = 'top_teams_by_cxa.csv';
+const CXA_DRIVERS_FILE = 'feature_driver_summary.csv';
+
+// Real headers, confirmed 2026-07-21.
+const CXA_PLAYER_COLS = [
+  'player_name', 'team_name', 'actions', 'shot_creating_actions',
+  'total_diagnostic_cxa', 'mean_diagnostic_cxa', 'rank',
+] as const;
+const CXA_TEAM_COLS = [
+  'team_name', 'actions', 'shot_creating_actions',
+  'total_diagnostic_cxa', 'mean_diagnostic_cxa', 'rank',
+] as const;
+const CXA_DRIVER_COLS = ['driver_type', 'name', 'feature_group', 'impact', 'rank'] as const;
+
+/** The seven committed metrics, with direction so the UI can never imply a lower log loss is worse. */
+const CXA_METRICS = [
+  { key: 'precision_at_top_1pct', label: 'Precision @ top 1%', direction: 'higher-better' },
+  { key: 'precision_at_top_5pct', label: 'Precision @ top 5%', direction: 'higher-better' },
+  { key: 'roc_auc', label: 'ROC AUC', direction: 'higher-better' },
+  { key: 'average_precision', label: 'Average precision', direction: 'higher-better' },
+  { key: 'log_loss', label: 'Log loss', direction: 'lower-better' },
+  { key: 'brier', label: 'Brier', direction: 'lower-better' },
+  { key: 'expected_calibration_error', label: 'Expected calibration error', direction: 'lower-better' },
+] as const;
+
+function resolveCxaDir(): string {
+  for (const rel of CXA_DIR_CANDIDATES) {
+    const dir = join(REPO_ROOT ?? '', rel);
+    if (existsSync(join(dir, CXA_HEADLINE_FILE))) return dir;
+  }
+  fail(
+    `CxA portfolio export not found. Looked for ${CXA_HEADLINE_FILE} under: ` +
+      CXA_DIR_CANDIDATES.map((r) => join(REPO_ROOT ?? '', r)).join(' | ') +
+      '. Run scripts/build_cxa_portfolio_summary.py in opponent-adjusted-metrics first.',
+  );
+}
+
+function buildCxa() {
+  if (!REPO_ROOT) fail('REPO_ROOT is not set. Add it to .env.local (see header).');
+  const dir = resolveCxaDir();
+
+  const headlinePath = join(dir, CXA_HEADLINE_FILE);
+  const headline = JSON.parse(readFileSync(headlinePath, 'utf8'));
+  const bvd = headline?.baseline_vs_diagnostic;
+  if (!bvd?.baseline || !bvd?.diagnostic) {
+    fail(`baseline_vs_diagnostic missing from ${headlinePath}. Re-run the CxA portfolio export.`);
+  }
+
+  const numAt = (obj: Record<string, unknown>, key: string, path: string) => {
+    const n = Number(obj?.[key]);
+    if (Number.isNaN(n)) fail(`non-numeric or missing "${key}" in ${path}`);
+    return n;
+  };
+
+  // Baseline and diagnostic carried through unchanged; delta recomputed so it can never drift.
+  const metrics = CXA_METRICS.map((m) => {
+    const baseline = numAt(bvd.baseline, m.key, headlinePath);
+    const diagnostic = numAt(bvd.diagnostic, m.key, headlinePath);
+    return { key: m.key, label: m.label, direction: m.direction, baseline, diagnostic, delta: diagnostic - baseline };
+  });
+
+  const readTable = (file: string, cols: readonly string[]) => {
+    const path = join(dir, file);
+    if (!existsSync(path)) fail(`CxA source not found at ${path}.`);
+    const rows = readCsv(path);
+    if (!rows.length) fail(`${path} contained no rows.`);
+    requireCols(Object.keys(rows[0]), cols, path);
+    return { rows, path };
+  };
+
+  const num = (v: string, col: string, i: number, path: string) => {
+    const n = Number(v);
+    if (Number.isNaN(n)) fail(`non-numeric "${v}" in column ${col}, row ${i + 1} of ${path}`);
+    return n;
+  };
+
+  const { rows: playerRows, path: playersPath } = readTable(CXA_PLAYERS_FILE, CXA_PLAYER_COLS);
+  const players = playerRows.map((r, i) => ({
+    name: r.player_name,
+    team: r.team_name,
+    actions: num(r.actions, 'actions', i, playersPath),
+    shotCreating: num(r.shot_creating_actions, 'shot_creating_actions', i, playersPath),
+    total: num(r.total_diagnostic_cxa, 'total_diagnostic_cxa', i, playersPath),
+    mean: num(r.mean_diagnostic_cxa, 'mean_diagnostic_cxa', i, playersPath),
+    rank: num(r.rank, 'rank', i, playersPath),
+  }));
+
+  const { rows: teamRows, path: teamsPath } = readTable(CXA_TEAMS_FILE, CXA_TEAM_COLS);
+  const teams = teamRows.map((r, i) => ({
+    name: r.team_name,
+    actions: num(r.actions, 'actions', i, teamsPath),
+    shotCreating: num(r.shot_creating_actions, 'shot_creating_actions', i, teamsPath),
+    total: num(r.total_diagnostic_cxa, 'total_diagnostic_cxa', i, teamsPath),
+    mean: num(r.mean_diagnostic_cxa, 'mean_diagnostic_cxa', i, teamsPath),
+    rank: num(r.rank, 'rank', i, teamsPath),
+  }));
+
+  const { rows: driverRows, path: driversPath } = readTable(CXA_DRIVERS_FILE, CXA_DRIVER_COLS);
+  const drivers = driverRows.map((r, i) => ({
+    driverType: r.driver_type, // 'feature' or the group-level rollup
+    name: r.name,
+    featureGroup: r.feature_group,
+    impact: num(r.impact, 'impact', i, driversPath),
+    rank: num(r.rank, 'rank', i, driversPath),
+  }));
+
+  write('cxa.json', {
+    provenance:
+      'opponent-adjusted-metrics CxA diagnostic v1, from outputs/portfolio/cxa (headline_metrics.json, ' +
+      'top_players_by_cxa.csv, top_teams_by_cxa.csv, feature_driver_summary.csv). Open StatsBomb data. ' +
+      'The comparison is against this project’s OWN baseline, not an industry xA incumbent.',
+    model: {
+      selectedModel: String(headline.selected_model ?? ''),
+      promotionStatus: String(headline.promotion_status ?? ''),
+      promotionGatePassed: Boolean(headline.promotion_gate_passed),
+      selectedFeatureCount: Number(headline.selected_feature_count),
+      actionRowCount: Number(headline.action_row_count),
+      totalDiagnosticCxa: Number(headline.total_diagnostic_cxa),
+      meanPredictedProbability: Number(headline.mean_predicted_probability),
+      probabilityMin: Number(headline.probability_min),
+      probabilityMax: Number(headline.probability_max),
+      topFeatureDriver: headline.top_feature_driver ?? null,
+      topFeatureGroupDriver: headline.top_feature_group_driver ?? null,
+    },
+    metrics,
+    players,
+    teams,
+    drivers,
+  });
+}
+
+/* ------------------------------------------------------------------ */
 /* 2. FORECAST  (employment aggregates from MASTER_PROFILE, no repo)   */
 /* ------------------------------------------------------------------ */
 /**
@@ -273,6 +422,7 @@ function main() {
   ok(`REPO_ROOT = ${REPO_ROOT ?? '(unset)'}`);
   buildForecast(); // always safe
   buildUplift(); // fails loudly if the committed CSV is absent
+  buildCxa(); // fails loudly if the CxA portfolio export is absent
   buildShots(); // graceful "coming soon" if no export
   ok('done. Commit the generated data/*.json so Vercel builds without the repos.');
 }

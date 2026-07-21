@@ -1,0 +1,1897 @@
+{
+  "provenance": "opponent-adjusted-metrics CxA diagnostic v1, from outputs/portfolio/cxa (headline_metrics.json, top_players_by_cxa.csv, top_teams_by_cxa.csv, feature_driver_summary.csv). Open StatsBomb data. The comparison is against this project’s OWN baseline, not an industry xA incumbent.",
+  "model": {
+    "selectedModel": "calibrated_gradient_boosting_sigmoid",
+    "promotionStatus": "provisionally_promoted",
+    "promotionGatePassed": true,
+    "selectedFeatureCount": 37,
+    "actionRowCount": 1091388,
+    "totalDiagnosticCxa": 54505.15384104225,
+    "meanPredictedProbability": 0.049941133530002395,
+    "probabilityMin": 0.0024202137694877422,
+    "probabilityMax": 0.7962513720744319,
+    "topFeatureDriver": {
+      "name": "end_x",
+      "feature_group": "progression/location",
+      "impact": 0.0895940856223918,
+      "mean_probability_shift": 0.0001406086822769
+    },
+    "topFeatureGroupDriver": {
+      "name": "progression/location",
+      "feature_group": "progression/location",
+      "impact": 0.1044943883696682,
+      "mean_probability_shift": 0.0018874243360939
+    }
+  },
+  "metrics": [
+    {
+      "key": "precision_at_top_1pct",
+      "label": "Precision @ top 1%",
+      "direction": "higher-better",
+      "baseline": 0.4627084478651274,
+      "diagnostic": 0.5860362836723474,
+      "delta": 0.12332783580722001
+    },
+    {
+      "key": "precision_at_top_5pct",
+      "label": "Precision @ top 5%",
+      "direction": "higher-better",
+      "baseline": 0.3511269928532161,
+      "diagnostic": 0.3761590617555433,
+      "delta": 0.02503206890232723
+    },
+    {
+      "key": "roc_auc",
+      "label": "ROC AUC",
+      "direction": "higher-better",
+      "baseline": 0.8583124218348531,
+      "diagnostic": 0.8662466390392523,
+      "delta": 0.00793421720439913
+    },
+    {
+      "key": "average_precision",
+      "label": "Average precision",
+      "direction": "higher-better",
+      "baseline": 0.284849796186275,
+      "diagnostic": 0.3342150502396042,
+      "delta": 0.0493652540533292
+    },
+    {
+      "key": "log_loss",
+      "label": "Log loss",
+      "direction": "lower-better",
+      "baseline": 0.1507426097481494,
+      "diagnostic": 0.1465986351594726,
+      "delta": -0.0041439745886767965
+    },
+    {
+      "key": "brier",
+      "label": "Brier",
+      "direction": "lower-better",
+      "baseline": 0.0404506385859193,
+      "diagnostic": 0.0392090694175057,
+      "delta": -0.0012415691684136004
+    },
+    {
+      "key": "expected_calibration_error",
+      "label": "Expected calibration error",
+      "direction": "lower-better",
+      "baseline": 0.0021366612211296,
+      "diagnostic": 0.0011334081498076,
+      "delta": -0.0010032530713220001
+    }
+  ],
+  "players": [
+    {
+      "name": "Mesut Özil",
+      "team": "Arsenal",
+      "actions": 4672,
+      "shotCreating": 417,
+      "total": 416.0863226802422,
+      "mean": 0.0890595724914901,
+      "rank": 1
+    },
+    {
+      "name": "Alexis Alejandro Sánchez Sánchez",
+      "team": "Arsenal",
+      "actions": 3288,
+      "shotCreating": 324,
+      "total": 351.930536337015,
+      "mean": 0.1070348346523768,
+      "rank": 2
+    },
+    {
+      "name": "Willian Borges da Silva",
+      "team": "Chelsea",
+      "actions": 3333,
+      "shotCreating": 277,
+      "total": 325.34215916908806,
+      "mean": 0.0976124089916255,
+      "rank": 3
+    },
+    {
+      "name": "Francesc Fàbregas i Soler",
+      "team": "Chelsea",
+      "actions": 5150,
+      "shotCreating": 283,
+      "total": 324.86485663520284,
+      "mean": 0.0630805546864471,
+      "rank": 4
+    },
+    {
+      "name": "Ross Barkley",
+      "team": "Everton",
+      "actions": 3924,
+      "shotCreating": 322,
+      "total": 316.03552650703205,
+      "mean": 0.080539125001792,
+      "rank": 5
+    },
+    {
+      "name": "Christian Dannemann Eriksen",
+      "team": "Tottenham Hotspur",
+      "actions": 3703,
+      "shotCreating": 402,
+      "total": 311.666600623499,
+      "mean": 0.0841659737033483,
+      "rank": 6
+    },
+    {
+      "name": "Dimitri Payet",
+      "team": "West Ham United",
+      "actions": 3071,
+      "shotCreating": 364,
+      "total": 311.06128058638194,
+      "mean": 0.1012898992466238,
+      "rank": 7
+    },
+    {
+      "name": "Eden Hazard",
+      "team": "Chelsea",
+      "actions": 3055,
+      "shotCreating": 262,
+      "total": 296.3969251483203,
+      "mean": 0.0970202700976498,
+      "rank": 8
+    },
+    {
+      "name": "Riyad Mahrez",
+      "team": "Leicester City",
+      "actions": 2674,
+      "shotCreating": 341,
+      "total": 273.61930222913657,
+      "mean": 0.1023258422696845,
+      "rank": 9
+    },
+    {
+      "name": "Juan Manuel Mata García",
+      "team": "Manchester United",
+      "actions": 3621,
+      "shotCreating": 199,
+      "total": 268.3054045252909,
+      "mean": 0.0740970462649243,
+      "rank": 10
+    },
+    {
+      "name": "Aaron Ramsey",
+      "team": "Arsenal",
+      "actions": 4223,
+      "shotCreating": 233,
+      "total": 266.257074936926,
+      "mean": 0.0630492718297243,
+      "rank": 11
+    },
+    {
+      "name": "Anthony Martial",
+      "team": "Manchester United",
+      "actions": 2267,
+      "shotCreating": 220,
+      "total": 258.48065455823354,
+      "mean": 0.1140188154204823,
+      "rank": 12
+    },
+    {
+      "name": "Sergio Leonel Agüero del Castillo",
+      "team": "Manchester City",
+      "actions": 1801,
+      "shotCreating": 215,
+      "total": 257.1443708342936,
+      "mean": 0.1427786623177643,
+      "rank": 13
+    },
+    {
+      "name": "Kevin De Bruyne",
+      "team": "Manchester City",
+      "actions": 2494,
+      "shotCreating": 283,
+      "total": 256.3211371751886,
+      "mean": 0.1027751151464268,
+      "rank": 14
+    },
+    {
+      "name": "David Josué Jiménez Silva",
+      "team": "Manchester City",
+      "actions": 2839,
+      "shotCreating": 231,
+      "total": 255.4614516060665,
+      "mean": 0.0899828994737818,
+      "rank": 15
+    },
+    {
+      "name": "Dušan Tadić",
+      "team": "Southampton",
+      "actions": 2153,
+      "shotCreating": 286,
+      "total": 251.42072339366723,
+      "mean": 0.1167769267968728,
+      "rank": 16
+    },
+    {
+      "name": "Romelu Lukaku Menama",
+      "team": "Everton",
+      "actions": 2247,
+      "shotCreating": 226,
+      "total": 249.2769280029884,
+      "mean": 0.1109376626626561,
+      "rank": 17
+    },
+    {
+      "name": "Philippe Coutinho Correia",
+      "team": "Liverpool",
+      "actions": 2306,
+      "shotCreating": 288,
+      "total": 247.97536679357663,
+      "mean": 0.1075348511680731,
+      "rank": 18
+    },
+    {
+      "name": "Sadio Mané",
+      "team": "Southampton",
+      "actions": 2397,
+      "shotCreating": 251,
+      "total": 245.7322430704971,
+      "mean": 0.1025165803381297,
+      "rank": 19
+    },
+    {
+      "name": "Jesús Navas González",
+      "team": "Manchester City",
+      "actions": 2840,
+      "shotCreating": 217,
+      "total": 243.3963469830593,
+      "mean": 0.085702939078542,
+      "rank": 20
+    },
+    {
+      "name": "Harry Kane",
+      "team": "Tottenham Hotspur",
+      "actions": 2125,
+      "shotCreating": 312,
+      "total": 234.9008578660224,
+      "mean": 0.1105415801722458,
+      "rank": 21
+    },
+    {
+      "name": "Gylfi Þór Sigurðsson",
+      "team": "Swansea City",
+      "actions": 2436,
+      "shotCreating": 279,
+      "total": 231.1474428464249,
+      "mean": 0.0948881128269396,
+      "rank": 22
+    },
+    {
+      "name": "Raheem Sterling",
+      "team": "Manchester City",
+      "actions": 2010,
+      "shotCreating": 194,
+      "total": 226.4836713854427,
+      "mean": 0.1126784434753446,
+      "rank": 23
+    },
+    {
+      "name": "Erik Lamela",
+      "team": "Tottenham Hotspur",
+      "actions": 2215,
+      "shotCreating": 231,
+      "total": 221.96274624246848,
+      "mean": 0.1002089147821528,
+      "rank": 24
+    },
+    {
+      "name": "Marko Arnautović",
+      "team": "Stoke City",
+      "actions": 2497,
+      "shotCreating": 221,
+      "total": 218.76767673860297,
+      "mean": 0.0876122053418514,
+      "rank": 25
+    },
+    {
+      "name": "Matt Ritchie",
+      "team": "AFC Bournemouth",
+      "actions": 3072,
+      "shotCreating": 226,
+      "total": 214.773037530523,
+      "mean": 0.0699130981544671,
+      "rank": 26
+    },
+    {
+      "name": "Bamidele Alli",
+      "team": "Tottenham Hotspur",
+      "actions": 2325,
+      "shotCreating": 227,
+      "total": 211.7143127545119,
+      "mean": 0.0910599194643062,
+      "rank": 27
+    },
+    {
+      "name": "Gnégnéri Yaya Touré",
+      "team": "Manchester City",
+      "actions": 3477,
+      "shotCreating": 222,
+      "total": 209.4781206783336,
+      "mean": 0.0602467991597163,
+      "rank": 28
+    },
+    {
+      "name": "James Philip Milner",
+      "team": "Liverpool",
+      "actions": 2808,
+      "shotCreating": 238,
+      "total": 209.12076936002865,
+      "mean": 0.0744732084615486,
+      "rank": 29
+    },
+    {
+      "name": "Odion Jude Ighalo",
+      "team": "Watford",
+      "actions": 1606,
+      "shotCreating": 232,
+      "total": 208.6995778529065,
+      "mean": 0.1299499239432792,
+      "rank": 30
+    },
+    {
+      "name": "Moussa Sissoko",
+      "team": "Newcastle United",
+      "actions": 3142,
+      "shotCreating": 278,
+      "total": 208.1263611055438,
+      "mean": 0.0662400894670731,
+      "rank": 31
+    },
+    {
+      "name": "Jason Puncheon",
+      "team": "Crystal Palace",
+      "actions": 2717,
+      "shotCreating": 202,
+      "total": 207.56931689320183,
+      "mean": 0.0763965097140971,
+      "rank": 32
+    },
+    {
+      "name": "Kylian Mbappé Lottin",
+      "team": "France",
+      "actions": 1684,
+      "shotCreating": 214,
+      "total": 206.5201450172792,
+      "mean": 0.1226366656872204,
+      "rank": 33
+    },
+    {
+      "name": "Diego da Silva Costa",
+      "team": "Chelsea",
+      "actions": 1811,
+      "shotCreating": 157,
+      "total": 203.75192304538123,
+      "mean": 0.1125079641332861,
+      "rank": 34
+    },
+    {
+      "name": "Nathan Redmond",
+      "team": "Norwich City",
+      "actions": 2226,
+      "shotCreating": 227,
+      "total": 203.6922877634936,
+      "mean": 0.0915059693456844,
+      "rank": 35
+    },
+    {
+      "name": "Robert Brady",
+      "team": "Norwich City",
+      "actions": 2816,
+      "shotCreating": 196,
+      "total": 199.0721474663952,
+      "mean": 0.0706932341855096,
+      "rank": 36
+    },
+    {
+      "name": "Troy Deeney",
+      "team": "Watford",
+      "actions": 2176,
+      "shotCreating": 225,
+      "total": 196.4937029782176,
+      "mean": 0.0903004149716073,
+      "rank": 37
+    },
+    {
+      "name": "Wayne Mark Rooney",
+      "team": "Manchester United",
+      "actions": 2322,
+      "shotCreating": 188,
+      "total": 194.75235696016975,
+      "mean": 0.0838726774160937,
+      "rank": 38
+    },
+    {
+      "name": "Pedro Eliezer Rodríguez Ledesma",
+      "team": "Chelsea",
+      "actions": 2254,
+      "shotCreating": 209,
+      "total": 192.79278676800567,
+      "mean": 0.0855336232333654,
+      "rank": 39
+    },
+    {
+      "name": "Marc Albrighton",
+      "team": "Leicester City",
+      "actions": 2338,
+      "shotCreating": 246,
+      "total": 191.3376176966848,
+      "mean": 0.0818381598360499,
+      "rank": 40
+    },
+    {
+      "name": "Wes Hoolahan",
+      "team": "Norwich City",
+      "actions": 2364,
+      "shotCreating": 181,
+      "total": 190.04375660286857,
+      "mean": 0.0803907599842929,
+      "rank": 41
+    },
+    {
+      "name": "Steven Davis",
+      "team": "Southampton",
+      "actions": 2827,
+      "shotCreating": 190,
+      "total": 188.19446663156097,
+      "mean": 0.0665703808388967,
+      "rank": 42
+    },
+    {
+      "name": "Jamie Vardy",
+      "team": "Leicester City",
+      "actions": 1362,
+      "shotCreating": 221,
+      "total": 184.4922423658672,
+      "mean": 0.1354568592994619,
+      "rank": 43
+    },
+    {
+      "name": "Wilfried Zaha",
+      "team": "Crystal Palace",
+      "actions": 1916,
+      "shotCreating": 185,
+      "total": 182.9108126621535,
+      "mean": 0.095464933539746,
+      "rank": 44
+    },
+    {
+      "name": "Oscar dos Santos Emboaba Júnior",
+      "team": "Chelsea",
+      "actions": 2155,
+      "shotCreating": 169,
+      "total": 179.03687557963875,
+      "mean": 0.0830797566494843,
+      "rank": 45
+    },
+    {
+      "name": "Roberto Firmino Barbosa de Oliveira",
+      "team": "Liverpool",
+      "actions": 2043,
+      "shotCreating": 209,
+      "total": 177.23836652850804,
+      "mean": 0.0867539728480215,
+      "rank": 46
+    },
+    {
+      "name": "Héctor Bellerín Moruno",
+      "team": "Arsenal",
+      "actions": 3747,
+      "shotCreating": 142,
+      "total": 175.06155022157637,
+      "mean": 0.0467204564242264,
+      "rank": 47
+    },
+    {
+      "name": "Adam David Lallana",
+      "team": "Liverpool",
+      "actions": 1990,
+      "shotCreating": 216,
+      "total": 173.32164052514793,
+      "mean": 0.0870963017714311,
+      "rank": 48
+    },
+    {
+      "name": "Memphis Depay",
+      "team": "Manchester United",
+      "actions": 1599,
+      "shotCreating": 119,
+      "total": 167.5253050629256,
+      "mean": 0.1047687961619297,
+      "rank": 49
+    },
+    {
+      "name": "Charlie Daniels",
+      "team": "AFC Bournemouth",
+      "actions": 3871,
+      "shotCreating": 178,
+      "total": 162.55615964712112,
+      "mean": 0.0419933246311343,
+      "rank": 50
+    },
+    {
+      "name": "Ignacio Monreal Eraso",
+      "team": "Arsenal",
+      "actions": 3738,
+      "shotCreating": 136,
+      "total": 162.552686571423,
+      "mean": 0.0434865400137568,
+      "rank": 51
+    },
+    {
+      "name": "Jordan Ayew",
+      "team": "Aston Villa",
+      "actions": 1972,
+      "shotCreating": 136,
+      "total": 162.5525947595928,
+      "mean": 0.0824303218862032,
+      "rank": 52
+    },
+    {
+      "name": "Santiago Cazorla González",
+      "team": "Arsenal",
+      "actions": 2435,
+      "shotCreating": 167,
+      "total": 161.96403288795253,
+      "mean": 0.0665150032394055,
+      "rank": 53
+    },
+    {
+      "name": "Manuel Lanzini",
+      "team": "West Ham United",
+      "actions": 2327,
+      "shotCreating": 202,
+      "total": 161.7111499834557,
+      "mean": 0.0694934035167407,
+      "rank": 54
+    },
+    {
+      "name": "Georginio Wijnaldum",
+      "team": "Newcastle United",
+      "actions": 2578,
+      "shotCreating": 202,
+      "total": 161.4351202618041,
+      "mean": 0.0626202949037254,
+      "rank": 55
+    },
+    {
+      "name": "Aleksandar Kolarov",
+      "team": "Manchester City",
+      "actions": 3041,
+      "shotCreating": 128,
+      "total": 159.25814474705277,
+      "mean": 0.0523703205350387,
+      "rank": 56
+    },
+    {
+      "name": "Nathaniel Edwin Clyne",
+      "team": "Liverpool",
+      "actions": 3316,
+      "shotCreating": 177,
+      "total": 158.7630163161921,
+      "mean": 0.0478778698179107,
+      "rank": 57
+    },
+    {
+      "name": "Xherdan Shaqiri",
+      "team": "Stoke City",
+      "actions": 1771,
+      "shotCreating": 186,
+      "total": 157.4420016742847,
+      "mean": 0.0889000574106633,
+      "rank": 58
+    },
+    {
+      "name": "Alberto Moreno Pérez",
+      "team": "Liverpool",
+      "actions": 2835,
+      "shotCreating": 192,
+      "total": 154.55765967228166,
+      "mean": 0.0545176930060958,
+      "rank": 59
+    },
+    {
+      "name": "Gerard Deulofeu Lázaro",
+      "team": "Everton",
+      "actions": 1491,
+      "shotCreating": 161,
+      "total": 153.70456603818033,
+      "mean": 0.1030882401329177,
+      "rank": 60
+    },
+    {
+      "name": "Idrissa Gana Gueye",
+      "team": "Aston Villa",
+      "actions": 3635,
+      "shotCreating": 145,
+      "total": 152.02115400934943,
+      "mean": 0.0418215004152268,
+      "rank": 61
+    },
+    {
+      "name": "Danny Drinkwater",
+      "team": "Leicester City",
+      "actions": 3527,
+      "shotCreating": 177,
+      "total": 151.70524223528653,
+      "mean": 0.0430125438716434,
+      "rank": 62
+    },
+    {
+      "name": "Luka Modrić",
+      "team": "Croatia",
+      "actions": 2941,
+      "shotCreating": 149,
+      "total": 150.75573800457798,
+      "mean": 0.0512600265231479,
+      "rank": 63
+    },
+    {
+      "name": "Lionel Andrés Messi Cuccittini",
+      "team": "Argentina",
+      "actions": 1279,
+      "shotCreating": 149,
+      "total": 150.59296986659612,
+      "mean": 0.1177427442272057,
+      "rank": 64
+    },
+    {
+      "name": "Fernando Luiz Roza",
+      "team": "Manchester City",
+      "actions": 3472,
+      "shotCreating": 151,
+      "total": 149.55012708708026,
+      "mean": 0.0430731932854493,
+      "rank": 65
+    },
+    {
+      "name": "Kevin De Bruyne",
+      "team": "Belgium",
+      "actions": 1710,
+      "shotCreating": 193,
+      "total": 147.72506242785855,
+      "mean": 0.0863889253964085,
+      "rank": 66
+    },
+    {
+      "name": "Graziano Pellè",
+      "team": "Southampton",
+      "actions": 1528,
+      "shotCreating": 133,
+      "total": 145.1771641695949,
+      "mean": 0.0950112330952846,
+      "rank": 67
+    },
+    {
+      "name": "André Ayew Pelé",
+      "team": "Swansea City",
+      "actions": 2228,
+      "shotCreating": 134,
+      "total": 144.53744233227044,
+      "mean": 0.0648731787846815,
+      "rank": 68
+    },
+    {
+      "name": "Yannick Bolasie Yala",
+      "team": "Crystal Palace",
+      "actions": 1527,
+      "shotCreating": 172,
+      "total": 143.803875796499,
+      "mean": 0.0941741164351663,
+      "rank": 69
+    },
+    {
+      "name": "Jonathan Howson",
+      "team": "Norwich City",
+      "actions": 2426,
+      "shotCreating": 161,
+      "total": 143.02950897335143,
+      "mean": 0.0589569286782157,
+      "rank": 70
+    },
+    {
+      "name": "Junior Stanislas",
+      "team": "AFC Bournemouth",
+      "actions": 1532,
+      "shotCreating": 145,
+      "total": 142.71427267125438,
+      "mean": 0.0931555304642652,
+      "rank": 71
+    },
+    {
+      "name": "Darren Fletcher",
+      "team": "West Bromwich Albion",
+      "actions": 2801,
+      "shotCreating": 116,
+      "total": 142.59927812958117,
+      "mean": 0.0509101314279118,
+      "rank": 72
+    },
+    {
+      "name": "Antoine Griezmann",
+      "team": "France",
+      "actions": 1672,
+      "shotCreating": 148,
+      "total": 141.9025316114411,
+      "mean": 0.0848699351743068,
+      "rank": 73
+    },
+    {
+      "name": "Daryl Janmaat",
+      "team": "Newcastle United",
+      "actions": 2845,
+      "shotCreating": 167,
+      "total": 140.9305339422203,
+      "mean": 0.0495362157969139,
+      "rank": 74
+    },
+    {
+      "name": "Ashley Westwood",
+      "team": "Aston Villa",
+      "actions": 2880,
+      "shotCreating": 121,
+      "total": 140.334197956701,
+      "mean": 0.0487271520682989,
+      "rank": 75
+    },
+    {
+      "name": "Emre Can",
+      "team": "Liverpool",
+      "actions": 3084,
+      "shotCreating": 181,
+      "total": 139.97465606975086,
+      "mean": 0.0453873722664561,
+      "rank": 76
+    },
+    {
+      "name": "Yohan Cabaye",
+      "team": "Crystal Palace",
+      "actions": 2448,
+      "shotCreating": 166,
+      "total": 139.58194965472532,
+      "mean": 0.057018770283793,
+      "rank": 77
+    },
+    {
+      "name": "Jermain Defoe",
+      "team": "Sunderland",
+      "actions": 1008,
+      "shotCreating": 154,
+      "total": 139.43450062810035,
+      "mean": 0.1383278776072424,
+      "rank": 78
+    },
+    {
+      "name": "Yann Gérard M'Vila",
+      "team": "Sunderland",
+      "actions": 3167,
+      "shotCreating": 210,
+      "total": 138.91144037761285,
+      "mean": 0.0438621535767644,
+      "rank": 79
+    },
+    {
+      "name": "Olivier Giroud",
+      "team": "Arsenal",
+      "actions": 1433,
+      "shotCreating": 129,
+      "total": 138.08374275508723,
+      "mean": 0.0963599042254621,
+      "rank": 80
+    },
+    {
+      "name": "José Manuel Jurado Marín",
+      "team": "Watford",
+      "actions": 1950,
+      "shotCreating": 146,
+      "total": 137.54154372396394,
+      "mean": 0.0705341249866481,
+      "rank": 81
+    },
+    {
+      "name": "Aaron Cresswell",
+      "team": "West Ham United",
+      "actions": 3200,
+      "shotCreating": 184,
+      "total": 136.18820258423284,
+      "mean": 0.0425588133075727,
+      "rank": 82
+    },
+    {
+      "name": "Mark Noble",
+      "team": "West Ham United",
+      "actions": 3460,
+      "shotCreating": 189,
+      "total": 134.45290019088327,
+      "mean": 0.0388592197083477,
+      "rank": 83
+    },
+    {
+      "name": "Bojan Krkíc Pérez",
+      "team": "Stoke City",
+      "actions": 1663,
+      "shotCreating": 149,
+      "total": 133.81110179819888,
+      "mean": 0.0804636811775098,
+      "rank": 84
+    },
+    {
+      "name": "Ayoze Pérez Gutiérrez",
+      "team": "Newcastle United",
+      "actions": 1544,
+      "shotCreating": 149,
+      "total": 132.47630169836484,
+      "mean": 0.0858007135352103,
+      "rank": 85
+    },
+    {
+      "name": "Patrick van Aanholt",
+      "team": "Sunderland",
+      "actions": 2458,
+      "shotCreating": 150,
+      "total": 131.72660095642695,
+      "mean": 0.0535909686559914,
+      "rank": 86
+    },
+    {
+      "name": "Ryan Bertrand",
+      "team": "Southampton",
+      "actions": 2601,
+      "shotCreating": 112,
+      "total": 131.61057341101258,
+      "mean": 0.0505999897773981,
+      "rank": 87
+    },
+    {
+      "name": "César Azpilicueta Tanco",
+      "team": "Chelsea",
+      "actions": 3525,
+      "shotCreating": 99,
+      "total": 131.2150578517727,
+      "mean": 0.0372241298870277,
+      "rank": 88
+    },
+    {
+      "name": "Séamus Coleman",
+      "team": "Everton",
+      "actions": 2619,
+      "shotCreating": 106,
+      "total": 130.3453676544733,
+      "mean": 0.0497691361796385,
+      "rank": 89
+    },
+    {
+      "name": "Joshua King",
+      "team": "AFC Bournemouth",
+      "actions": 1160,
+      "shotCreating": 137,
+      "total": 129.74171416288854,
+      "mean": 0.1118463053128349,
+      "rank": 90
+    },
+    {
+      "name": "Andrew Surman",
+      "team": "AFC Bournemouth",
+      "actions": 3879,
+      "shotCreating": 149,
+      "total": 128.9600154550673,
+      "mean": 0.033245685861064,
+      "rank": 91
+    },
+    {
+      "name": "Joshua Kimmich",
+      "team": "Germany",
+      "actions": 2177,
+      "shotCreating": 147,
+      "total": 128.46429731075426,
+      "mean": 0.0590097828712697,
+      "rank": 92
+    },
+    {
+      "name": "Simon Francis",
+      "team": "AFC Bournemouth",
+      "actions": 4098,
+      "shotCreating": 134,
+      "total": 128.32932852749192,
+      "mean": 0.0313151118905544,
+      "rank": 93
+    },
+    {
+      "name": "Toni Kroos",
+      "team": "Germany",
+      "actions": 2292,
+      "shotCreating": 129,
+      "total": 128.16952564634676,
+      "mean": 0.0559203864076556,
+      "rank": 94
+    },
+    {
+      "name": "James McClean",
+      "team": "West Bromwich Albion",
+      "actions": 1550,
+      "shotCreating": 123,
+      "total": 128.1283736196043,
+      "mean": 0.0826634668513576,
+      "rank": 95
+    },
+    {
+      "name": "Dan Gosling",
+      "team": "AFC Bournemouth",
+      "actions": 2312,
+      "shotCreating": 131,
+      "total": 127.83391970573136,
+      "mean": 0.0552914877619945,
+      "rank": 96
+    },
+    {
+      "name": "Mousa Sidi Yaya Dembélé",
+      "team": "Tottenham Hotspur",
+      "actions": 2796,
+      "shotCreating": 154,
+      "total": 127.6976944604011,
+      "mean": 0.0456715645423466,
+      "rank": 97
+    },
+    {
+      "name": "N'Golo Kanté",
+      "team": "Leicester City",
+      "actions": 2688,
+      "shotCreating": 138,
+      "total": 127.36605587709606,
+      "mean": 0.0473832053114196,
+      "rank": 98
+    },
+    {
+      "name": "Daniel Olmo Carvajal",
+      "team": "Spain",
+      "actions": 1243,
+      "shotCreating": 110,
+      "total": 126.8716516083845,
+      "mean": 0.1020689071668419,
+      "rank": 99
+    },
+    {
+      "name": "Stéphane Sessègnon",
+      "team": "West Bromwich Albion",
+      "actions": 1444,
+      "shotCreating": 148,
+      "total": 125.99016650411303,
+      "mean": 0.0872508078283331,
+      "rank": 100
+    }
+  ],
+  "teams": [
+    {
+      "name": "Manchester City",
+      "actions": 40945,
+      "shotCreating": 2165,
+      "total": 2416.268999946417,
+      "mean": 0.059012553424018,
+      "rank": 1
+    },
+    {
+      "name": "Arsenal",
+      "actions": 41574,
+      "shotCreating": 2138,
+      "total": 2385.829914876909,
+      "mean": 0.0573875478634942,
+      "rank": 2
+    },
+    {
+      "name": "Chelsea",
+      "actions": 38195,
+      "shotCreating": 1948,
+      "total": 2245.092893308726,
+      "mean": 0.0587797589555891,
+      "rank": 3
+    },
+    {
+      "name": "Manchester United",
+      "actions": 39599,
+      "shotCreating": 1606,
+      "total": 2079.199053375436,
+      "mean": 0.0525063525183826,
+      "rank": 4
+    },
+    {
+      "name": "Liverpool",
+      "actions": 37457,
+      "shotCreating": 2294,
+      "total": 2040.9609569252216,
+      "mean": 0.0544881052119823,
+      "rank": 5
+    },
+    {
+      "name": "Tottenham Hotspur",
+      "actions": 37288,
+      "shotCreating": 2361,
+      "total": 1970.7059284716927,
+      "mean": 0.0528509420851666,
+      "rank": 6
+    },
+    {
+      "name": "Everton",
+      "actions": 36298,
+      "shotCreating": 1778,
+      "total": 1875.0545576967247,
+      "mean": 0.0516572416578523,
+      "rank": 7
+    },
+    {
+      "name": "AFC Bournemouth",
+      "actions": 34739,
+      "shotCreating": 1724,
+      "total": 1721.190136202393,
+      "mean": 0.0495463351334924,
+      "rank": 8
+    },
+    {
+      "name": "Southampton",
+      "actions": 30838,
+      "shotCreating": 1789,
+      "total": 1692.0978140855027,
+      "mean": 0.0548705432935178,
+      "rank": 9
+    },
+    {
+      "name": "Swansea City",
+      "actions": 35981,
+      "shotCreating": 1607,
+      "total": 1579.4247101073283,
+      "mean": 0.0438960759875303,
+      "rank": 10
+    },
+    {
+      "name": "West Ham United",
+      "actions": 30224,
+      "shotCreating": 1820,
+      "total": 1551.7816392948168,
+      "mean": 0.0513426958474992,
+      "rank": 11
+    },
+    {
+      "name": "Norwich City",
+      "actions": 29010,
+      "shotCreating": 1525,
+      "total": 1546.9079262571247,
+      "mean": 0.053323265296695,
+      "rank": 12
+    },
+    {
+      "name": "Spain",
+      "actions": 31659,
+      "shotCreating": 1381,
+      "total": 1539.8379313862804,
+      "mean": 0.0486382365642086,
+      "rank": 13
+    },
+    {
+      "name": "Leicester City",
+      "actions": 26239,
+      "shotCreating": 1730,
+      "total": 1499.5946321676886,
+      "mean": 0.0571513637016535,
+      "rank": 14
+    },
+    {
+      "name": "Stoke City",
+      "actions": 32276,
+      "shotCreating": 1503,
+      "total": 1462.7664620257306,
+      "mean": 0.0453205620902754,
+      "rank": 15
+    },
+    {
+      "name": "Aston Villa",
+      "actions": 31020,
+      "shotCreating": 1309,
+      "total": 1449.4736979718316,
+      "mean": 0.0467270695671125,
+      "rank": 16
+    },
+    {
+      "name": "Crystal Palace",
+      "actions": 27469,
+      "shotCreating": 1480,
+      "total": 1437.3902936790637,
+      "mean": 0.052327725569881,
+      "rank": 17
+    },
+    {
+      "name": "Watford",
+      "actions": 27324,
+      "shotCreating": 1495,
+      "total": 1411.9942474835575,
+      "mean": 0.0516759715811578,
+      "rank": 18
+    },
+    {
+      "name": "Newcastle United",
+      "actions": 29968,
+      "shotCreating": 1553,
+      "total": 1385.7666430160598,
+      "mean": 0.0462415457493346,
+      "rank": 19
+    },
+    {
+      "name": "Sunderland",
+      "actions": 25274,
+      "shotCreating": 1487,
+      "total": 1353.0117864378096,
+      "mean": 0.0535337416490389,
+      "rank": 20
+    },
+    {
+      "name": "West Bromwich Albion",
+      "actions": 24111,
+      "shotCreating": 1266,
+      "total": 1287.7372364908035,
+      "mean": 0.0534087029360376,
+      "rank": 21
+    },
+    {
+      "name": "England",
+      "actions": 29267,
+      "shotCreating": 950,
+      "total": 1254.8700951423946,
+      "mean": 0.0428766219681687,
+      "rank": 22
+    },
+    {
+      "name": "France",
+      "actions": 23642,
+      "shotCreating": 1233,
+      "total": 1160.238164770299,
+      "mean": 0.0490752967079899,
+      "rank": 23
+    },
+    {
+      "name": "Germany",
+      "actions": 18715,
+      "shotCreating": 1119,
+      "total": 1094.8826819237872,
+      "mean": 0.0585029485398764,
+      "rank": 24
+    },
+    {
+      "name": "Croatia",
+      "actions": 22745,
+      "shotCreating": 1031,
+      "total": 1014.5976407028307,
+      "mean": 0.0446075023391,
+      "rank": 25
+    },
+    {
+      "name": "Portugal",
+      "actions": 21004,
+      "shotCreating": 930,
+      "total": 963.9567088990872,
+      "mean": 0.0458939587173437,
+      "rank": 26
+    },
+    {
+      "name": "Belgium",
+      "actions": 20392,
+      "shotCreating": 936,
+      "total": 906.4024609407078,
+      "mean": 0.0444489241340088,
+      "rank": 27
+    },
+    {
+      "name": "Denmark",
+      "actions": 16318,
+      "shotCreating": 725,
+      "total": 758.5713510224788,
+      "mean": 0.0464867845950777,
+      "rank": 28
+    },
+    {
+      "name": "Switzerland",
+      "actions": 17148,
+      "shotCreating": 782,
+      "total": 725.0471306166166,
+      "mean": 0.042281731433206,
+      "rank": 29
+    },
+    {
+      "name": "Netherlands",
+      "actions": 15216,
+      "shotCreating": 623,
+      "total": 703.0741204686832,
+      "mean": 0.046206238201149,
+      "rank": 30
+    },
+    {
+      "name": "Brazil",
+      "actions": 11597,
+      "shotCreating": 743,
+      "total": 683.986945153358,
+      "mean": 0.0589796451800774,
+      "rank": 31
+    },
+    {
+      "name": "Argentina",
+      "actions": 13156,
+      "shotCreating": 541,
+      "total": 667.4719749478638,
+      "mean": 0.050735175961376,
+      "rank": 32
+    },
+    {
+      "name": "Italy",
+      "actions": 12755,
+      "shotCreating": 645,
+      "total": 628.2254312852001,
+      "mean": 0.0492532678389024,
+      "rank": 33
+    },
+    {
+      "name": "Poland",
+      "actions": 10061,
+      "shotCreating": 464,
+      "total": 417.7852406315726,
+      "mean": 0.0415252202198163,
+      "rank": 34
+    },
+    {
+      "name": "Austria",
+      "actions": 8013,
+      "shotCreating": 349,
+      "total": 401.4610956511256,
+      "mean": 0.0501012224698771,
+      "rank": 35
+    },
+    {
+      "name": "Serbia",
+      "actions": 7982,
+      "shotCreating": 326,
+      "total": 376.9319936671575,
+      "mean": 0.0472227503967874,
+      "rank": 36
+    },
+    {
+      "name": "Turkey",
+      "actions": 7192,
+      "shotCreating": 392,
+      "total": 343.1157838095167,
+      "mean": 0.0477079788389205,
+      "rank": 37
+    },
+    {
+      "name": "Ukraine",
+      "actions": 7887,
+      "shotCreating": 335,
+      "total": 327.9231268661051,
+      "mean": 0.0415776755250545,
+      "rank": 38
+    },
+    {
+      "name": "Uruguay",
+      "actions": 6724,
+      "shotCreating": 304,
+      "total": 316.8480483295784,
+      "mean": 0.0471219584071353,
+      "rank": 39
+    },
+    {
+      "name": "Mexico",
+      "actions": 6000,
+      "shotCreating": 354,
+      "total": 305.70318579643344,
+      "mean": 0.0509505309660722,
+      "rank": 40
+    },
+    {
+      "name": "Russia",
+      "actions": 5647,
+      "shotCreating": 253,
+      "total": 305.62085210376546,
+      "mean": 0.0541209229863229,
+      "rank": 41
+    },
+    {
+      "name": "Japan",
+      "actions": 6956,
+      "shotCreating": 296,
+      "total": 291.407378724325,
+      "mean": 0.0418929526630714,
+      "rank": 42
+    },
+    {
+      "name": "Sweden",
+      "actions": 5681,
+      "shotCreating": 293,
+      "total": 287.03882810314343,
+      "mean": 0.050526109505922,
+      "rank": 43
+    },
+    {
+      "name": "South Korea",
+      "actions": 5496,
+      "shotCreating": 292,
+      "total": 281.452207834316,
+      "mean": 0.051210372604497,
+      "rank": 44
+    },
+    {
+      "name": "Saudi Arabia",
+      "actions": 5529,
+      "shotCreating": 216,
+      "total": 256.7476846447069,
+      "mean": 0.0464365499447833,
+      "rank": 45
+    },
+    {
+      "name": "Czech Republic",
+      "actions": 5001,
+      "shotCreating": 273,
+      "total": 252.2352702400816,
+      "mean": 0.0504369666546853,
+      "rank": 46
+    },
+    {
+      "name": "Morocco",
+      "actions": 6438,
+      "shotCreating": 310,
+      "total": 244.1923009620207,
+      "mean": 0.0379298386085773,
+      "rank": 47
+    },
+    {
+      "name": "Senegal",
+      "actions": 5016,
+      "shotCreating": 276,
+      "total": 238.6018032257153,
+      "mean": 0.0475681425888587,
+      "rank": 48
+    },
+    {
+      "name": "Slovakia",
+      "actions": 6171,
+      "shotCreating": 262,
+      "total": 220.05605570044716,
+      "mean": 0.0356597076163421,
+      "rank": 49
+    },
+    {
+      "name": "Tunisia",
+      "actions": 5096,
+      "shotCreating": 267,
+      "total": 216.62181893108996,
+      "mean": 0.042508206226666,
+      "rank": 50
+    },
+    {
+      "name": "Australia",
+      "actions": 5718,
+      "shotCreating": 169,
+      "total": 211.35222276587916,
+      "mean": 0.0369626132853933,
+      "rank": 51
+    },
+    {
+      "name": "Wales",
+      "actions": 4757,
+      "shotCreating": 219,
+      "total": 197.92669154920048,
+      "mean": 0.0416074609100694,
+      "rank": 52
+    },
+    {
+      "name": "United States",
+      "actions": 4093,
+      "shotCreating": 181,
+      "total": 191.99429372271257,
+      "mean": 0.0469079632843177,
+      "rank": 53
+    },
+    {
+      "name": "Scotland",
+      "actions": 4361,
+      "shotCreating": 181,
+      "total": 173.0265466353052,
+      "mean": 0.0396758877861282,
+      "rank": 54
+    },
+    {
+      "name": "Iran",
+      "actions": 3253,
+      "shotCreating": 170,
+      "total": 158.69692390408207,
+      "mean": 0.0487847906252942,
+      "rank": 55
+    },
+    {
+      "name": "Colombia",
+      "actions": 3697,
+      "shotCreating": 128,
+      "total": 139.84548979308698,
+      "mean": 0.0378267486592066,
+      "rank": 56
+    },
+    {
+      "name": "Costa Rica",
+      "actions": 3964,
+      "shotCreating": 144,
+      "total": 139.41014425589566,
+      "mean": 0.0351690575822138,
+      "rank": 57
+    },
+    {
+      "name": "Canada",
+      "actions": 2952,
+      "shotCreating": 135,
+      "total": 138.14838136851273,
+      "mean": 0.0467982321709053,
+      "rank": 58
+    },
+    {
+      "name": "Hungary",
+      "actions": 3825,
+      "shotCreating": 176,
+      "total": 129.62441220597688,
+      "mean": 0.0338887352172488,
+      "rank": 59
+    },
+    {
+      "name": "Peru",
+      "actions": 2601,
+      "shotCreating": 132,
+      "total": 125.12738995310862,
+      "mean": 0.0481074163602878,
+      "rank": 60
+    },
+    {
+      "name": "Egypt",
+      "actions": 2332,
+      "shotCreating": 130,
+      "total": 119.00470796153668,
+      "mean": 0.0510311783711563,
+      "rank": 61
+    },
+    {
+      "name": "Romania",
+      "actions": 2360,
+      "shotCreating": 138,
+      "total": 110.54780643369315,
+      "mean": 0.0468422908617343,
+      "rank": 62
+    },
+    {
+      "name": "Slovenia",
+      "actions": 2420,
+      "shotCreating": 118,
+      "total": 109.14317006912454,
+      "mean": 0.0451004834996382,
+      "rank": 63
+    },
+    {
+      "name": "Nigeria",
+      "actions": 2299,
+      "shotCreating": 150,
+      "total": 106.2532516198682,
+      "mean": 0.0462171603392206,
+      "rank": 64
+    },
+    {
+      "name": "Georgia",
+      "actions": 2666,
+      "shotCreating": 117,
+      "total": 103.69050600367234,
+      "mean": 0.0388936631671689,
+      "rank": 65
+    },
+    {
+      "name": "Cameroon",
+      "actions": 2233,
+      "shotCreating": 96,
+      "total": 98.84431266319642,
+      "mean": 0.0442652542154932,
+      "rank": 66
+    },
+    {
+      "name": "Ghana",
+      "actions": 2298,
+      "shotCreating": 91,
+      "total": 98.4969723358238,
+      "mean": 0.0428620419215943,
+      "rank": 67
+    },
+    {
+      "name": "Iceland",
+      "actions": 1558,
+      "shotCreating": 93,
+      "total": 92.41705907412926,
+      "mean": 0.0593177529358981,
+      "rank": 68
+    },
+    {
+      "name": "Ecuador",
+      "actions": 2559,
+      "shotCreating": 81,
+      "total": 89.03366226513914,
+      "mean": 0.0347923650899332,
+      "rank": 69
+    },
+    {
+      "name": "North Macedonia",
+      "actions": 2315,
+      "shotCreating": 104,
+      "total": 88.4233105339549,
+      "mean": 0.0381958144855096,
+      "rank": 70
+    },
+    {
+      "name": "Finland",
+      "actions": 2163,
+      "shotCreating": 75,
+      "total": 83.8465345069432,
+      "mean": 0.0387640011590121,
+      "rank": 71
+    },
+    {
+      "name": "Qatar",
+      "actions": 2538,
+      "shotCreating": 77,
+      "total": 77.03224572978638,
+      "mean": 0.0303515546610663,
+      "rank": 72
+    },
+    {
+      "name": "Panama",
+      "actions": 1929,
+      "shotCreating": 74,
+      "total": 76.4358068674731,
+      "mean": 0.0396245758773836,
+      "rank": 73
+    },
+    {
+      "name": "Albania",
+      "actions": 2164,
+      "shotCreating": 111,
+      "total": 69.67715652260308,
+      "mean": 0.0321983163228295,
+      "rank": 74
+    }
+  ],
+  "drivers": [
+    {
+      "driverType": "feature",
+      "name": "end_x",
+      "featureGroup": "progression/location",
+      "impact": 0.0895940856223918,
+      "rank": 1
+    },
+    {
+      "driverType": "feature",
+      "name": "end_y",
+      "featureGroup": "progression/location",
+      "impact": 0.0050121463937866,
+      "rank": 2
+    },
+    {
+      "driverType": "feature",
+      "name": "end_zone",
+      "featureGroup": "progression/location",
+      "impact": 0.0045006107341721,
+      "rank": 3
+    },
+    {
+      "driverType": "feature",
+      "name": "is_through_ball",
+      "featureGroup": "action-type/context",
+      "impact": 0.0033399732935545,
+      "rank": 4
+    },
+    {
+      "driverType": "feature",
+      "name": "start_x",
+      "featureGroup": "progression/location",
+      "impact": 0.0031002960148255,
+      "rank": 5
+    },
+    {
+      "driverType": "feature",
+      "name": "is_pass",
+      "featureGroup": "action-type/context",
+      "impact": 0.0030695110274455,
+      "rank": 6
+    },
+    {
+      "driverType": "feature",
+      "name": "length",
+      "featureGroup": "progression/location",
+      "impact": 0.0016809244834582,
+      "rank": 7
+    },
+    {
+      "driverType": "feature",
+      "name": "x_progression",
+      "featureGroup": "progression/location",
+      "impact": 0.0014268534397379,
+      "rank": 8
+    },
+    {
+      "driverType": "feature",
+      "name": "pass_height",
+      "featureGroup": "action-type/context",
+      "impact": 0.0010321138123019,
+      "rank": 9
+    },
+    {
+      "driverType": "feature",
+      "name": "seconds_since_possession_start",
+      "featureGroup": "time/sequence",
+      "impact": 0.0009860301744364,
+      "rank": 10
+    },
+    {
+      "driverType": "feature",
+      "name": "start_y",
+      "featureGroup": "progression/location",
+      "impact": 0.0006199938849594,
+      "rank": 11
+    },
+    {
+      "driverType": "feature",
+      "name": "body_part",
+      "featureGroup": "action-type/context",
+      "impact": 0.0004324628804531,
+      "rank": 12
+    },
+    {
+      "driverType": "feature",
+      "name": "action_position",
+      "featureGroup": "time/sequence",
+      "impact": 0.0004112783780902,
+      "rank": 13
+    },
+    {
+      "driverType": "feature",
+      "name": "start_zone",
+      "featureGroup": "progression/location",
+      "impact": 0.0003907622898883,
+      "rank": 14
+    },
+    {
+      "driverType": "feature",
+      "name": "is_cross",
+      "featureGroup": "action-type/context",
+      "impact": 0.0003691899268581,
+      "rank": 15
+    },
+    {
+      "driverType": "feature",
+      "name": "carry_under_pressure",
+      "featureGroup": "pressure",
+      "impact": 0.0003276790659694,
+      "rank": 16
+    },
+    {
+      "driverType": "feature",
+      "name": "enters_penalty_area",
+      "featureGroup": "zone-entry",
+      "impact": 0.0002957876248863,
+      "rank": 17
+    },
+    {
+      "driverType": "feature",
+      "name": "minute",
+      "featureGroup": "time/sequence",
+      "impact": 0.0002333621886731,
+      "rank": 18
+    },
+    {
+      "driverType": "feature",
+      "name": "y_progression",
+      "featureGroup": "progression/location",
+      "impact": 0.0002170245996232,
+      "rank": 19
+    },
+    {
+      "driverType": "feature",
+      "name": "is_carry",
+      "featureGroup": "action-type/context",
+      "impact": 0.0001773749527646,
+      "rank": 20
+    },
+    {
+      "driverType": "feature",
+      "name": "angle",
+      "featureGroup": "progression/location",
+      "impact": 0.000121841322899,
+      "rank": 21
+    },
+    {
+      "driverType": "feature",
+      "name": "enters_zone14",
+      "featureGroup": "zone-entry",
+      "impact": 0.0001139636480187,
+      "rank": 22
+    },
+    {
+      "driverType": "feature",
+      "name": "under_pressure",
+      "featureGroup": "pressure",
+      "impact": 0.0001093202039087,
+      "rank": 23
+    },
+    {
+      "driverType": "feature",
+      "name": "second",
+      "featureGroup": "time/sequence",
+      "impact": 0.00004386024315128356,
+      "rank": 24
+    },
+    {
+      "driverType": "feature",
+      "name": "is_dribble",
+      "featureGroup": "action-type/context",
+      "impact": 0.0000370949298705292,
+      "rank": 25
+    },
+    {
+      "driverType": "feature",
+      "name": "switches_play",
+      "featureGroup": "action-type/context",
+      "impact": 0.000011772267392795577,
+      "rank": 26
+    },
+    {
+      "driverType": "feature",
+      "name": "action_type",
+      "featureGroup": "action-type/context",
+      "impact": 0,
+      "rank": 27
+    },
+    {
+      "driverType": "feature",
+      "name": "enters_final_third",
+      "featureGroup": "zone-entry",
+      "impact": 0,
+      "rank": 28
+    },
+    {
+      "driverType": "feature",
+      "name": "is_cutback",
+      "featureGroup": "action-type/context",
+      "impact": 0,
+      "rank": 29
+    },
+    {
+      "driverType": "feature",
+      "name": "is_progressive",
+      "featureGroup": "binary",
+      "impact": 0,
+      "rank": 30
+    },
+    {
+      "driverType": "feature",
+      "name": "play_pattern",
+      "featureGroup": "action-type/context",
+      "impact": 0,
+      "rank": 31
+    },
+    {
+      "driverType": "feature",
+      "name": "prior_action_type",
+      "featureGroup": "action-type/context",
+      "impact": 0,
+      "rank": 32
+    },
+    {
+      "driverType": "feature",
+      "name": "score_state",
+      "featureGroup": "action-type/context",
+      "impact": 0,
+      "rank": 33
+    },
+    {
+      "driverType": "feature",
+      "name": "sequence_length_so_far",
+      "featureGroup": "time/sequence",
+      "impact": 0,
+      "rank": 34
+    },
+    {
+      "driverType": "feature",
+      "name": "set_piece_phase",
+      "featureGroup": "action-type/context",
+      "impact": 0,
+      "rank": 35
+    },
+    {
+      "driverType": "feature",
+      "name": "start_third",
+      "featureGroup": "progression/location",
+      "impact": 0,
+      "rank": 36
+    },
+    {
+      "driverType": "feature",
+      "name": "end_third",
+      "featureGroup": "progression/location",
+      "impact": -0.000002825086250685116,
+      "rank": 37
+    },
+    {
+      "driverType": "feature_group",
+      "name": "progression/location",
+      "featureGroup": "progression/location",
+      "impact": 0.1044943883696682,
+      "rank": 1
+    },
+    {
+      "driverType": "feature_group",
+      "name": "numeric",
+      "featureGroup": "numeric",
+      "impact": 0.09938790830392,
+      "rank": 2
+    },
+    {
+      "driverType": "feature_group",
+      "name": "categorical",
+      "featureGroup": "categorical",
+      "impact": 0.0118569420859118,
+      "rank": 3
+    },
+    {
+      "driverType": "feature_group",
+      "name": "action-type/context",
+      "featureGroup": "action-type/context",
+      "impact": 0.0096920909814579,
+      "rank": 4
+    },
+    {
+      "driverType": "feature_group",
+      "name": "binary",
+      "featureGroup": "binary",
+      "impact": 0.0031724478378167,
+      "rank": 5
+    },
+    {
+      "driverType": "feature_group",
+      "name": "time/sequence",
+      "featureGroup": "time/sequence",
+      "impact": 0.0016090671590369,
+      "rank": 6
+    },
+    {
+      "driverType": "feature_group",
+      "name": "pressure",
+      "featureGroup": "pressure",
+      "impact": 0.0004711915268522,
+      "rank": 7
+    },
+    {
+      "driverType": "feature_group",
+      "name": "zone-entry",
+      "featureGroup": "zone-entry",
+      "impact": 0.0002590134148614,
+      "rank": 8
+    }
+  ]
+}

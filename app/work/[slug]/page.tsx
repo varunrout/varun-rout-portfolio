@@ -7,6 +7,7 @@ import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { UpliftExplorer } from '@/components/demos/uplift-explorer';
 import { ShotMapExplorer } from '@/components/demos/shot-map-explorer';
+import { CxaExplorer } from '@/components/demos/cxa-explorer';
 import { getShots } from '@/lib/shots';
 import { projects, getProject } from '@/content/projects';
 
@@ -200,6 +201,26 @@ export default async function ProjectPage({
             <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
               <span className="text-cyan">Data provenance.</span> 440-shot sample from the CxG diagnostic model,
               benchmarked against StatsBomb xG. Open StatsBomb data, served from Supabase; full set in the repo.
+            </p>
+          </section>
+        </Reveal>
+      )}
+      {project.slug === 'opponent-adjusted-metrics' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Explore contextual expected assists</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              The CxA diagnostic model against its own baseline over 1,091,388 action rows. Precision among the
+              model&apos;s most confident actions is the headline; the leaderboard shows volume against efficiency.
+            </p>
+            <div className="mt-6">
+              <CxaExplorer />
+            </div>
+            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
+              <span className="text-cyan">Data provenance.</span> Generated into data/cxa.json from the committed CxA
+              portfolio export (headline metrics, top players and teams, feature drivers). Open StatsBomb data. The
+              comparison is against this project&apos;s own baseline, not an industry expected-assists incumbent, and
+              the model is provisionally promoted.
             </p>
           </section>
         </Reveal>
