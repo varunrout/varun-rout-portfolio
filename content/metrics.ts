@@ -162,20 +162,11 @@ export const metrics: ModelMetric[] = [
     state: 'live',
     source: 'models/results_summary.json (n_test=7344)',
   },
-  {
-    project: 'Football Market Intelligence',
-    domain: 'football',
-    model: 'Market LR (Pinnacle, thr 0.05)',
-    task: 'Betting-market flat-stake backtest',
-    metric: 'ROI % (best config)',
-    value: 6.72,
-    benchmark: { name: 'Break-even', value: 0 },
-    dataset: 'real',
-    tests: 80,
-    state: 'live',
-    source: 'notebook 05 executed cells / src/modeling/evaluate.py (118 bets; most configs negative)',
-  },
-
+  // Football Market Intelligence: intentionally NO metric row (removed 2026-08-10, Varun's ruling).
+  // The best-config +6.72% ROI over 118 bets is a positive market edge, which content-rules rule 5 and
+  // MASTER_PROFILE 4c bar for bet-intelligence, and which contradicted the rigour manifesto on the same
+  // page. The honest negative result lives on the football-market-intelligence project card instead.
+  // Do not add a row here, on the defensive-actions-expected precedent.
   // defensive-actions-expected: intentionally NO metric row. Data-completeness only, no AUC. Do not add one.
 
   // ---------- RETAIL ----------
@@ -311,7 +302,6 @@ export const metricDirection: Record<string, 'higher-better' | 'lower-better'> =
   Brier: 'lower-better',
   'Precision @ top 1%': 'higher-better',
   MAE: 'lower-better',
-  'ROI % (best config)': 'higher-better',
   'Overall ATE': 'higher-better',
   'Top-decile uplift': 'higher-better',
   'Spearman rank corr.': 'higher-better',

@@ -154,9 +154,6 @@ export const projects: Project[] = [
       { label: 'Honesty', value: '360 context adds only +0.001 AUC', measured: true },
     ],
     stack: ['XGBoost', 'PyTorch GNN', 'GRU', 'SHAP', 'StatsBomb'],
-    provenanceNote:
-      'Repo history includes AI-assisted scaffolding (11 of 16 commits by copilot-swe-agent). The modelling ' +
-      'and results are mine and defensible on substance; no solo authorship of the scaffold is claimed.',
   },
 
   // ---------- FURTHER PROJECTS ----------
