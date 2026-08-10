@@ -7,6 +7,12 @@
 export type Dataset = 'real' | 'synthetic' | 'open';
 export type ModelState = 'live' | 'professional' | 'in-development';
 
+// How `value` (and `benchmark.value`) are formatted. Set explicitly on every row: NEVER inferred from
+// the metric name. Sniffing the name for "%" made "Precision @ top 1%" render 0.586 as "+0.586036%".
+// 'percent' = a percentage in percent units (37 -> 37%); 'ratio' = a 0-1 quantity shown as a decimal
+// (AUC 0.809); 'count' = a plain count (MAE 11.2).
+export type MetricUnit = 'percent' | 'ratio' | 'count';
+
 export type ModelMetric = {
   project: string; // matches a Project.title / slug family
   domain: 'football' | 'energy' | 'retail' | 'consulting';
@@ -14,6 +20,7 @@ export type ModelMetric = {
   task: string;
   metric: string; // metric name, e.g. "ROC AUC"
   value: number;
+  unit?: MetricUnit; // formatting unit for value/benchmark; set on every row
   benchmark?: { name: string; value: number }; // the incumbent/baseline
   dataset: Dataset;
   tests?: number;
@@ -30,6 +37,7 @@ export const metrics: ModelMetric[] = [
     task: 'Contextual expected goals',
     metric: 'ROC AUC',
     value: 0.8092,
+    unit: 'ratio',
     benchmark: { name: 'StatsBomb xG', value: 0.81957 },
     dataset: 'open',
     tests: 332,
@@ -43,6 +51,7 @@ export const metrics: ModelMetric[] = [
     task: 'Calibration',
     metric: 'Brier',
     value: 0.07325,
+    unit: 'ratio',
     dataset: 'open',
     state: 'live',
     source: 'docs/modeling/v1_results_summary.md',
@@ -56,6 +65,7 @@ export const metrics: ModelMetric[] = [
     task: 'Contextual expected assists',
     metric: 'ROC AUC',
     value: 0.858312,
+    unit: 'ratio',
     dataset: 'open',
     state: 'live',
     source: 'outputs/portfolio/cxa/headline_metrics.json (1,091,388 action rows)',
@@ -67,6 +77,7 @@ export const metrics: ModelMetric[] = [
     task: 'Contextual expected assists',
     metric: 'ROC AUC',
     value: 0.866247,
+    unit: 'ratio',
     // Internal baseline, NOT an industry incumbent: no off-the-shelf expected-assists model exists.
     benchmark: { name: 'Own CxA baseline', value: 0.858312 },
     dataset: 'open',
@@ -79,8 +90,11 @@ export const metrics: ModelMetric[] = [
     model: 'CxA diagnostic v1',
     task: 'Precision among the model’s most confident actions',
     metric: 'Precision @ top 1%',
-    value: 0.586036,
-    benchmark: { name: 'Own CxA baseline', value: 0.462708 },
+    // Stored in percent units so it renders as 58.6% not 0.586. headline_metrics.json holds the ratios
+    // 0.5860363 (diagnostic) and 0.4627084 (baseline); x100 here.
+    value: 58.60363,
+    unit: 'percent',
+    benchmark: { name: 'Own CxA baseline', value: 46.27084 },
     dataset: 'open',
     state: 'live',
     source: 'outputs/portfolio/cxa/headline_metrics.json',
@@ -92,6 +106,7 @@ export const metrics: ModelMetric[] = [
     task: 'Contextual expected goals',
     metric: 'ROC AUC (heldout)',
     value: 0.8131,
+    unit: 'ratio',
     benchmark: { name: 'Logistic baseline', value: 0.7982 },
     dataset: 'open',
     tests: 560,
@@ -105,6 +120,7 @@ export const metrics: ModelMetric[] = [
     task: 'Cross-validation',
     metric: '5-fold CV AUC',
     value: 0.8083,
+    unit: 'ratio',
     dataset: 'open',
     state: 'live',
     source: 'reports/cxg_training_summary.json',
@@ -116,6 +132,7 @@ export const metrics: ModelMetric[] = [
     task: 'Possession-danger prediction',
     metric: 'ROC AUC (test)',
     value: 0.965,
+    unit: 'ratio',
     dataset: 'open',
     tests: 69,
     state: 'live',
@@ -128,6 +145,7 @@ export const metrics: ModelMetric[] = [
     task: 'Possession-danger prediction',
     metric: 'ROC AUC',
     value: 0.9524,
+    unit: 'ratio',
     dataset: 'open',
     state: 'live',
     source: 'models/results_summary.json',
@@ -139,6 +157,7 @@ export const metrics: ModelMetric[] = [
     task: 'Pass-level line-breaking',
     metric: 'ROC AUC',
     value: 0.882,
+    unit: 'ratio',
     dataset: 'open',
     state: 'live',
     source: 'models/results_summary.json (n_test=7344)',
@@ -156,6 +175,7 @@ export const metrics: ModelMetric[] = [
     state: 'live',
     source: 'notebook 05 executed cells / src/modeling/evaluate.py (118 bets; most configs negative)',
   },
+
   // defensive-actions-expected: intentionally NO metric row. Data-completeness only, no AUC. Do not add one.
 
   // ---------- RETAIL ----------
@@ -166,6 +186,7 @@ export const metrics: ModelMetric[] = [
     task: 'Uplift / campaign targeting',
     metric: 'Overall ATE',
     value: 0.0444,
+    unit: 'ratio',
     dataset: 'synthetic',
     tests: 7,
     state: 'live',
@@ -178,6 +199,7 @@ export const metrics: ModelMetric[] = [
     task: 'Uplift / campaign targeting',
     metric: 'Top-decile uplift',
     value: 0.0754,
+    unit: 'ratio',
     benchmark: { name: 'Overall ATE', value: 0.0444 },
     dataset: 'synthetic',
     state: 'live',
@@ -190,6 +212,7 @@ export const metrics: ModelMetric[] = [
     task: 'Uplift ranking quality',
     metric: 'Spearman rank corr.',
     value: 0.406,
+    unit: 'ratio',
     dataset: 'synthetic',
     state: 'live',
     source: 'outputs/phase_uplift_v2_model_comparison.csv',
@@ -201,6 +224,7 @@ export const metrics: ModelMetric[] = [
     task: 'Quarterly SKU demand (~7,000 SKUs)',
     metric: 'Accuracy improvement %',
     value: 37,
+    unit: 'percent',
     benchmark: { name: 'Previous approach', value: 0 },
     dataset: 'real',
     state: 'professional',
@@ -215,6 +239,7 @@ export const metrics: ModelMetric[] = [
     task: 'Forward price-curve accuracy (far seasons)',
     metric: 'Improvement %',
     value: 15,
+    unit: 'percent',
     benchmark: { name: 'Previous methodology', value: 0 },
     dataset: 'real',
     state: 'professional',
@@ -227,6 +252,7 @@ export const metrics: ModelMetric[] = [
     task: 'Christmas-period demand RMSE',
     metric: 'RMSE reduction %',
     value: 18,
+    unit: 'percent',
     benchmark: { name: 'Pre-fix', value: 0 },
     dataset: 'real',
     state: 'professional',
@@ -239,6 +265,7 @@ export const metrics: ModelMetric[] = [
     task: 'Network-charge forecast accuracy',
     metric: 'Improvement %',
     value: 23,
+    unit: 'percent',
     benchmark: { name: 'Prior internal approach', value: 0 },
     dataset: 'real',
     state: 'professional',
@@ -253,6 +280,7 @@ export const metrics: ModelMetric[] = [
     task: 'Cardio attendance forecast (out-of-sample)',
     metric: 'MAE',
     value: 11.2,
+    unit: 'count',
     benchmark: { name: 'Pre-tuning MAE', value: 23.8 },
     dataset: 'real',
     state: 'professional',
@@ -265,6 +293,7 @@ export const metrics: ModelMetric[] = [
     task: 'Holistic attendance forecast (out-of-sample)',
     metric: 'MAE',
     value: 13.4,
+    unit: 'count',
     benchmark: { name: 'Pre-tuning MAE', value: 26.5 },
     dataset: 'real',
     state: 'professional',

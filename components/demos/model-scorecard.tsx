@@ -26,10 +26,23 @@ const datasetLabel: Record<ModelMetric['dataset'], string> = {
   open: 'Open',
 };
 
-function formatValue(metric: string, value: number): string {
-  if (metric.includes('%')) return `${value > 0 ? '+' : ''}${value}%`;
-  if (metric === 'MAE') return value.toString();
-  return value.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 5 });
+// Drop insignificant trailing zeros after fixing precision (37.0 -> "37", 6.7 -> "6.7").
+function trim(s: string): string {
+  return parseFloat(s).toString();
+}
+
+// Format by the metric's declared unit, never by sniffing its name. A metric named "Precision @ top 1%"
+// is a percentage because its `unit` says so, not because the name contains "%".
+function formatValue(unit: ModelMetric['unit'], value: number): string {
+  switch (unit) {
+    case 'percent':
+      return `${trim(value.toFixed(1))}%`;
+    case 'count':
+      return trim(value.toFixed(1));
+    case 'ratio':
+    default:
+      return value.toFixed(3); // fixed 3dp so 0.809 and 0.820 line up
+  }
 }
 
 /** The benchmark bar-pair: my value in pink beside the incumbent in cyan, scaled within the card. */
@@ -46,7 +59,7 @@ function BarPair({ m }: { m: ModelMetric }) {
       <div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-dim">This model</span>
-          <span className="font-mono text-pink">{formatValue(m.metric, m.value)}</span>
+          <span className="font-mono text-pink">{formatValue(m.unit, m.value)}</span>
         </div>
         <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-bg-2">
           <div className="h-full rounded-full bg-pink" style={{ width: `${mineW}%` }} />
@@ -55,7 +68,7 @@ function BarPair({ m }: { m: ModelMetric }) {
       <div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-dim">{bench.name}</span>
-          <span className="font-mono text-cyan">{formatValue(m.metric, bench.value)}</span>
+          <span className="font-mono text-cyan">{formatValue(m.unit, bench.value)}</span>
         </div>
         <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-bg-2">
           <div className="h-full rounded-full bg-cyan" style={{ width: `${benchW}%` }} />
@@ -92,7 +105,7 @@ function ScoreCard({ m }: { m: ModelMetric }) {
 
       {/* Headline value */}
       <div className="mt-4 flex items-baseline gap-2">
-        <span className="font-mono text-2xl text-pink">{formatValue(m.metric, m.value)}</span>
+        <span className="font-mono text-2xl text-pink">{formatValue(m.unit, m.value)}</span>
         <span className="text-xs text-dim">{m.metric}</span>
       </div>
 
