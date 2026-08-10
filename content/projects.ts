@@ -98,7 +98,8 @@ export const projects: Project[] = [
     metrics: [
       { label: 'Overall ATE', value: '0.0444', measured: true },
       { label: 'Top decile', value: '0.0754 (~1.7x average)', measured: true },
-      { label: 'Qini-like area', value: '744.8', measured: true },
+      { label: 'Qini-like area', value: '744.8', benchmark: 'vs 502 baseline', measured: true },
+      { label: 'Churn ROC-AUC', value: '0.844', benchmark: 'vs LightGBM 0.812, paired bootstrap', measured: true },
       { label: 'Rank corr.', value: 'Spearman 0.406', measured: true },
     ],
     stack: ['X-learner', 'LightGBM', 'DuckDB', 'Qini / uplift deciles', 'PCA segmentation'],
@@ -171,11 +172,12 @@ export const projects: Project[] = [
     metrics: [
       { label: 'Contextual GLM', value: '0.8131 AUC · Brier 0.06669', benchmark: 'vs logistic 0.7982', measured: true },
       { label: 'Validation', value: '5-fold CV 0.8083', measured: true },
-      { label: 'Testing', value: '560 tests', measured: true },
+      { label: 'Honesty', value: 'Season-level CxA ranks assist-makers weakly: Spearman 0.39 vs CxG 0.69 for goals', measured: true },
+      { label: 'Testing', value: '560 tests · CI with an enforced coverage floor', measured: true },
     ],
-    stack: ['Prefect', 'MLflow', 'PyTorch', '560 tests'],
+    stack: ['Prefect', 'MLflow', 'PyTorch', 'GitHub Actions CI', '560 tests'],
     repo: 'https://github.com/varunrout/contextual-football-metrics',
-    neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'pydantic', 'imbalanced-learn', 'DVC-tracked pipeline', 'CI'],
+    neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'pydantic', 'imbalanced-learn', 'DVC-tracked pipeline', 'cloud/GPU training'],
   },
   {
     slug: 'football-market-intelligence',
@@ -224,15 +226,53 @@ export const projects: Project[] = [
     dataset: 'synthetic',
     summary:
       'A deterministic, keyword-routed multi-tool agent (forecast / visualise / analyse / search) over ' +
-      'synthetic sales data, with a real HistGradientBoosting/RandomForest forecasting tool and a ' +
-      'term-frequency keyword-overlap retriever. An engineering-discipline example.',
+      'synthetic sales data. Retrieval is genuinely semantic (Chroma vector store, MiniLM embeddings, ' +
+      'cosine nearest-neighbour), the forecasting tool is a real gradient-boosting regressor, and there ' +
+      'is no LLM anywhere in it.',
     metrics: [
-      { label: 'Testing', value: '90 tests across 8 files', measured: true },
-      { label: 'CI', value: 'Real GitHub Actions pipeline', measured: true },
+      { label: 'Honesty', value: '80% prediction intervals reach only 72-75% coverage; the repo says they are too narrow', measured: true },
+      { label: 'Retrieval', value: 'Hit-rate@3 8/8 on a judged relevance set', measured: true },
+      { label: 'Tool routing', value: '6/7 exact/set match, run in CI', measured: true },
+      { label: 'Forecasting', value: 'Beats seasonal-naive on all three series', measured: true },
+      { label: 'Testing', value: '90 tests across 8 files, real GitHub Actions CI', measured: true },
     ],
-    stack: ['scikit-learn', 'GitHub Actions', '90 tests'],
+    stack: ['scikit-learn', 'Chroma', 'MiniLM embeddings', 'GitHub Actions', '90 tests'],
     repo: 'https://github.com/varunrout/sales-insight-agent',
-    neverClaim: ['LLM', 'GenAI', 'LangGraph', 'semantic/vector RAG'],
+    provenanceNote:
+      'Synthetic sales data throughout. Retrieval is vector search over embeddings; routing is deterministic ' +
+      'keyword matching. There is no LLM, generative model or agent framework in the repository.',
+    neverClaim: ['LLM', 'GenAI', 'LangChain', 'LangGraph', 'agentic AI'],
+  },
+  {
+    slug: 'retail-analytics',
+    title: 'HealthBeauty360 Retail Analytics',
+    kicker: 'Retail · synthetic demo',
+    role: 'Independent project · synthetic data',
+    state: 'live',
+    featured: false,
+    dataset: 'synthetic',
+    summary:
+      'A synthetic-data retail analytics demo: churn, K-Means RFM segmentation, price elasticity, Ridge ' +
+      'demand forecasting and PSI/KS drift monitoring, served behind FastAPI in Docker. Every figure is a ' +
+      'synthetic-data result.',
+    metrics: [
+      { label: 'Churn ROC-AUC', value: '0.73', benchmark: 'vs recency rule 0.72; majority 0.50', measured: true },
+      { label: 'Price elasticity', value: '5 of 7 categories significant, 95% CIs', measured: true },
+      { label: 'Segmentation', value: 'k=4 by swept silhouette (0.25)', measured: true },
+      { label: 'Demand forecast', value: 'Beats seasonal-naive on ~77% of SKUs', measured: true },
+    ],
+    stack: ['Docker', 'FastAPI', 'Ridge', 'K-Means RFM', 'PSI/KS drift', 'Mann-Kendall', 'GitHub Actions CI'],
+    provenanceNote:
+      'Synthetic data throughout; every figure is a synthetic-data result, not a measured commercial outcome. ' +
+      'The absolute forecast error is deliberately not published: the only defensible framing is the relative ' +
+      'one, that the forecast beats a seasonal-naive baseline on ~77% of SKUs.',
+    neverClaim: [
+      'Isolation Forest or anomaly detection',
+      'Prophet, XGBoost, SHAP or an ensemble',
+      'Great Expectations, a feature store, dbt, BigQuery or Cloud Run',
+      'production-grade',
+      'the absolute forecast error',
+    ],
   },
   {
     slug: 'attendance-forecasting',
