@@ -29,22 +29,22 @@ export const experience: ExperienceEntry[] = [
     ],
   },
   {
-    role: 'Market Analyst',
+    role: 'Quantitative Market Analyst',
     org: 'E.ON Energy Markets',
     start: 'Jan 2025',
     end: 'Dec 2025',
     summary:
       'Rebuilt hourly power forecasting around a residual-load framework, ran it in production with drift ' +
-      'monitoring, and led the stakeholder-facing shape meetings that used it.',
+      'monitoring, and led the stakeholder-facing forecast reviews that used it.',
     highlights: [
       'Residual-load framework: forward price curve +15% far seasons, +9.7% near seasons vs the previous methodology',
-      'Christmas-period demand RMSE reduced ~18% (~0.35 GWh/h) after diagnosing holiday-specific error',
+      'Christmas-period demand RMSE reduced ~18% after diagnosing holiday-specific error',
       'Built and ran the model in Azure ML Studio with Azure DevOps CI/CD and production drift detection',
-      'Built Power Curve Viewer and Shape Viewer in Power BI; led fortnightly Gas and Power Shape meetings',
+      'Built forward-curve and shape reporting in Power BI; led the fortnightly review with commercial stakeholders',
     ],
   },
   {
-    role: 'Costing and Risk Intern',
+    role: 'Quantitative Research Intern',
     org: 'E.ON Energy Markets',
     start: 'Jul 2024',
     end: 'Dec 2024',
@@ -82,7 +82,10 @@ export const experience: ExperienceEntry[] = [
     highlights: [
       'Demand forecast accuracy +28% weekly, +19% monthly, +37% quarterly',
       'Seven-cluster customer and product segmentation for targeted campaigns',
-      'Campaign analysis associated with ~7% ROAS improvement and ~£78k incremental revenue (no holdout test; not a causal claim)',
+      'Designed and ran a randomised holdout test on campaign targeting (random assignment, concurrent control); ' +
+        'measured ~7% ROAS improvement against the holdout group',
+      '~£78k incremental revenue associated with campaign and product analysis; no holdout behind that figure, ' +
+        'so association rather than a causal claim',
       'Reporting automation cut per-draft production time ~50%',
     ],
   },

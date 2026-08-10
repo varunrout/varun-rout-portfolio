@@ -36,7 +36,7 @@ export function PlaygroundTeaser() {
                 <p className="font-medium text-txt">{demo.name}</p>
                 <p className="mt-2 text-sm text-dim">{demo.blurb}</p>
                 <span className="mt-auto pt-4 text-xs text-dim transition-colors group-hover:text-cyan">
-                  Coming soon
+                  Open it →
                 </span>
               </Link>
             </Reveal>

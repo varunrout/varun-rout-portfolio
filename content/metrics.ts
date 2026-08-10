@@ -230,7 +230,7 @@ export const metrics: ModelMetric[] = [
     benchmark: { name: 'Pre-fix', value: 0 },
     dataset: 'real',
     state: 'professional',
-    source: 'MASTER_PROFILE.md (E.ON; ~0.35 GWh/h)',
+    source: 'MASTER_PROFILE.md (E.ON; Christmas-period RMSE reduction)',
   },
   {
     project: 'Network-Charge Forecasting',

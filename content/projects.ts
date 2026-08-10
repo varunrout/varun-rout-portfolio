@@ -37,7 +37,7 @@ export const projects: Project[] = [
     slug: 'residual-load-forecasting',
     title: 'Residual-Load Forecasting & Price Curves',
     kicker: 'Energy markets · production',
-    role: 'Market Analyst · E.ON Energy Markets · 2025',
+    role: 'Quantitative Market Analyst · E.ON Energy Markets · 2025',
     state: 'professional',
     featured: true,
     dataset: 'real',
@@ -46,12 +46,19 @@ export const projects: Project[] = [
       'benchmarked against the previous demand-based methodology and monitored for drift in production.',
     metrics: [
       { label: 'Forward curve', value: '+15% far / +9.7% near', benchmark: 'vs previous methodology', measured: true },
-      { label: 'Residual RMSE', value: '~0.3 to 0.5 GWh/h improvement', measured: true },
-      { label: 'Christmas fix', value: 'RMSE -18% (~0.35 GWh/h)', measured: true },
-      { label: 'Signal', value: '~0.84 residual-demand/price correlation', measured: true },
+      { label: 'Christmas fix', value: 'RMSE -18%', benchmark: 'vs pre-fix', measured: true },
+      { label: 'Signal', value: 'Strong residual-demand/price relationship', measured: true },
     ],
     stack: ['Azure ML Studio', 'Azure DevOps', 'Python', 'Power BI', 'Drift detection', 'Time-series'],
     demo: 'forecast',
+    provenanceNote:
+      'Professional work at E.ON Energy Markets. Methodology and relative improvements only: no E.ON data, ' +
+      'code, models, absolute error figures or commercially sensitive parameters are published here.',
+    neverClaim: [
+      'No absolute forecast error, volume or price figures are disclosed.',
+      'Improvements are relative to an internal baseline that is deliberately not characterised.',
+      'No E.ON code, data or model artefacts are shared; none of this work is reproducible from this site.',
+    ],
   },
   {
     slug: 'opponent-adjusted-metrics',
@@ -113,13 +120,21 @@ export const projects: Project[] = [
     metrics: [
       { label: 'Accuracy', value: '+28% weekly · +19% monthly · +37% quarterly', measured: true },
       { label: 'Segmentation', value: 'Seven clusters for prioritisation', measured: true },
-      { label: 'Campaigns', value: '~7% ROAS; analysis associated with ~£78k incremental revenue', measured: true },
+      { label: 'Campaign test', value: '~7% ROAS', benchmark: 'vs a randomly assigned holdout group', measured: true },
+      { label: 'Associated revenue', value: '~£78k, association only', measured: true },
       { label: 'Reporting', value: 'Automation cut per-draft time ~50%', measured: true },
     ],
-    stack: ['Python', 'Forecasting', 'Clustering', 'Campaign analytics'],
+    stack: ['Python', 'Forecasting', 'Clustering', 'Randomised holdout testing', 'Campaign analytics'],
     demo: 'forecast',
     provenanceNote:
-      'The ~£78k figure is revenue associated with the analysis; no holdout test, so not a causal claim.',
+      'Two separate claims, deliberately kept apart. The ~7% ROAS improvement was measured against a ' +
+      'randomly assigned control group held back while the new segment-based targeting ran concurrently, ' +
+      'so it is a controlled comparison. The ~£78k is not: it is revenue associated with the analysis with ' +
+      'no holdout behind it, and is never a causal claim.',
+    neverClaim: [
+      'The holdout covered the campaign targeting test only. It does not make the ~£78k a causal figure.',
+      'No sample size, split ratio, test duration, statistical power, MDE, p-value or number of variants is published, because none is on file.',
+    ],
   },
   {
     slug: 'frame2threat',

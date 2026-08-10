@@ -16,8 +16,8 @@ const habits = [
   {
     title: 'Test for leakage, then enforce it',
     body:
-      'Defensive Actions Expected archived its own compromised v0-v9 results rather than presenting them, and ' +
-      'now runs an enforced leakage guard checked in CI.',
+      'Defensive Actions Expected (in development) archived its own compromised v0-v9 results rather than ' +
+      'presenting them, and now runs an enforced leakage guard checked in CI.',
   },
   {
     title: 'Calibrate and validate out of sample',
