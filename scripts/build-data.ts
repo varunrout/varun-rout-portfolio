@@ -340,7 +340,10 @@ function buildForecast() {
         { metric: 'Forward curve, near seasons', unit: '%', improvement: 9.7 },
         { metric: 'Christmas-period demand RMSE', unit: '%', improvement: 18 },
       ],
-      note: 'Residual RMSE improved ~0.3 to 0.5 GWh/h; Christmas fix ~0.35 GWh/h. Correlation ~0.84.',
+      note:
+        'Residual-load framework improved forward-curve accuracy on both near and far seasons; the ' +
+        'Christmas-period fix followed a holiday-specific error diagnosis. Relative improvements only, ' +
+        'against an internal baseline.',
     },
     manorPark: {
       label: 'Manor Park multi-horizon demand',
