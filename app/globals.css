@@ -120,11 +120,31 @@ body {
   color: transparent;
 }
 
+/*
+ * Hero entrance. CSS-only so it runs the moment the markup is parsed, with no dependency on
+ * client hydration: the JS-driven scroll reveals used below the fold left the above-the-fold hero
+ * blank for as long as hydration took. A short fade, fully visible well inside a third of a second.
+ */
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-reveal {
+  animation: hero-reveal 0.3s ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Reveal } from '@/components/motion/reveal';
 import { site } from '@/lib/site';
 
 const pills = [
@@ -21,26 +20,26 @@ export function Hero() {
       />
 
       <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-28 sm:px-6 sm:pt-36">
-        <Reveal>
+        <div className="hero-reveal">
           <p className="font-mono text-sm text-cyan">
             {site.role} · {site.location}
           </p>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.05}>
+        <div className="hero-reveal" style={{ animationDelay: '0.05s' }}>
           <h1 className="mt-4 max-w-3xl text-[clamp(2.5rem,6vw,4.25rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-txt">
             Models that <span className="text-gradient">earn their claims</span>.
           </h1>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.1}>
+        <div className="hero-reveal" style={{ animationDelay: '0.1s' }}>
           <p className="mt-6 max-w-xl text-lg text-dim">
             Forecasting, causal ML, and models that earn their claims. Every metric on this site sits next to
             the thing it aims to beat, and the failures are on the page too.
           </p>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.15}>
+        <div className="hero-reveal" style={{ animationDelay: '0.15s' }}>
           <div className="mt-8 flex flex-wrap gap-2">
             {pills.map((pill) => (
               <span
@@ -51,9 +50,9 @@ export function Hero() {
               </span>
             ))}
           </div>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.2}>
+        <div className="hero-reveal" style={{ animationDelay: '0.2s' }}>
           <div className="mt-10 flex flex-wrap gap-3">
             <Button size="lg" nativeButton={false} render={<Link href="#work" />}>
               See the work
@@ -67,7 +66,7 @@ export function Hero() {
               GitHub
             </Button>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );
