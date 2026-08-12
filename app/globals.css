@@ -14,8 +14,10 @@
   --line: #2c2c3a;
   --txt: #f3f3f7;
   --muted-ink: #9c9cad;
-  /* --dim bumped from #6e6e80 to clear WCAG AA 4.5:1 on both --bg and --panel. */
-  --dim: #7e7e90;
+  /* Dim tier for small secondary text (hero description, card subtitles). Bumped to #8a8a9c so it
+     clears WCAG AA 4.5:1 with headroom on every dark surface: 5.8 on --bg, 5.6 on --bg-2, 5.4 on
+     --panel. --muted-ink above already passes at ~7:1. */
+  --dim: #8a8a9c;
   --pink: #ff2e7e;
   --cyan: #28e0c6;
   --violet: #b14bf4;
