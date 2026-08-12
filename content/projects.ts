@@ -150,11 +150,15 @@ export const projects: Project[] = [
       'neural network (SAGEConv) and a SHAP explanation layer. Executed notebooks and 49 committed figures.',
     metrics: [
       { label: 'Ensemble', value: '0.965 AUC (n=2,475)', measured: true },
+      { label: 'Validation', value: 'Match-level split, so no possession spans train and test', measured: true },
       { label: 'Components', value: 'PossessionGRU 0.9524 · XGBoost 0.9505', measured: true },
       { label: 'Pass-level', value: '0.882 AUC (n=7,344)', measured: true },
       { label: 'Honesty', value: '360 context adds only +0.001 AUC', measured: true },
     ],
     stack: ['XGBoost', 'PyTorch GNN', 'GRU', 'SHAP', 'StatsBomb'],
+    neverClaim: [
+      'Not a production tracking-data model: StatsBomb open data with partial 360 coverage.',
+    ],
   },
 
   // ---------- FURTHER PROJECTS ----------
