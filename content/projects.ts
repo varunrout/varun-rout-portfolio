@@ -96,7 +96,7 @@ export const projects: Project[] = [
       'A genuine two-stage X-learner for campaign uplift with control-arm up-weighting and per-campaign ' +
       'propensity blending. Committed outputs, unlike most of the portfolio.',
     metrics: [
-      { label: 'Overall ATE', value: '0.0444', measured: true },
+      { label: 'Overall ATE', value: '0.0444 mean response-rate uplift', measured: true },
       { label: 'Top decile', value: '0.0754 (~1.7x average)', measured: true },
       { label: 'Qini-like area', value: '744.8', benchmark: 'vs 502 baseline', measured: true },
       { label: 'Churn ROC-AUC', value: '0.844', benchmark: 'vs LightGBM 0.812, paired bootstrap', measured: true },

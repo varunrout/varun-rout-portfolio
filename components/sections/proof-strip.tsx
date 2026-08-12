@@ -5,7 +5,7 @@ const stats = [
   {
     value: 0.809,
     decimals: 3,
-    caption: 'CxG diagnostic AUC, vs StatsBomb’s own xG at 0.820',
+    caption: 'CxG diagnostic, within ~0.01 AUC of StatsBomb’s own xG (0.820): a parity check, not a contest',
   },
   {
     value: 2.14,
