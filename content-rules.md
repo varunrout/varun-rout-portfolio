@@ -62,6 +62,18 @@ metric, or demo. A false claim reaching the site is the failure this file exists
    - `defensive-actions-expected`: in development. NO model metric may be quoted. The integrity story (archived
      compromised results, enforced leakage guard, CI leakage smoke test) is the asset.
    - `between-lines-availability`: architecture only, never results. Nothing has been run.
+   - `climate-transition-risk-platform`: NEVER claim a completed Power BI/PBIX native report (it was superseded
+     by the React/TypeScript dashboard, never opened in Power BI Desktop). NEVER claim real-time, streaming or
+     low-latency serving (the API serves a pre-computed batch bundle; the pipeline is a weekly scheduled job).
+     NEVER claim regime-aware or recency-weighted forecasting in production (M7 was evaluated and explicitly
+     not promoted). NEVER claim external or paying customers. NEVER claim unqualified "production-grade" beyond
+     what the reproducibility programme specifically supports.
+   - `player-availability-analysis`: NEVER say "production" (access is a shared review credential, not
+     production authentication). NEVER claim real-time or online serving (inference is batch; serving is
+     deferred to V2). NEVER cite the single-use confirmatory final-test ROC-AUC (0.827) as a performance
+     figure anywhere — CV, case study, interview or demo — it rests on five onsets and has almost no
+     inferential power. NEVER use clinical, diagnostic, clearance or causal framing: this is decision support
+     only. NEVER publish the review credential on a CV, in a repository or in any public document.
 6. **Demos must not render invented data.** If a real export is unavailable, ship a labelled documented sample
    or a "coming soon" state. Never fabricate coordinates, predictions, or series.
 7. **Never overclaim authorship.** Do not assert solo end-to-end authorship, hand-written implementation, or
@@ -69,5 +81,12 @@ metric, or demo. A false claim reaching the site is the failure this file exists
    tooling is not disclosed either way. Results and analysis must always be genuinely yours and defensible.
 8. **Style:** British English. No em dashes. Never claim a model or document is error-free; report what was
    checked and what is uncertain.
-9. **Only the four clean repos may be linked:** `opponent-adjusted-metrics`, `retail-intelligence`,
-   `contextual-football-metrics`, `sales-insight-agent`. Others are described without a clickable link.
+9. **Only six clean repos may be linked:** `opponent-adjusted-metrics`, `retail-intelligence`,
+   `contextual-football-metrics`, `sales-insight-agent`, `climate-transition-risk-platform`,
+   `player-availability-analysis`. Others are described without a clickable link.
+
+   > UPDATED 2026-08-26 on Varun's ruling. The last two were added: both are public, CI-green, independently
+   > re-audited and deployed (Azure Container Apps + GitHub Pages for climate-transition-risk-platform; two
+   > Cloud Run services for player-availability-analysis), meeting the same bar as the original four. Their
+   > NEVER-claim lists above are non-negotiable precisely because linking them makes the repo one click away
+   > from a reviewer.

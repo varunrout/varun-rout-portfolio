@@ -1,0 +1,207 @@
+{
+  "provenance": "contextual-football-metrics, committed reports (incremental_lift_cx{g,a,t}.json, external_validity.json). Open StatsBomb data. Each candidate is compared with the baseline it must beat over identical held-out rows, with a paired bootstrap. Verdict strings are quoted verbatim from the repo.",
+  "lowerIsBetter": [
+    "log_loss",
+    "brier",
+    "ece",
+    "mae",
+    "rmse"
+  ],
+  "metrics": [
+    {
+      "key": "cxg",
+      "label": "CxG",
+      "name": "Contextual expected goals",
+      "headlineMetric": "roc_auc",
+      "evaluation": "identical Euro 2024 held-out rows; single ECE definition; paired bootstrap",
+      "note": "",
+      "nBootstrap": 2000,
+      "sample": {
+        "shots": 1340,
+        "goals": 126,
+        "actions": null,
+        "created": null
+      },
+      "candidate": "glm_contextual",
+      "strictBaseline": "statsbomb_xg",
+      "perModel": {
+        "statsbomb_xg": {
+          "log_loss": 0.233287902319627,
+          "brier": 0.06453235428534512,
+          "roc_auc": 0.8295252477707175,
+          "ece": 0.012581240731716417,
+          "mean_pred": 0.10418258917350746
+        },
+        "baseline_logit": {
+          "log_loss": 0.25048850318605675,
+          "brier": 0.06939731193054073,
+          "roc_auc": 0.7985408331372088,
+          "ece": 0.02097083144069469,
+          "mean_pred": 0.10695507966240947
+        },
+        "glm_contextual": {
+          "log_loss": 0.2413127201219123,
+          "brier": 0.06668785011217353,
+          "roc_auc": 0.8130802018775659,
+          "ece": 0.017073144829566442,
+          "mean_pred": 0.10492903650818344
+        }
+      },
+      "deltas": [
+        {
+          "baseline": "statsbomb_xg",
+          "metric": "log_loss",
+          "delta_mean": 0.00795998818995356,
+          "ci_low": -0.003891803215149939,
+          "ci_high": 0.019710064191194025,
+          "excludesZero": false
+        },
+        {
+          "baseline": "statsbomb_xg",
+          "metric": "roc_auc",
+          "delta_mean": -0.016431772639766997,
+          "ci_low": -0.04308875066294512,
+          "ci_high": 0.009360335587517499,
+          "excludesZero": false
+        },
+        {
+          "baseline": "baseline_logit",
+          "metric": "log_loss",
+          "delta_mean": -0.009324114613460506,
+          "ci_low": -0.017190284922771897,
+          "ci_high": -0.0017798369651980373,
+          "excludesZero": true
+        },
+        {
+          "baseline": "baseline_logit",
+          "metric": "roc_auc",
+          "delta_mean": 0.014932851129068307,
+          "ci_low": -0.0030135376582200194,
+          "ci_high": 0.0328901112761824,
+          "excludesZero": false
+        }
+      ],
+      "verdict": "NO DEMONSTRABLE LIFT over statsbomb_xg: neither log-loss nor AUC improvement has a CI excluding zero. Honest conclusion - contextual context does not yet beat off-the-shelf xG.",
+      "beatsStrictBaseline": false
+    },
+    {
+      "key": "cxa",
+      "label": "CxA",
+      "name": "Contextual expected assists",
+      "headlineMetric": "roc_auc",
+      "evaluation": "identical Euro 2024 held-out actions; one ECE; paired bootstrap",
+      "note": "No external xA benchmark exists; the meaningful test is contextual vs traditional, not vs an off-the-shelf model.",
+      "nBootstrap": 2000,
+      "sample": {
+        "shots": null,
+        "goals": null,
+        "actions": 98029,
+        "created": 19220
+      },
+      "candidate": "contextual",
+      "strictBaseline": "naive_prevalence",
+      "perModel": {
+        "naive_prevalence": {
+          "log_loss": 0.49489792201418875,
+          "brier": 0.15762316923625322,
+          "roc_auc": 0.5,
+          "pr_auc": 0.196064429913597,
+          "ece": 0
+        },
+        "contextual": {
+          "log_loss": 0.4879949308590088,
+          "brier": 0.15097723186959522,
+          "roc_auc": 0.7294862403205663,
+          "pr_auc": 0.35759048686040207,
+          "ece": 0.08122436607929069
+        }
+      },
+      "deltas": [
+        {
+          "baseline": "naive_prevalence",
+          "metric": "log_loss",
+          "delta_mean": -0.006901808924059647,
+          "ci_low": -0.010297348502747907,
+          "ci_high": -0.003570516659775201,
+          "excludesZero": true
+        },
+        {
+          "baseline": "naive_prevalence",
+          "metric": "roc_auc",
+          "delta_mean": 0.22945677673946363,
+          "ci_low": 0.22562644042225669,
+          "ci_high": 0.23321921314105049,
+          "excludesZero": true
+        }
+      ],
+      "verdict": "CONTEXTUAL ADDS VALUE over naive_prevalence: lower log-loss and higher AUC, both CIs exclude zero.",
+      "beatsStrictBaseline": true
+    },
+    {
+      "key": "cxt",
+      "label": "CxT",
+      "name": "Contextual state value (threat)",
+      "headlineMetric": "mae",
+      "evaluation": "identical Euro 2024 held-out actions; regression; paired bootstrap",
+      "note": "Baseline is the project's own static ZoneXT surface, the honest thing a contextual state-value model must beat.",
+      "nBootstrap": 2000,
+      "sample": {
+        "shots": null,
+        "goals": null,
+        "actions": 98029,
+        "created": null
+      },
+      "candidate": "contextual",
+      "strictBaseline": "zone_baseline",
+      "perModel": {
+        "contextual": {
+          "mae": 0.03038332655071141,
+          "rmse": 0.06967946836033195,
+          "spearman": 0.30300025141938697
+        },
+        "zone_baseline": {
+          "mae": 0.032399518377215976,
+          "rmse": 0.07132718877589823,
+          "spearman": 0.18016365010220356
+        }
+      },
+      "deltas": [
+        {
+          "baseline": "zone_baseline",
+          "metric": "mae",
+          "delta_mean": -0.0020149406370939724,
+          "ci_low": -0.002173604758792535,
+          "ci_high": -0.0018607225596007572,
+          "excludesZero": true
+        },
+        {
+          "baseline": "zone_baseline",
+          "metric": "rmse",
+          "delta_mean": -0.0016455740633879374,
+          "ci_low": -0.0020299419597404216,
+          "ci_high": -0.0012656375369465766,
+          "excludesZero": true
+        }
+      ],
+      "verdict": "CONTEXTUAL ADDS VALUE over zone_baseline: lower MAE, CI excludes zero.",
+      "beatsStrictBaseline": true
+    }
+  ],
+  "externalValidity": {
+    "evaluation": "player-level, pooled over all ingested matches; metrics scored by the production model, goals/assists from raw events",
+    "cxgVsGoals": {
+      "spearman": 0.6887189452993285,
+      "pearson": 0.9251110817591128,
+      "n_players": 300,
+      "min_shots": 5,
+      "decision": "CxG ranks players by goals reliably (Spearman 0.69): usable to shortlist goals on expected rather than realised output."
+    },
+    "cxaVsAssists": {
+      "spearman": 0.3883032807445743,
+      "pearson": 0.6546276398114687,
+      "n_players": 1113,
+      "min_actions": 50,
+      "decision": "CxA does not rank assists well (Spearman 0.39): treat as weak external validity; do not scout on it alone."
+    }
+  }
+}

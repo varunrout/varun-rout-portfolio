@@ -6,8 +6,11 @@ import { Reveal } from '@/components/motion/reveal';
 import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { UpliftExplorer } from '@/components/demos/uplift-explorer';
+import { ContextualLift } from '@/components/demos/contextual-lift';
 import { ShotMapExplorer } from '@/components/demos/shot-map-explorer';
 import { CxaExplorer } from '@/components/demos/cxa-explorer';
+import { ClimateExplorer } from '@/components/demos/climate-explorer';
+import { AvailabilityExplorer } from '@/components/demos/availability-explorer';
 import { getShots } from '@/lib/shots';
 import { getCaseStudy } from '@/lib/case-studies';
 import { projects, getProject } from '@/content/projects';
@@ -178,6 +181,27 @@ export default async function ProjectPage({
         </Reveal>
       )}
 
+      {project.demo === 'contextual' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Does the context earn its place?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Each metric against the baseline it has to beat, over identical held-out rows with a paired
+              bootstrap. One of the three does not beat its benchmark, and the verdict says so in the
+              repo&rsquo;s own words.
+            </p>
+            <div className="mt-6">
+              <ContextualLift />
+            </div>
+            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
+              <span className="text-cyan">Data provenance.</span> Committed reports from
+              contextual-football-metrics (incremental_lift_cx&#123;g,a,t&#125;.json, external_validity.json),
+              generated into data/contextual-lift.json. Open StatsBomb data.
+            </p>
+          </section>
+        </Reveal>
+      )}
+
       {project.demo === 'scorecard' && (
         <Reveal delay={0.05}>
           <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
@@ -207,6 +231,7 @@ export default async function ProjectPage({
           </section>
         </Reveal>
       )}
+
       {project.slug === 'opponent-adjusted-metrics' && (
         <Reveal delay={0.05}>
           <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
@@ -227,6 +252,47 @@ export default async function ProjectPage({
           </section>
         </Reveal>
       )}
+
+      {project.demo === 'climate' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Does it earn the deployment?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              A rolling-origin backtest reproduction, the coverage shortfall published rather than tuned away,
+              and the pre-registered gate an energy feature had to clear before it reached production.
+            </p>
+            <div className="mt-6">
+              <ClimateExplorer />
+            </div>
+            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
+              <span className="text-cyan">Data provenance.</span> Committed backtest and gate outputs from
+              climate-transition-risk-platform, generated into data/climate.json. Public data (Our World in
+              Data, World Bank). Real Azure production deployment, independently verified.
+            </p>
+          </section>
+        </Reveal>
+      )}
+
+      {project.demo === 'availability' && (
+        <Reveal delay={0.05}>
+          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
+            <h2 className="font-mono text-sm text-cyan">Rigour first, performance nowhere near the headline</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              The baselines the champion has to beat, the two disclosed alert-budget operating points, and the
+              three pre-registered audits that overturned favourable-looking results along the way.
+            </p>
+            <div className="mt-6">
+              <AvailabilityExplorer />
+            </div>
+            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
+              <span className="text-cyan">Data provenance.</span> Pooled rolling-origin development evidence and
+              disclosed baselines from player-availability-analysis, generated into data/availability.json.
+              Public SoccerMon subjective-monitoring data. Decision support only; no causal or clinical claim.
+            </p>
+          </section>
+        </Reveal>
+      )}
+
       {caseStudy && (
         <Reveal delay={0.05}>
           <article className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">

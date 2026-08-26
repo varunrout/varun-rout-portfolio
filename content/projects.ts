@@ -12,7 +12,7 @@ export type Metric = {
 
 export type ProjectState = 'live' | 'professional' | 'in-development';
 export type Dataset = 'real' | 'synthetic' | 'open' | 'mixed';
-export type DemoKey = 'shotmap' | 'uplift' | 'forecast' | 'scorecard';
+export type DemoKey = 'shotmap' | 'uplift' | 'forecast' | 'scorecard' | 'contextual' | 'climate' | 'availability';
 
 export type Project = {
   slug: string;
@@ -25,7 +25,7 @@ export type Project = {
   summary: string; // 2 lines
   metrics: Metric[];
   stack: string[];
-  repo?: string; // ONLY the four clean repos (see content-rules.md rule 9)
+  repo?: string; // ONLY the six clean repos (see content-rules.md rule 9)
   demo?: DemoKey;
   provenanceNote?: string;
   neverClaim?: string[]; // machine-readable mirror of content-rules.md rule 5
@@ -72,16 +72,21 @@ export const projects: Project[] = [
       'Contextual expected goals (CxG) and assists (CxA) over 2,143,146 raw StatsBomb events, benchmarked ' +
       "directly against StatsBomb's own xG on the same shots rather than self-reported in isolation.",
     metrics: [
-      { label: 'CxG model', value: '0.80920 AUC', benchmark: 'vs StatsBomb xG 0.81957', measured: true },
+      { label: 'CxG model (FastAPI era)', value: '0.80920 AUC', benchmark: 'vs StatsBomb xG 0.81957', measured: true },
       { label: 'CxG calibration', value: 'Brier 0.07325 · log loss 0.26110', measured: true },
       { label: 'CxA baseline', value: '0.85814 AUC · Brier 0.04046', benchmark: 'over 1,091,388 rows', measured: true },
+      { label: 'CxG event-wide v3 (GCP era)', value: '0.7148 AUC', benchmark: 'vs StatsBomb xG 0.7972', measured: true },
+      { label: 'CxG+ v3 (GCP era)', value: '0.8313 AUC · log loss 0.2555', benchmark: 'vs StatsBomb xG 0.8476', measured: true },
       { label: 'Testing', value: '332 tests across 46 files', measured: true },
     ],
-    stack: ['scikit-learn', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'CI: lint+type+test'],
+    stack: ['scikit-learn', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'GCP: GCS + BigQuery', 'Terraform', 'CI: lint+type+test'],
     repo: 'https://github.com/varunrout/opponent-adjusted-metrics',
     demo: 'shotmap',
     provenanceNote:
-      'Computed outputs are gitignored; the numbers above live in committed docs, not rendered dashboards.',
+      'Computed outputs are gitignored; the FastAPI-era numbers above live in committed docs, not rendered ' +
+      'dashboards. The GCP-era v3 figures are independently BigQuery-verified (queried directly, not taken ' +
+      'from project docs) from the 2026-08 productionisation phase onto Cloud Storage + BigQuery, and both ' +
+      'eras are shown together rather than one replacing the other.',
     neverClaim: ['LightGBM as headline tech', 'gradient boosting as headline tech', 'plotly'],
   },
   {
@@ -181,6 +186,7 @@ export const projects: Project[] = [
     ],
     stack: ['Prefect', 'MLflow', 'PyTorch', 'GitHub Actions CI', '560 tests'],
     repo: 'https://github.com/varunrout/contextual-football-metrics',
+    demo: 'contextual',
     neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'pydantic', 'imbalanced-learn', 'DVC-tracked pipeline', 'cloud/GPU training'],
   },
   {
@@ -246,6 +252,74 @@ export const projects: Project[] = [
       'Synthetic sales data throughout. Retrieval is vector search over embeddings; routing is deterministic ' +
       'keyword matching. There is no LLM, generative model or agent framework in the repository.',
     neverClaim: ['LLM', 'GenAI', 'LangChain', 'LangGraph', 'agentic AI'],
+  },
+  {
+    slug: 'climate-transition-risk-platform',
+    title: 'Climate Transition Risk Intelligence Platform',
+    kicker: 'Energy & climate · live repo',
+    role: 'Independent research · real Azure production deployment',
+    state: 'live',
+    featured: false,
+    dataset: 'real',
+    summary:
+      'Country-level decarbonisation and transition-risk analytics on public data (Our World in Data, ' +
+      'World Bank), with a real Azure production deployment and a published, honestly-undershot coverage finding.',
+    metrics: [
+      { label: 'Backtest reproduction', value: '0.0262 MAE', benchmark: 'vs documented scratch finding 0.0263', measured: true },
+      { label: 'Interval coverage (honesty finding)', value: '76.3% measured', benchmark: 'vs 90% target, 114 splits', measured: true },
+      { label: 'Energy-feature gate', value: 'p ≤ 0.10, robust at ±10/20/30% weight perturbation', measured: true },
+      { label: 'Reproducibility (v1.0.0)', value: '287 Python tests + 31 frontend tests, independently re-run clean-checkout', measured: true },
+      { label: 'Azure footprint', value: '8 resources, independently confirmed via Azure MCP', measured: true },
+    ],
+    stack: ['Python', 'Terraform', 'Azure Container Apps', 'ADLS Gen2', 'GitHub Actions CI', 'React/TypeScript', 'FastAPI'],
+    repo: 'https://github.com/varunrout/climate-transition-risk-platform',
+    demo: 'climate',
+    provenanceNote:
+      'Solo-authored, public, CI-green. A real Azure production deployment (Terraform-managed, least-privilege ' +
+      'managed identities, weekly schedule) runs the full pipeline end to end against live storage. The 76.3% ' +
+      'interval-coverage figure is reported as an open undercoverage finding, not tuned away, in the same style ' +
+      'as the negative results elsewhere in this portfolio.',
+    neverClaim: [
+      'a completed Power BI/PBIX native report (superseded by the live React/TypeScript dashboard)',
+      'real-time, streaming or low-latency serving',
+      'regime-aware or recency-weighted forecasting in production (evaluated, explicitly not promoted)',
+      'external or paying customers',
+      'unqualified "production-grade"',
+    ],
+  },
+  {
+    slug: 'player-availability-analysis',
+    title: 'Player Availability Analysis',
+    kicker: 'Football · methodology, not performance',
+    role: 'Independent research · deployed two-service product',
+    state: 'live',
+    featured: false,
+    dataset: 'real',
+    summary:
+      'Per-player-per-day availability-risk decision support from public subjective athlete-monitoring data. ' +
+      'Its headline is process rigour and honest negative results: three pre-registered audits overturned ' +
+      'favourable-looking results, including its own promoted champion.',
+    metrics: [
+      { label: 'Champion (pooled rolling-origin)', value: '0.836 ROC-AUC · AP 0.097 · Brier 0.0063', benchmark: 'vs prevalence-null 0.500', measured: true },
+      { label: 'Alert budget, 2.5% review rate', value: '11 of 18 onsets (recall 0.61)', benchmark: '34.8 false alerts per captured onset', measured: true },
+      { label: 'Alert budget, 5% review rate', value: '13 of 18 onsets (recall 0.72)', benchmark: '60.4 false alerts per captured onset', measured: true },
+      { label: 'Testing', value: '175 tests, GitHub Actions CI on every push', measured: true },
+    ],
+    stack: ['Python', 'GCP: BigQuery + Cloud Storage', 'FastAPI', 'Next.js', 'Cloud Run', 'GitHub Actions CI'],
+    repo: 'https://github.com/varunrout/player-availability-analysis',
+    demo: 'availability',
+    provenanceNote:
+      'Decision support only: not a diagnostic or clearance tool, no causal claims. Deployed as two Cloud Run ' +
+      'services behind a shared review credential (never a production authentication claim). The single-use ' +
+      'confirmatory final-test ROC-AUC (0.827) rests on five onsets and is barred from ever being cited as a ' +
+      'performance figure, by the project’s own governance.',
+    neverClaim: [
+      '"production" (shared review credential, not production authentication)',
+      'real-time or online serving (batch inference; deferred to V2)',
+      'the final-test ROC-AUC (0.827) as a performance figure, anywhere',
+      'clinical, diagnostic, clearance or causal framing',
+      'the review credential itself, in any public document',
+    ],
   },
   {
     slug: 'retail-analytics',

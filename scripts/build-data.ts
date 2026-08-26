@@ -175,6 +175,154 @@ function buildUplift() {
 }
 
 /* ------------------------------------------------------------------ */
+/* 1b. CONTEXTUAL LIFT  (contextual-football-metrics, REAL committed)  */
+/* ------------------------------------------------------------------ */
+/**
+ * Does contextual modelling actually earn its place? Each metric is scored against the honest
+ * baseline it must beat, with a 2,000-sample paired bootstrap. Verdict strings are committed in
+ * the repo and are copied verbatim: one of them is a negative result and that is the point.
+ *
+ * Sources (all git-tracked in contextual-football-metrics/reports):
+ *   incremental_lift_cxg.json | incremental_lift_cxa.json | incremental_lift_cxt.json
+ *   external_validity.json
+ */
+const CFM_REPORT_CANDIDATES = [
+  'Football/contextual-football-metrics/reports',
+  'contextual-football-metrics/reports',
+];
+
+// Metric direction. Anything not listed here is treated as higher-is-better.
+const LOWER_IS_BETTER = new Set(['log_loss', 'brier', 'ece', 'mae', 'rmse']);
+
+type DeltaRow = {
+  baseline: string;
+  metric: string;
+  delta_mean: number;
+  ci_low: number;
+  ci_high: number;
+  excludesZero: boolean;
+};
+
+function resolveCfmDir(): string {
+  for (const rel of CFM_REPORT_CANDIDATES) {
+    const dir = join(REPO_ROOT ?? '', rel);
+    if (existsSync(join(dir, 'incremental_lift_cxg.json'))) return dir;
+  }
+  fail(
+    'contextual-football-metrics reports not found. Looked under: ' +
+      CFM_REPORT_CANDIDATES.map((r) => join(REPO_ROOT ?? '', r)).join(' | '),
+  );
+}
+
+function readJson(path: string): Record<string, unknown> {
+  if (!existsSync(path)) fail(`required report missing: ${path}`);
+  return JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>;
+}
+
+/** Normalises the two different delta shapes in the repo into one flat list. */
+function normaliseDeltas(raw: Record<string, unknown>, path: string): DeltaRow[] {
+  const rows: DeltaRow[] = [];
+  const push = (baseline: string, metric: string, d: Record<string, number>) => {
+    for (const k of ['delta_mean', 'ci_low', 'ci_high'] as const) {
+      if (typeof d[k] !== 'number') fail(`delta "${baseline}.${metric}" missing "${k}" in ${path}`);
+    }
+    rows.push({
+      baseline,
+      metric,
+      delta_mean: d.delta_mean,
+      ci_low: d.ci_low,
+      ci_high: d.ci_high,
+      // A CI that does not straddle zero is the only thing that licenses a claim.
+      excludesZero: (d.ci_low > 0 && d.ci_high > 0) || (d.ci_low < 0 && d.ci_high < 0),
+    });
+  };
+
+  // Shape A (cxg): deltas_vs_baselines keyed by baseline, then by metric.
+  const multi = raw.deltas_vs_baselines as Record<string, Record<string, Record<string, number>>> | undefined;
+  if (multi) {
+    for (const [baseline, byMetric] of Object.entries(multi)) {
+      for (const [metric, d] of Object.entries(byMetric)) push(baseline, metric, d);
+    }
+    return rows;
+  }
+  // Shape B (cxa, cxt): delta_vs_baseline keyed by metric, with a single `baseline` field.
+  const single = raw.delta_vs_baseline as Record<string, Record<string, number>> | undefined;
+  if (single) {
+    const baseline = String(raw.baseline ?? 'baseline');
+    for (const [metric, d] of Object.entries(single)) push(baseline, metric, d);
+    return rows;
+  }
+  return fail(`no delta block (deltas_vs_baselines | delta_vs_baseline) found in ${path}`);
+}
+
+function buildContextualLift() {
+  if (!REPO_ROOT) fail('REPO_ROOT is not set. Add it to .env.local (see header).');
+  const dir = resolveCfmDir();
+
+  const specs = [
+    { key: 'cxg', file: 'incremental_lift_cxg.json', label: 'CxG', name: 'Contextual expected goals', headline: 'roc_auc' },
+    { key: 'cxa', file: 'incremental_lift_cxa.json', label: 'CxA', name: 'Contextual expected assists', headline: 'roc_auc' },
+    { key: 'cxt', file: 'incremental_lift_cxt.json', label: 'CxT', name: 'Contextual state value (threat)', headline: 'mae' },
+  ] as const;
+
+  const metrics = specs.map((spec) => {
+    const path = join(dir, spec.file);
+    const raw = readJson(path);
+    const perModel = raw.per_model as Record<string, Record<string, number>> | undefined;
+    if (!perModel || !Object.keys(perModel).length) fail(`per_model missing or empty in ${path}`);
+    if (typeof raw.verdict !== 'string') fail(`verdict string missing in ${path}`);
+    if (typeof raw.candidate !== 'string') fail(`candidate missing in ${path}`);
+
+    const deltas = normaliseDeltas(raw, path);
+    // The baseline the model is strictly held to (cxg names it explicitly).
+    const strictBaseline = String(raw.strict_baseline ?? raw.baseline ?? deltas[0]?.baseline ?? '');
+
+    return {
+      key: spec.key,
+      label: spec.label,
+      name: spec.name,
+      headlineMetric: spec.headline,
+      evaluation: String(raw.evaluation ?? ''),
+      note: typeof raw.note === 'string' ? raw.note : typeof raw.baseline_note === 'string' ? raw.baseline_note : '',
+      nBootstrap: typeof raw.n_bootstrap === 'number' ? raw.n_bootstrap : null,
+      sample: {
+        shots: typeof raw.n_shots === 'number' ? raw.n_shots : null,
+        goals: typeof raw.n_goals === 'number' ? raw.n_goals : null,
+        actions: typeof raw.n_actions === 'number' ? raw.n_actions : null,
+        created: typeof raw.n_created === 'number' ? raw.n_created : null,
+      },
+      candidate: String(raw.candidate),
+      strictBaseline,
+      perModel,
+      deltas,
+      // Copied verbatim from the committed report. Never paraphrased.
+      verdict: raw.verdict as string,
+      // True only when the strict baseline is beaten with a CI excluding zero.
+      beatsStrictBaseline: deltas.some((d) => d.baseline === strictBaseline && d.excludesZero),
+    };
+  });
+
+  const ev = readJson(join(dir, 'external_validity.json'));
+  for (const k of ['cxg_vs_goals', 'cxa_vs_assists']) {
+    if (!ev[k]) fail(`external_validity.json is missing "${k}"`);
+  }
+
+  write('contextual-lift.json', {
+    provenance:
+      'contextual-football-metrics, committed reports (incremental_lift_cx{g,a,t}.json, external_validity.json). ' +
+      'Open StatsBomb data. Each candidate is compared with the baseline it must beat over identical held-out ' +
+      'rows, with a paired bootstrap. Verdict strings are quoted verbatim from the repo.',
+    lowerIsBetter: [...LOWER_IS_BETTER],
+    metrics,
+    externalValidity: {
+      evaluation: String(ev.evaluation ?? ''),
+      cxgVsGoals: ev.cxg_vs_goals,
+      cxaVsAssists: ev.cxa_vs_assists,
+    },
+  });
+}
+
+/* ------------------------------------------------------------------ */
 /* 1c. CxA  (opponent-adjusted-metrics, portfolio export)              */
 /* ------------------------------------------------------------------ */
 /**
@@ -426,6 +574,7 @@ function main() {
   buildForecast(); // always safe
   buildUplift(); // fails loudly if the committed CSV is absent
   buildCxa(); // fails loudly if the CxA portfolio export is absent
+  buildContextualLift(); // fails loudly if the committed reports are absent
   buildShots(); // graceful "coming soon" if no export
   ok('done. Commit the generated data/*.json so Vercel builds without the repos.');
 }

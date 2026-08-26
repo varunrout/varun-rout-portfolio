@@ -1,20 +1,78 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Reveal } from '@/components/motion/reveal';
 import { DemoFrame } from '@/components/demos/demo-frame';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
-import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
-import { UpliftExplorer } from '@/components/demos/uplift-explorer';
-import { ShotMapExplorer } from '@/components/demos/shot-map-explorer';
-import { getShots } from '@/lib/shots';
+import { projects, type DemoKey } from '@/content/projects';
 
 export const metadata: Metadata = {
   title: 'Playground',
-  description: 'Interactive demos: an xG shot-map explorer, a model scorecard, a forecast error visualiser, and an uplift decile explorer.',
+  description:
+    'Interactive demos: an xG shot-map explorer, a contextual lift and validity explorer, an uplift decile explorer, a forecast error visualiser, and a model scorecard.',
   alternates: { canonical: '/playground' },
 };
 
-export default async function PlaygroundPage() {
-  const shots = await getShots();
+/**
+ * Project-specific demos live on their project pages, where the write-up gives them context.
+ * This page indexes them and hosts the one demo with no single home: the cross-project scorecard.
+ * Order is deliberate: the three that best carry the "earn their claims" promise come first.
+ */
+const index: { demo: DemoKey; title: string; blurb: string; why: string }[] = [
+  {
+    demo: 'shotmap',
+    title: 'xG shot-map explorer',
+    blurb:
+      'Real shots on an attacking-half pitch. Toggle between my CxG and StatsBomb’s own xG, or a diff mode so over- and under-valued shots pop. Filter by team, match or pressure and the panel recomputes mean value and Brier calibration live.',
+    why: '440 real shots, benchmarked against the incumbent',
+  },
+  {
+    demo: 'contextual',
+    title: 'Contextual lift and validity',
+    blurb:
+      'CxG, CxA and CxT each set against the baseline they have to beat, over identical held-out rows with a 2,000-sample paired bootstrap. Confidence intervals decide what may be claimed, and one of the three does not clear its benchmark.',
+    why: 'Includes a committed negative result on the flagship metric',
+  },
+  {
+    demo: 'uplift',
+    title: 'Uplift decile explorer',
+    blurb:
+      'The Qini curve and per-decile uplift from the retail X-learner. Slide to target the top K% of customers and watch the captured incremental response recompute against random targeting.',
+    why: 'Causal ML, rare in a junior portfolio',
+  },
+  {
+    demo: 'forecast',
+    title: 'Forecast error visualiser',
+    blurb:
+      'Before and after accuracy across three roles. E.ON and Manor Park are professional results; UoB is the MSc capstone. Aggregate deltas only, with no invented time series.',
+    why: 'Measured deltas, honestly bounded',
+  },
+  {
+    demo: 'climate',
+    title: 'Climate backtest & gate explorer',
+    blurb:
+      'A rolling-origin backtest reproduction, the published 76.3%-vs-90% coverage shortfall, and the ' +
+      'pre-registered statistical gate an energy feature had to clear before it reached production.',
+    why: 'A real Azure deployment that publishes its own coverage miss',
+  },
+  {
+    demo: 'availability',
+    title: 'Alert-budget & honesty explorer',
+    blurb:
+      'The two disclosed alert-budget operating points, the baselines a champion model has to beat, and the ' +
+      'three pre-registered audits that overturned favourable-looking results along the way.',
+    why: 'Leads on rigour, never on a performance number',
+  },
+];
+
+function hrefFor(demo: DemoKey): string | null {
+  const project = projects.find((p) => p.demo === demo);
+  return project ? `/work/${project.slug}` : null;
+}
+
+export default function PlaygroundPage() {
+  const cards = index
+    .map((item) => ({ ...item, href: hrefFor(item.demo) }))
+    .filter((item): item is typeof item & { href: string } => item.href !== null);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
@@ -24,22 +82,30 @@ export default async function PlaygroundPage() {
           Demos a reviewer can poke at.
         </h1>
         <p className="mt-4 max-w-xl text-dim">
-          These read from committed project outputs and a Supabase-backed sample of real shots. No demo renders
-          an invented number: every value traces to a committed result or a real model output.
+          These read from committed project outputs and a Supabase-backed sample of real shots. No demo here
+          renders an invented number: every value traces to a committed result or a real model output. Each
+          one sits on its project page, next to the write-up that explains it.
         </p>
       </Reveal>
 
-      <div className="mt-12 space-y-8">
-        <Reveal>
-          <DemoFrame
-            title="xG shot-map explorer"
-            intro="Real shots on an attacking-half pitch, coloured by value. Toggle between my CxG and StatsBomb's own xG, or a diff mode so over- and under-valued shots pop. Filter by team, match or pressure; the panel recomputes mean value and Brier calibration live."
-            provenance="A 440-shot sample from the CxG diagnostic model (opponent-adjusted-metrics), benchmarked against StatsBomb xG on the same shots. Open StatsBomb data, served from Supabase. Full set lives in the repo."
-          >
-            <ShotMapExplorer shots={shots} />
-          </DemoFrame>
-        </Reveal>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2">
+        {cards.map((card, i) => (
+          <Reveal key={card.demo} delay={i * 0.04}>
+            <Link
+              href={card.href}
+              className="group flex h-full flex-col rounded-xl border border-line bg-panel p-5 transition-colors hover:border-pink/40"
+            >
+              <h2 className="text-lg font-medium text-txt">{card.title}</h2>
+              <p className="mt-2 flex-1 text-sm text-muted-foreground">{card.blurb}</p>
+              <p className="mt-3 text-xs text-cyan">{card.why}</p>
+              <span className="mt-3 text-sm text-pink group-hover:underline">Open the demo →</span>
+            </Link>
+          </Reveal>
+        ))}
+      </div>
 
+      {/* The scorecard spans every project, so it has no single work page to live on. */}
+      <div className="mt-8">
         <Reveal>
           <DemoFrame
             title="Model scorecard"
@@ -47,26 +113,6 @@ export default async function PlaygroundPage() {
             provenance="Hand-typed from committed results (content/metrics.ts). Football and retail are open or synthetic data; energy and consulting are professional results."
           >
             <ModelScorecard />
-          </DemoFrame>
-        </Reveal>
-
-        <Reveal>
-          <DemoFrame
-            title="Forecast error visualiser"
-            intro="Before/after accuracy across three roles. E.ON and Manor Park are professional results; UoB is the MSc capstone. Aggregate deltas only, no invented time series."
-            provenance="Aggregate figures from MASTER_PROFILE.md, generated into data/forecast.json. E.ON and Manor Park report accuracy improvement; UoB reports out-of-sample MAE, which is a count and lower-better."
-          >
-            <ForecastVisualiser />
-          </DemoFrame>
-        </Reveal>
-
-        <Reveal>
-          <DemoFrame
-            title="Uplift decile explorer"
-            intro="The Qini curve and per-decile uplift from the retail X-learner. Slide to target the top K% of customers and watch the captured incremental response recompute."
-            provenance="Per-decile rows from retail-intelligence/outputs/phase_uplift_v2_decile_summary.csv and headline figures from phase_uplift_v2_model_comparison.csv, generated into data/uplift-deciles.json. Synthetic retail data; demonstrates method, not a measured commercial outcome."
-          >
-            <UpliftExplorer />
           </DemoFrame>
         </Reveal>
       </div>

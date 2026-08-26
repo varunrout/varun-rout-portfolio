@@ -1,0 +1,36 @@
+{
+  "provenance": "climate-transition-risk-platform, MASTER_PROFILE.md sections 4b/4c (re-audited 2026-08-24). All figures are committed backtest/gate outputs, not invented series.",
+  "backtest": {
+    "label": "Rolling-origin backtest reproduction",
+    "note": "6 origins (2010–2022), 19 G20 countries. The bootstrap model's median absolute error closely reproduces a documented scratch finding; its interval coverage does not — and that miss is reported, not tuned away.",
+    "series": [
+      { "metric": "Scratch finding (documented)", "value": 0.0263, "unit": "MAE" },
+      { "metric": "Reproduced (committed backtest)", "value": 0.0262, "unit": "MAE" }
+    ],
+    "coverage": {
+      "target": 90,
+      "measured": 76.3,
+      "splits": 114,
+      "note": "90% prediction-interval coverage measured at 76.3% across 114 splits — an open undercoverage finding, published as-is."
+    }
+  },
+  "energyGate": {
+    "label": "Energy-transition feature (M6): pre-registered promotion gate",
+    "note": "The energy component was promoted to production only after clearing all of the checks below. v1 (pre-existing baseline) is kept as a permanent comparison score; v2 is the energy-augmented production score. Both are computed and published side by side.",
+    "checks": [
+      { "name": "Permutation-null significance", "threshold": "p ≤ 0.10", "result": "cleared" },
+      { "name": "MAE improvement", "threshold": "positive", "result": "cleared" },
+      { "name": "Weight-perturbation robustness ±10%", "threshold": "stable", "result": "cleared" },
+      { "name": "Weight-perturbation robustness ±20%", "threshold": "stable", "result": "cleared" },
+      { "name": "Weight-perturbation robustness ±30%", "threshold": "stable", "result": "cleared" },
+      { "name": "Collinearity / redundancy clustering", "threshold": "reviewed", "result": "cleared" },
+      { "name": "Leave-one-country-out incremental information (2000-permutation null)", "threshold": "reviewed", "result": "cleared" }
+    ],
+    "frozenAs": "energy_component_v2.1 (score_version=v2_energy)"
+  },
+  "rejectedTrack": {
+    "label": "Regime-aware forecasting (M7): built, evaluated, not shipped",
+    "note": "Structural-break and recency-weighted forecasting was implemented and evaluated. Gains were small, country robustness failed, and P5–P95 coverage stayed below the 90% target — so the decision was to keep the existing empirical-bootstrap model in production. Documented in ADRs 0011–0014.",
+    "decision": "KEEP_EXISTING_EMPIRICAL_BOOTSTRAP_IN_PRODUCTION"
+  }
+}

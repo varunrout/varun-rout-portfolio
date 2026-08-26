@@ -1,0 +1,31 @@
+{
+  "provenance": "player-availability-analysis, MASTER_PROFILE.md section 4/4c (pushed and re-audited 2026-08-17). Every figure below is the pooled rolling-origin development evidence or a disclosed baseline; the barred final-test figure is shown as barred, never as a result.",
+  "baselines": [
+    { "name": "Prevalence-null", "rocAuc": 0.5, "note": "Captures 0 of 5 onsets at any alert budget." },
+    { "name": "Recent-load heuristic", "rocAuc": 0.477, "note": "Below the prevalence-null baseline." }
+  ],
+  "champion": {
+    "name": "M1-F1: 9-predictor regularised logistic regression",
+    "note": "Selected after a Cox model was rejected on a pre-registered leakage diagnostic and a gradient-boosted classifier was rejected on an overfitting signature. Raw probabilities: no post-hoc calibrator beat them on Brier or log loss.",
+    "pooledRollingOrigin": { "rocAuc": 0.836, "averagePrecision": 0.097, "brier": 0.0063 },
+    "fixedValidationWindow": { "rocAuc": 0.808, "brier": 0.0037 }
+  },
+  "alertBudget": {
+    "note": "Operating points are the two rates the project actually measured. Nothing between them is estimated.",
+    "points": [
+      { "reviewRatePct": 2.5, "onsetsCaptured": 11, "onsetsTotal": 18, "recall": 0.61, "falseAlertsPerOnset": 34.8 },
+      { "reviewRatePct": 5, "onsetsCaptured": 13, "onsetsTotal": 18, "recall": 0.72, "falseAlertsPerOnset": 60.4 }
+    ]
+  },
+  "negativeResults": [
+    "Cox proportional hazards rejected: unseen-player ROC-AUC collapsed from 0.818 to 0.577 under a pre-registered reset-clock leakage diagnostic.",
+    "Gradient boosting rejected: training average precision 0.256 vs validation 0.013, a clear overfitting signature.",
+    "F3 was the leading point estimate (ROC-AUC 0.851) and was promoted, then withdrawn after an audit found its strongest predictor was reading reporting behaviour, not physiology.",
+    "A 2.5% alert threshold frozen on development data realised a 4.7% rate on held-out data — traced to an in-sample-vs-out-of-fold derivation bug, not patched, recorded as a methodological finding."
+  ],
+  "barredFigure": {
+    "label": "Single-use confirmatory final-test ROC-AUC",
+    "value": 0.827,
+    "note": "Rests on five onsets across 8,845 player-days. The project's own governance bars this number from ever being cited as a performance figure, on a CV, in a case study, or in an interview. Shown here only to demonstrate that it is deliberately withheld, not omitted by accident."
+  }
+}
