@@ -2,52 +2,89 @@
 @import "tw-animate-css";
 
 /*
- * Design tokens — PORTFOLIO_BUILD_BRIEF.md section 3. Dark theme only, no light variant.
+ * Design tokens: "annotated paper". The site reads like a research paper, so the palette is the desk it
+ * is written on: paper, pencil and ink, one pen (quill) for my model and links, and a reviewer's red pen
+ * kept for results that did not hold up. The incumbent a model is measured against is drawn in ink.
+ * Every text colour clears WCAG AA on every surface; the lowest is pencil on sheet at 4.6:1.
  */
 :root {
-  --radius: 0.875rem;
+  --radius: 0.125rem;
 
-  --bg: #0a0a0f;
-  --bg-2: #101018;
-  --panel: #14141d;
-  --panel-2: #181824;
-  --line: #2c2c3a;
-  --txt: #f3f3f7;
-  --muted-ink: #9c9cad;
-  /* Dim tier for small secondary text (hero description, card subtitles). Bumped to #8a8a9c so it
-     clears WCAG AA 4.5:1 with headroom on every dark surface: 5.8 on --bg, 5.6 on --bg-2, 5.4 on
-     --panel. --muted-ink above already passes at ~7:1. */
-  --dim: #8a8a9c;
-  --pink: #ff2e7e;
-  --cyan: #28e0c6;
-  --violet: #b14bf4;
-  --amber: #f5b841;
-  --grad: linear-gradient(120deg, #ff2e7e, #b14bf4 55%, #28e0c6 120%);
+  /* Surfaces, lightest to deepest */
+  --paper: oklch(0.975 0.008 85); /* page */
+  --plate: oklch(0.955 0.011 85); /* figure plates, panels */
+  --sheet: oklch(0.94 0.012 85); /* hover and inset */
 
-  --background: var(--bg);
-  --foreground: var(--txt);
-  --card: var(--panel);
-  --card-foreground: var(--txt);
-  --popover: var(--panel-2);
-  --popover-foreground: var(--txt);
-  --primary: var(--pink);
-  --primary-foreground: #0a0a0f;
-  --secondary: var(--panel-2);
-  --secondary-foreground: var(--txt);
-  --muted: var(--panel-2);
-  --muted-foreground: var(--muted-ink);
-  --accent: var(--panel-2);
-  --accent-foreground: var(--txt);
-  --destructive: #e5484d;
-  --destructive-foreground: var(--txt);
-  --border: var(--line);
-  --input: var(--line);
-  --ring: var(--pink);
+  /* Text, strongest to quietest: 16.1 / 7.9 / 5.1 : 1 on paper */
+  --ink: oklch(0.22 0.01 260);
+  --graphite: oklch(0.42 0.01 260);
+  --pencil: oklch(0.52 0.01 260);
+
+  /* Rules: hairlines, like a printed page */
+  --rule: oklch(0.22 0.01 260 / 0.14);
+  --rule-faint: oklch(0.22 0.01 260 / 0.07);
+
+  /* Marks */
+  --quill: oklch(0.45 0.13 255); /* my model, links, the one accent */
+  --redpen: oklch(0.5 0.17 28); /* did not hold up; semantic only */
+  --ochre: oklch(0.52 0.11 70); /* illustrative or caveated figures */
+
+  /*
+   * Compatibility layer. The dark build's token names are used in ~700 places; they point at the paper
+   * palette so the whole site turns light at once, and each name is removed as its section is rebuilt.
+   */
+  --bg: var(--paper);
+  --bg-2: var(--plate);
+  --panel: var(--plate);
+  --panel-2: var(--sheet);
+  --line: var(--rule);
+  --txt: var(--ink);
+  --muted-ink: var(--graphite);
+  --dim: var(--pencil);
+  --pink: var(--quill);
+  --cyan: var(--ink);
+  --violet: var(--quill);
+  --amber: var(--ochre);
+  --grad: linear-gradient(var(--ink), var(--ink));
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--plate);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--sheet);
+  --secondary-foreground: var(--ink);
+  --muted: var(--sheet);
+  --muted-foreground: var(--graphite);
+  --accent: var(--sheet);
+  --accent-foreground: var(--ink);
+  --destructive: var(--redpen);
+  --destructive-foreground: var(--paper);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--quill);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  /* Newsreader for reading, Geist Mono for numbers, labels and navigation. No sans. */
+  --font-serif: var(--font-newsreader);
+  --font-sans: var(--font-newsreader);
   --font-mono: var(--font-geist-mono);
+
+  --color-paper: var(--paper);
+  --color-plate: var(--plate);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-pencil: var(--pencil);
+  --color-rule: var(--rule);
+  --color-rule-faint: var(--rule-faint);
+  --color-quill: var(--quill);
+  --color-redpen: var(--redpen);
+  --color-ochre: var(--ochre);
 
   --color-bg: var(--bg);
   --color-bg-2: var(--bg-2);
@@ -92,27 +129,25 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  background: var(--bg);
-  color: var(--txt);
-  font-feature-settings: "cv11", "ss01";
+  background: var(--paper);
+  color: var(--ink);
 }
 
 ::selection {
-  background: color-mix(in oklch, var(--pink), transparent 70%);
-  color: var(--txt);
+  background: color-mix(in oklch, var(--quill), transparent 80%);
+  color: var(--ink);
 }
 
-/* Background grid, used sparingly (hero only) per brief: do not animate the background. */
+/* Graph-paper ground for figure plates only; never behind running text. */
 .bg-grid {
   background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(to bottom, black, transparent 85%);
+    linear-gradient(to right, var(--rule-faint) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule-faint) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
 
 .text-gradient {

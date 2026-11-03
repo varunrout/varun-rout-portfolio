@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Newsreader, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -8,9 +8,10 @@ import { SiteFooter } from '@/components/chrome/site-footer';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const newsreader = Newsreader({
+  variable: '--font-newsreader',
   subsets: ['latin'],
+  axes: ['opsz'],
 });
 
 const geistMono = Geist_Mono({
@@ -63,8 +64,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-bg text-txt antialiased`}>
+    <html lang="en-GB">
+      <body className={`${newsreader.variable} ${geistMono.variable} min-h-dvh bg-paper font-serif text-ink antialiased`}>
         <a
           href="#main"
           className="sr-only rounded-lg focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:border focus:border-pink focus:bg-panel focus:px-4 focus:py-2 focus:text-sm focus:text-txt"

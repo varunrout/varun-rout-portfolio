@@ -16,7 +16,7 @@ Positioning: applied data scientist. Forecasting, causal ML, and models that ear
 ## Stack (fixed)
 
 Next.js 15 App Router, React 19, TypeScript strict, Tailwind v4, shadcn/ui, Motion (framer-motion),
-visx for custom charts, Recharts for trivial ones, TanStack Table, Geist Sans + Geist Mono via `next/font`,
+visx for custom charts, Recharts for trivial ones, TanStack Table, Newsreader + Geist Mono via `next/font`,
 Vercel Analytics + Speed Insights. MDX in-repo via `next-mdx-remote/rsc`. No CMS, no state manager.
 
 ## Conventions
@@ -25,8 +25,9 @@ Vercel Analytics + Speed Insights. MDX in-repo via `next-mdx-remote/rsc`. No CMS
   These files are the source of truth for every card, page, OG image, and the scorecard. Get the facts right here.
 - Demos read from static JSON in `/data`. Never fabricate demo data (rule 6).
 - Server-render everything; the four demos are the only client islands.
-- Dark theme only. Tokens are in the brief (section 3). Accent discipline: pink for one thing per view,
-  cyan reserved for the benchmark/incumbent.
+- Light "annotated paper" theme only (replaced the dark theme, 2026-11). Tokens live in `app/globals.css`:
+  paper/plate/sheet surfaces, ink/graphite/pencil text, hairline rules. Accent discipline: quill (ink blue)
+  marks my model and links, the incumbent is drawn in ink, redpen only for results that did not hold up.
 - British English. No em dashes. Respect `prefers-reduced-motion`.
 
 ## Non-negotiables (mirror of content-rules.md)
