@@ -6,6 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { SiteHeader } from '@/components/chrome/site-header';
 import { SiteFooter } from '@/components/chrome/site-footer';
 import { site } from '@/lib/site';
+import { themeInitScript } from '@/lib/theme';
 import './globals.css';
 
 const newsreader = Newsreader({
@@ -64,7 +65,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-GB">
+    // The head script sets data-theme before React hydrates, so the attribute differs from the server's.
+    <html lang="en-GB" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className={`${newsreader.variable} ${geistMono.variable} min-h-dvh bg-paper font-serif text-ink antialiased`}>
         <a
           href="#main"

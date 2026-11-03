@@ -68,6 +68,32 @@
   --ring: var(--quill);
 }
 
+/*
+ * Night desk: the same paper read under a lamp. Only primitives change; every semantic and compatibility
+ * token above follows them. Text and marks clear 6:1 on every surface.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper: oklch(0.18 0.012 260);
+  --plate: oklch(0.215 0.012 260);
+  --sheet: oklch(0.25 0.012 260);
+
+  --ink: oklch(0.95 0.008 85);
+  --graphite: oklch(0.8 0.008 85);
+  --pencil: oklch(0.7 0.008 85);
+
+  --rule: oklch(0.95 0.008 85 / 0.14);
+  --rule-faint: oklch(0.95 0.008 85 / 0.06);
+
+  --quill: oklch(0.74 0.12 250);
+  --redpen: oklch(0.72 0.15 28);
+  --ochre: oklch(0.78 0.12 75);
+}
+
+/* shadcn's dark: variants follow the theme attribute rather than a .dark class. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 @theme inline {
   /* Newsreader for reading, Geist Mono for numbers, labels and navigation. No sans. */
   --font-serif: var(--font-newsreader);
@@ -124,12 +150,21 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-* {
-  border-color: var(--border);
+/* In the base layer so border-* utilities can override it. */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 }
 
 html {
   color-scheme: light;
+}
+
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
 }
 
 body {
@@ -174,6 +209,35 @@ body {
 }
 .hero-reveal {
   animation: hero-reveal 0.3s ease-out both;
+}
+
+/* Ruler marks are set down once, like a pen touching the page. */
+@keyframes ruler-mark {
+  from {
+    opacity: 0;
+    scale: 0.4;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.ruler-mark {
+  animation: ruler-mark 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+
+/* The hero's pen stroke draws itself under the claim, left to right. */
+@keyframes pen-stroke {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.pen-stroke {
+  stroke-dasharray: 1;
+  animation: pen-stroke 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
 }
 
 @media (prefers-reduced-motion: reduce) {
