@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 type ImprovementSeries = { metric: string; unit: string; improvement: number };
 type MaeSeries = { category: string; before: number; after: number };
 
-type PanelKey = 'eon' | 'manorPark' | 'uob';
+export type PanelKey = 'eon' | 'manorPark' | 'uob';
 
 const panels: { key: PanelKey; label: string }[] = [
   { key: 'eon', label: 'E.ON energy' },
@@ -106,12 +106,14 @@ function MaePanel({ series, note }: { series: MaeSeries[]; note: string }) {
   );
 }
 
-export function ForecastVisualiser() {
-  const [panel, setPanel] = React.useState<PanelKey>('eon');
+// On a project page `only` pins the chart to that role, so one job's figures never sit under another's write-up.
+export function ForecastVisualiser({ only }: { only?: PanelKey }) {
+  const [selected, setPanel] = React.useState<PanelKey>(only ?? 'eon');
+  const panel = only ?? selected;
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className={cn('flex flex-wrap items-center gap-2', only && 'hidden')}>
         {panels.map((p) => (
           <button
             key={p.key}

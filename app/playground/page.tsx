@@ -36,7 +36,7 @@ const index: { demo: DemoKey; title: string; blurb: string; why: string }[] = [
     demo: 'forecast',
     title: 'Forecast error visualiser',
     blurb:
-      'Before and after accuracy across three roles. E.ON and Manor Park are professional results; UoB is the MSc capstone. Aggregate deltas only, with no invented time series.',
+      'Before and after accuracy from two professional roles, each charted on its own project page: E.ON energy markets here, Manor Park retail on the demand-forecasting page. Aggregate deltas only, with no invented time series.',
     why: 'Measured deltas, honestly bounded',
   },
   {

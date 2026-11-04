@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Reveal } from '@/components/motion/reveal';
-import { ForecastVisualiser } from '@/components/demos/forecast-visualiser';
+import { ForecastVisualiser, type PanelKey } from '@/components/demos/forecast-visualiser';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { UpliftExplorer } from '@/components/demos/uplift-explorer';
 import { ContextualLift } from '@/components/demos/contextual-lift';
@@ -45,6 +45,12 @@ export async function generateMetadata({
     },
   };
 }
+
+// Which role's figures the forecast chart shows on each project page that embeds it.
+const forecastPanel: Record<string, PanelKey> = {
+  'residual-load-forecasting': 'eon',
+  'multi-horizon-demand-forecasting': 'manorPark',
+};
 
 const stateLabel: Record<string, string> = {
   live: 'Live repo',
@@ -152,10 +158,10 @@ export default async function ProjectPage({
           <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
             <h2 className="font-mono text-sm text-cyan">Explore the deltas</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              The same before/after figures, interactive. Toggle between the three roles.
+              The same before/after figures as above, charted.
             </p>
             <div className="mt-6">
-              <ForecastVisualiser />
+              <ForecastVisualiser only={forecastPanel[project.slug]} />
             </div>
           </section>
         </Reveal>
