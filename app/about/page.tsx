@@ -36,7 +36,7 @@ export default function AboutPage() {
           <p>
             The E.ON contract was fixed-term and ran its course at the end of 2025. Since January 2026 I have
             put that time into an independent portfolio, with a deliberate focus on football analytics: an
-            contextual expected-goals pipeline benchmarked against the baseline it has to beat, a
+            contextual expected-goals pipeline benchmarked against StatsBomb&rsquo;s own xG, a
             causal uplift model for retail campaign targeting, and a betting-market backtest that is honest
             about not beating the market.
           </p>

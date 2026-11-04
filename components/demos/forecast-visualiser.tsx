@@ -26,10 +26,10 @@ const panels: { key: PanelKey; label: string }[] = [
   { key: 'uob', label: 'UoB attendance' },
 ];
 
-const PINK = '#ff2e7e';
-const CYAN = '#28e0c6';
-const LINE = '#2c2c3a';
-const DIM = '#6e6e80';
+const PINK = 'var(--quill)';
+const CYAN = 'var(--ink)';
+const LINE = 'var(--rule)';
+const DIM = 'var(--pencil)';
 
 function ImprovementPanel({
   series,
@@ -54,12 +54,12 @@ function ImprovementPanel({
               width={40}
             />
             <Tooltip
-              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
-              contentStyle={{ background: '#181824', border: `1px solid ${LINE}`, borderRadius: 12, color: '#f3f3f7' }}
+              cursor={{ fill: 'var(--rule-faint)' }}
+              contentStyle={{ background: 'var(--paper)', border: `1px solid ${LINE}`, borderRadius: 12, color: 'var(--ink)' }}
               formatter={(value) => [`+${Number(value)}%`, 'Improvement']}
             />
             <Bar dataKey="value" radius={[6, 6, 0, 0]} fill={PINK} maxBarSize={72}>
-              <LabelList dataKey="value" position="top" formatter={(value) => `+${Number(value)}%`} fill="#f3f3f7" fontSize={12} />
+              <LabelList dataKey="value" position="top" formatter={(value) => `+${Number(value)}%`} fill="var(--ink)" fontSize={12} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -80,15 +80,15 @@ function MaePanel({ series, note }: { series: MaeSeries[]; note: string }) {
             <XAxis dataKey="name" tick={{ fill: DIM, fontSize: 12 }} tickLine={false} axisLine={{ stroke: LINE }} interval={0} />
             <YAxis tick={{ fill: DIM, fontSize: 12 }} tickLine={false} axisLine={{ stroke: LINE }} width={32} />
             <Tooltip
-              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
-              contentStyle={{ background: '#181824', border: `1px solid ${LINE}`, borderRadius: 12, color: '#f3f3f7' }}
+              cursor={{ fill: 'var(--rule-faint)' }}
+              contentStyle={{ background: 'var(--paper)', border: `1px solid ${LINE}`, borderRadius: 12, color: 'var(--ink)' }}
               formatter={(value, name) => [`${Number(value)} MAE`, name]}
             />
             <Bar dataKey="Before" radius={[6, 6, 0, 0]} fill={DIM} maxBarSize={48}>
               <Cell />
             </Bar>
             <Bar dataKey="After" radius={[6, 6, 0, 0]} fill={CYAN} maxBarSize={48}>
-              <LabelList dataKey="After" position="top" fill="#f3f3f7" fontSize={12} />
+              <LabelList dataKey="After" position="top" fill="var(--ink)" fontSize={12} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

@@ -14,9 +14,9 @@ import {
 import climate from '@/data/climate.json';
 import { cn } from '@/lib/utils';
 
-const CYAN = '#28e0c6';
-const LINE = '#2c2c3a';
-const DIM = '#6e6e80';
+const CYAN = 'var(--ink)';
+const LINE = 'var(--rule)';
+const DIM = 'var(--pencil)';
 
 type Tab = 'backtest' | 'gate' | 'rejected';
 
@@ -39,12 +39,12 @@ function BacktestPanel() {
             <XAxis dataKey="name" tick={{ fill: DIM, fontSize: 11 }} tickLine={false} axisLine={{ stroke: LINE }} interval={0} />
             <YAxis tick={{ fill: DIM, fontSize: 12 }} tickLine={false} axisLine={{ stroke: LINE }} width={48} />
             <Tooltip
-              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
-              contentStyle={{ background: '#181824', border: `1px solid ${LINE}`, borderRadius: 12, color: '#f3f3f7' }}
+              cursor={{ fill: 'var(--rule-faint)' }}
+              contentStyle={{ background: 'var(--paper)', border: `1px solid ${LINE}`, borderRadius: 12, color: 'var(--ink)' }}
               formatter={(value) => [`${Number(value)} MAE`, 'Median absolute error']}
             />
             <Bar dataKey="value" radius={[6, 6, 0, 0]} fill={CYAN} maxBarSize={72}>
-              <LabelList dataKey="value" position="top" fill="#f3f3f7" fontSize={12} />
+              <LabelList dataKey="value" position="top" fill="var(--ink)" fontSize={12} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

@@ -5,7 +5,7 @@ const stats = [
   {
     value: 0.8131,
     decimals: 4,
-    caption: 'Contextual CxG held-out ROC AUC, against a 0.7982 logistic baseline',
+    caption: 'Contextual CxG ROC AUC. StatsBomb’s own xG scores 0.8295 on the same 1,340 held-out shots',
   },
   {
     value: 0.844,

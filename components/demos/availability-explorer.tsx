@@ -14,9 +14,9 @@ import {
 import availability from '@/data/availability.json';
 import { cn } from '@/lib/utils';
 
-const PINK = '#ff2e7e';
-const LINE = '#2c2c3a';
-const DIM = '#6e6e80';
+const PINK = 'var(--quill)';
+const LINE = 'var(--rule)';
+const DIM = 'var(--pencil)';
 
 function BaselineRow() {
   return (
@@ -109,11 +109,11 @@ function AlertBudgetPanel() {
             <XAxis dataKey="name" tick={{ fill: DIM, fontSize: 11 }} tickLine={false} axisLine={{ stroke: LINE }} interval={0} />
             <YAxis tick={{ fill: DIM, fontSize: 12 }} tickLine={false} axisLine={{ stroke: LINE }} width={40} />
             <Tooltip
-              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
-              contentStyle={{ background: '#181824', border: `1px solid ${LINE}`, borderRadius: 12, color: '#f3f3f7' }}
+              cursor={{ fill: 'var(--rule-faint)' }}
+              contentStyle={{ background: 'var(--paper)', border: `1px solid ${LINE}`, borderRadius: 12, color: 'var(--ink)' }}
             />
             <Bar dataKey="value" radius={[6, 6, 0, 0]} fill={PINK} maxBarSize={72}>
-              <LabelList dataKey="value" position="top" fill="#f3f3f7" fontSize={12} />
+              <LabelList dataKey="value" position="top" fill="var(--ink)" fontSize={12} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

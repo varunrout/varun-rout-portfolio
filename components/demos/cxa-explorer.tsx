@@ -4,8 +4,8 @@ import * as React from 'react';
 import cxa from '@/data/cxa.json';
 import { cn } from '@/lib/utils';
 
-const PINK = '#ff2e7e';
-const CYAN = '#28e0c6';
+const PINK = 'var(--quill)';
+const CYAN = 'var(--ink)';
 
 type Metric = {
   key: string;

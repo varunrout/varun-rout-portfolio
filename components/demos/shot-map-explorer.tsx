@@ -4,11 +4,11 @@ import * as React from 'react';
 import type { Shot } from '@/lib/shots';
 import { cn } from '@/lib/utils';
 
-const PINK = '#ff2e7e';
-const CYAN = '#28e0c6';
-const LINE = '#2c2c3a';
-const DIM = '#7e7e90';
-const TXT = '#f3f3f7';
+const PINK = 'var(--quill)';
+const CYAN = 'var(--ink)';
+const LINE = 'var(--rule)';
+const DIM = 'var(--pencil)';
+const TXT = 'var(--ink)';
 
 /* StatsBomb pitch: x 0-120 (goal at 120), y 0-80. We render the attacking end, goal at top. */
 const X_NEAR = 58; // bottom of the view

@@ -6,11 +6,11 @@ import { scaleLinear } from '@visx/scale';
 import data from '@/data/contextual-lift.json';
 import { cn } from '@/lib/utils';
 
-const PINK = '#ff2e7e';
-const CYAN = '#28e0c6';
-const LINE = '#2c2c3a';
-const DIM = '#6e6e80';
-const AMBER = '#f5b841';
+const PINK = 'var(--quill)';
+const CYAN = 'var(--ink)';
+const LINE = 'var(--rule)';
+const DIM = 'var(--pencil)';
+const AMBER = 'var(--ochre)';
 
 type Delta = {
   baseline: string;
@@ -113,7 +113,7 @@ function DeltaStrip({ d, width }: { d: Delta; width: number }) {
         <line x1={x(d.ci_low)} x2={x(d.ci_low)} y1={midY - 6} y2={midY + 6} stroke={colour} strokeWidth={2} />
         <line x1={x(d.ci_high)} x2={x(d.ci_high)} y1={midY - 6} y2={midY + 6} stroke={colour} strokeWidth={2} />
         {/* point estimate */}
-        <circle cx={x(d.delta_mean)} cy={midY} r={4} fill={colour} stroke="#0a0a0f" strokeWidth={1.5} />
+        <circle cx={x(d.delta_mean)} cy={midY} r={4} fill={colour} stroke="var(--plate)" strokeWidth={1.5} />
       </g>
     </svg>
   );

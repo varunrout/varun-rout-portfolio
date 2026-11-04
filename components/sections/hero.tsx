@@ -4,7 +4,7 @@ import { FigurePlate } from '@/components/figures/figure-plate';
 import { site } from '@/lib/site';
 
 const toolkit = [
-  'StatsBomb-benchmarked xG',
+  'Contextual xG with a paired bootstrap',
   'Two-stage X-learner uplift',
   'Azure ML in production',
   'Drift & leakage monitoring',
@@ -78,13 +78,13 @@ export function Hero() {
             <FigurePlate
               number={1}
               className="mt-14"
-              caption="CxG diagnostic, within ~0.01 AUC of StatsBomb’s own xG (0.820): a parity check, not a contest."
+              caption="Contextual CxG against StatsBomb’s own xG on 1,340 held-out Euro 2024 shots. It does not beat it: the gap’s 95% interval crosses zero."
             >
               <BenchmarkRuler
-                ours={{ label: 'CxG', value: 0.809, display: '0.809' }}
-                incumbent={{ label: 'StatsBomb xG', value: 0.82, display: '0.820' }}
-                domain={[0.78, 0.84]}
-                ticks={[0.78, 0.79, 0.8, 0.81, 0.82, 0.83, 0.84]}
+                ours={{ label: 'CxG', value: 0.8131, display: '0.8131' }}
+                incumbent={{ label: 'StatsBomb xG', value: 0.8295, display: '0.8295' }}
+                domain={[0.8, 0.84]}
+                ticks={[0.8, 0.81, 0.82, 0.83, 0.84]}
                 tickDecimals={2}
               />
             </FigurePlate>

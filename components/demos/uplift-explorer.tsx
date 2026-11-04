@@ -10,11 +10,11 @@ import { useReducedMotion } from 'motion/react';
 import uplift from '@/data/uplift-deciles.json';
 
 /* Palette (mirrors the tokens in globals.css; charts need raw hex). */
-const PINK = '#ff2e7e';
-const CYAN = '#28e0c6';
-const LINE = '#2c2c3a';
-const DIM = '#6e6e80';
-const TXT = '#f3f3f7';
+const PINK = 'var(--quill)';
+const CYAN = 'var(--ink)';
+const LINE = 'var(--rule)';
+const DIM = 'var(--pencil)';
+const TXT = 'var(--ink)';
 
 type Decile = {
   decile: number;

@@ -4,8 +4,8 @@ const habits = [
   {
     title: 'Benchmark against the incumbent',
     body:
-      'CxG is reported next to the baseline it has to beat on identical held-out rows, not in isolation. A ' +
-      'metric with nothing to beat does not lead a headline.',
+      'CxG is reported next to StatsBomb’s own xG on identical held-out shots, including where it does not ' +
+      'beat it. A metric with nothing to beat does not lead a headline.',
   },
   {
     title: 'Report negative results',
