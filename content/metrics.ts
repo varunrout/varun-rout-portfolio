@@ -30,75 +30,7 @@ export type ModelMetric = {
 
 export const metrics: ModelMetric[] = [
   // ---------- FOOTBALL ----------
-  {
-    project: 'Opponent-Adjusted Football Metrics',
-    domain: 'football',
-    model: 'CxG diagnostic (sklearn logistic/Ridge/GBM)',
-    task: 'Contextual expected goals',
-    metric: 'ROC AUC',
-    value: 0.8092,
-    unit: 'ratio',
-    benchmark: { name: 'StatsBomb xG', value: 0.81957 },
-    dataset: 'open',
-    tests: 332,
-    state: 'live',
-    source: 'docs/modeling/v1_results_summary.md',
-  },
-  {
-    project: 'Opponent-Adjusted Football Metrics',
-    domain: 'football',
-    model: 'CxG diagnostic',
-    task: 'Calibration',
-    metric: 'Brier',
-    value: 0.07325,
-    unit: 'ratio',
-    dataset: 'open',
-    state: 'live',
-    source: 'docs/modeling/v1_results_summary.md',
-  },
-  // Both CxA rows cite headline_metrics.json as the single source. v1_results_summary.md reports the
-  // baseline as 0.85814; the portfolio export reports 0.858312 for the same baseline. One source only.
-  {
-    project: 'Opponent-Adjusted Football Metrics',
-    domain: 'football',
-    model: 'CxA baseline',
-    task: 'Contextual expected assists',
-    metric: 'ROC AUC',
-    value: 0.858312,
-    unit: 'ratio',
-    dataset: 'open',
-    state: 'live',
-    source: 'outputs/portfolio/cxa/headline_metrics.json (1,091,388 action rows)',
-  },
-  {
-    project: 'Opponent-Adjusted Football Metrics',
-    domain: 'football',
-    model: 'CxA diagnostic v1 (sklearn GradientBoostingClassifier, sigmoid-calibrated)',
-    task: 'Contextual expected assists',
-    metric: 'ROC AUC',
-    value: 0.866247,
-    unit: 'ratio',
-    // Internal baseline, NOT an industry incumbent: no off-the-shelf expected-assists model exists.
-    benchmark: { name: 'Own CxA baseline', value: 0.858312 },
-    dataset: 'open',
-    state: 'live',
-    source: 'outputs/portfolio/cxa/headline_metrics.json (provisionally promoted)',
-  },
-  {
-    project: 'Opponent-Adjusted Football Metrics',
-    domain: 'football',
-    model: 'CxA diagnostic v1',
-    task: 'Precision among the model’s most confident actions',
-    metric: 'Precision @ top 1%',
-    // Stored in percent units so it renders as 58.6% not 0.586. headline_metrics.json holds the ratios
-    // 0.5860363 (diagnostic) and 0.4627084 (baseline); x100 here.
-    value: 58.60363,
-    unit: 'percent',
-    benchmark: { name: 'Own CxA baseline', value: 46.27084 },
-    dataset: 'open',
-    state: 'live',
-    source: 'outputs/portfolio/cxa/headline_metrics.json',
-  },
+  // Opponent-Adjusted Football Metrics: rows removed 2026-11-04 while the project is redesigned.
   {
     project: 'Contextual Football Metrics',
     domain: 'football',
@@ -125,43 +57,8 @@ export const metrics: ModelMetric[] = [
     state: 'live',
     source: 'reports/cxg_training_summary.json',
   },
-  {
-    project: 'Frame2Threat',
-    domain: 'football',
-    model: 'XGBoost + GRU ensemble',
-    task: 'Possession-danger prediction',
-    metric: 'ROC AUC (test)',
-    value: 0.965,
-    unit: 'ratio',
-    dataset: 'open',
-    tests: 69,
-    state: 'live',
-    source: 'models/results_summary.json (n_test=2475)',
-  },
-  {
-    project: 'Frame2Threat',
-    domain: 'football',
-    model: 'PossessionGRU',
-    task: 'Possession-danger prediction',
-    metric: 'ROC AUC',
-    value: 0.9524,
-    unit: 'ratio',
-    dataset: 'open',
-    state: 'live',
-    source: 'models/results_summary.json',
-  },
-  {
-    project: 'Frame2Threat',
-    domain: 'football',
-    model: 'XGBoost (event+360)',
-    task: 'Pass-level line-breaking',
-    metric: 'ROC AUC',
-    value: 0.882,
-    unit: 'ratio',
-    dataset: 'open',
-    state: 'live',
-    source: 'models/results_summary.json (n_test=7344)',
-  },
+  // Frame2Threat: rows removed 2026-11-04. The repo's own leakage audit withdrew the 0.965 / 0.9524 AUCs and
+  // re-scored the 0.882 pass-level figure. Add rows back only from MASTER_PROFILE once it carries the re-audit.
   // Football Market Intelligence: intentionally NO metric row (removed 2026-08-10, Varun's ruling).
   // The best-config +6.72% ROI over 118 bets is a positive market edge, which content-rules rule 5 and
   // MASTER_PROFILE 4c bar for bet-intelligence, and which contradicted the rigour manifesto on the same

@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      // Temporary while opponent-adjusted-metrics is redesigned: old links (CVs, posts) land on the work list.
+      { source: '/work/opponent-adjusted-metrics', destination: '/#work', permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;

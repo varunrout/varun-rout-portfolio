@@ -8,7 +8,7 @@ import { projects, type DemoKey } from '@/content/projects';
 export const metadata: Metadata = {
   title: 'Playground',
   description:
-    'Interactive demos: an xG shot-map explorer, a contextual lift and validity explorer, an uplift decile explorer, a forecast error visualiser, and a model scorecard.',
+    'Interactive demos: a contextual lift and validity explorer, an uplift decile explorer, a forecast error visualiser, and a model scorecard.',
   alternates: { canonical: '/playground' },
 };
 
@@ -18,13 +18,6 @@ export const metadata: Metadata = {
  * Order is deliberate: the three that best carry the "earn their claims" promise come first.
  */
 const index: { demo: DemoKey; title: string; blurb: string; why: string }[] = [
-  {
-    demo: 'shotmap',
-    title: 'xG shot-map explorer',
-    blurb:
-      'Real shots on an attacking-half pitch. Toggle between my CxG and StatsBomb’s own xG, or a diff mode so over- and under-valued shots pop. Filter by team, match or pressure and the panel recomputes mean value and Brier calibration live.',
-    why: '440 real shots, benchmarked against the incumbent',
-  },
   {
     demo: 'contextual',
     title: 'Contextual lift and validity',
@@ -82,7 +75,7 @@ export default function PlaygroundPage() {
           Demos a reviewer can poke at.
         </h1>
         <p className="mt-4 max-w-xl text-dim">
-          These read from committed project outputs and a Supabase-backed sample of real shots. No demo here
+          These read from committed project outputs. No demo here
           renders an invented number: every value traces to a committed result or a real model output. Each
           one sits on its project page, next to the write-up that explains it.
         </p>
