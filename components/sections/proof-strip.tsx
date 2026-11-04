@@ -3,15 +3,14 @@ import { CountUp } from '@/components/motion/count-up';
 
 const stats = [
   {
-    value: 0.809,
-    decimals: 3,
-    caption: 'CxG diagnostic, within ~0.01 AUC of StatsBomb’s own xG (0.820): a parity check, not a contest',
+    value: 0.8131,
+    decimals: 4,
+    caption: 'Contextual CxG held-out ROC AUC, against a 0.7982 logistic baseline',
   },
   {
-    value: 2.14,
-    decimals: 2,
-    suffix: 'M',
-    caption: 'raw StatsBomb events behind the football models',
+    value: 0.844,
+    decimals: 3,
+    caption: 'Retail churn ROC AUC against LightGBM’s 0.812, paired bootstrap, synthetic data',
   },
   {
     value: 37,

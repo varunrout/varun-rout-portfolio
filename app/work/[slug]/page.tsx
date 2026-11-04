@@ -226,7 +226,7 @@ export default async function ProjectPage({
             </div>
             <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
               <span className="text-cyan">Data provenance.</span> 440-shot sample from the CxG diagnostic model,
-              benchmarked against StatsBomb xG. Open StatsBomb data, served from Supabase; full set in the repo.
+              benchmarked against StatsBomb xG. Open StatsBomb data, served from Supabase.
             </p>
           </section>
         </Reveal>

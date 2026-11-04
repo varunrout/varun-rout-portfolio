@@ -60,35 +60,8 @@ export const projects: Project[] = [
       'No E.ON code, data or model artefacts are shared; none of this work is reproducible from this site.',
     ],
   },
-  {
-    slug: 'opponent-adjusted-metrics',
-    title: 'Opponent-Adjusted Football Metrics',
-    kicker: 'Football analytics · flagship',
-    role: 'Independent research · 8 months of active development',
-    state: 'live',
-    featured: true,
-    dataset: 'open',
-    summary:
-      'Contextual expected goals (CxG) and assists (CxA) over 2,143,146 raw StatsBomb events, benchmarked ' +
-      "directly against StatsBomb's own xG on the same shots rather than self-reported in isolation.",
-    metrics: [
-      { label: 'CxG model (FastAPI era)', value: '0.80920 AUC', benchmark: 'vs StatsBomb xG 0.81957', measured: true },
-      { label: 'CxG calibration', value: 'Brier 0.07325 · log loss 0.26110', measured: true },
-      { label: 'CxA baseline', value: '0.85814 AUC · Brier 0.04046', benchmark: 'over 1,091,388 rows', measured: true },
-      { label: 'CxG event-wide v3 (GCP era)', value: '0.7148 AUC', benchmark: 'vs StatsBomb xG 0.7972', measured: true },
-      { label: 'CxG+ v3 (GCP era)', value: '0.8313 AUC · log loss 0.2555', benchmark: 'vs StatsBomb xG 0.8476', measured: true },
-      { label: 'Testing', value: '332 tests across 46 files', measured: true },
-    ],
-    stack: ['scikit-learn', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'GCP: GCS + BigQuery', 'Terraform', 'CI: lint+type+test'],
-    repo: 'https://github.com/varunrout/opponent-adjusted-metrics',
-    demo: 'shotmap',
-    provenanceNote:
-      'Computed outputs are gitignored; the FastAPI-era numbers above live in committed docs, not rendered ' +
-      'dashboards. The GCP-era v3 figures are independently BigQuery-verified (queried directly, not taken ' +
-      'from project docs) from the 2026-08 productionisation phase onto Cloud Storage + BigQuery, and both ' +
-      'eras are shown together rather than one replacing the other.',
-    neverClaim: ['LightGBM as headline tech', 'gradient boosting as headline tech', 'plotly'],
-  },
+  // opponent-adjusted-metrics: removed 2026-11-04 while the project is redesigned (its public repo is empty).
+  // Restore it from git history once the new repo is public and MASTER_PROFILE carries its new numbers.
   {
     slug: 'retail-growth-intelligence',
     title: 'Retail Growth Intelligence — Uplift Modelling',
@@ -147,18 +120,21 @@ export const projects: Project[] = [
     title: 'Frame2Threat — Possession-Danger Prediction',
     kicker: 'Football analytics · deep learning',
     role: 'Independent research · StatsBomb open data',
-    state: 'live',
+    state: 'in-development',
     featured: true,
     dataset: 'open',
     summary:
       'Predicts possession danger from partial event sequences with an XGBoost + GRU ensemble, a graph ' +
       'neural network (SAGEConv) and a SHAP explanation layer. Executed notebooks and 49 committed figures.',
     metrics: [
-      { label: 'Ensemble', value: '0.965 AUC (n=2,475)', measured: true },
-      { label: 'Validation', value: 'Match-level split, so no possession spans train and test', measured: true },
-      { label: 'Components', value: 'PossessionGRU 0.9524 · XGBoost 0.9505', measured: true },
-      { label: 'Pass-level', value: '0.882 AUC (n=7,344)', measured: true },
-      { label: 'Honesty', value: '360 context adds only +0.001 AUC', measured: true },
+      // Every earlier AUC (0.965 ensemble, 0.9524 GRU, 0.9505 XGBoost, 0.882 pass-level) was withdrawn or
+      // re-scored by the repo's own October 2026 leakage audit. No figure returns until MASTER_PROFILE has it.
+      {
+        label: 'Status',
+        value: 'Under re-audit',
+        benchmark: 'Earlier AUCs withdrawn after a leakage review',
+        measured: true,
+      },
     ],
     stack: ['XGBoost', 'PyTorch GNN', 'GRU', 'SHAP', 'StatsBomb'],
     neverClaim: [
@@ -166,14 +142,13 @@ export const projects: Project[] = [
     ],
   },
 
-  // ---------- FURTHER PROJECTS ----------
   {
     slug: 'contextual-football-metrics',
     title: 'Contextual Football Metrics',
     kicker: 'Football · live repo',
     role: 'CxG / CxA / CxT training pipeline',
     state: 'live',
-    featured: false,
+    featured: true,
     dataset: 'open',
     summary:
       'A single Prefect flow under one MLflow parent run, with a model ladder from baseline through GLM to ' +
@@ -189,6 +164,7 @@ export const projects: Project[] = [
     demo: 'contextual',
     neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'pydantic', 'imbalanced-learn', 'DVC-tracked pipeline', 'cloud/GPU training'],
   },
+  // ---------- FURTHER PROJECTS ----------
   {
     slug: 'football-market-intelligence',
     title: 'Football Market Intelligence',
