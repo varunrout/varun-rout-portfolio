@@ -31,8 +31,22 @@ export type ModelMetric = {
 export const metrics: ModelMetric[] = [
   // ---------- FOOTBALL ----------
   // Opponent-Adjusted Football Metrics: rows removed 2026-11-04 while the project is redesigned.
-  // Contextual Football Metrics: rows removed 2026-11-05. The repo's own validation-audit branch found leakage in
-  // these figures. Add corrected rows only once that branch is merged and MASTER_PROFILE carries them.
+  // Contextual Football Metrics: corrected figures from reports/cxg_revalidation.json at main 3071ab3. The legacy
+  // 0.8131 / 0.8083 rows were withdrawn 2026-11-05 after the repo's own leakage audit.
+  {
+    project: 'Contextual Football Metrics',
+    domain: 'football',
+    model: 'Causal contextual logistic',
+    task: 'Contextual expected goals, 1,340 shots',
+    metric: 'ROC AUC (Euro 2024)',
+    value: 0.8037,
+    unit: 'ratio',
+    benchmark: { name: 'StatsBomb xG', value: 0.8295 },
+    dataset: 'open',
+    tests: 571,
+    state: 'live',
+    source: 'contextual-football-metrics reports/cxg_revalidation.json @ 3071ab3',
+  },
   // Frame2Threat: the withdrawn 0.965 / 0.9524 / 0.882 rows were removed 2026-11-04. This is the re-audited
   // event-time headline from MASTER_PROFILE section 4 (2026-11-04).
   {
@@ -224,6 +238,8 @@ export const metricDirection: Record<string, 'higher-better' | 'lower-better'> =
   'ROC AUC': 'higher-better',
   'ROC AUC (heldout)': 'higher-better',
   'ROC AUC (test)': 'higher-better',
+  'ROC AUC (held out)': 'higher-better',
+  'ROC AUC (Euro 2024)': 'higher-better',
   '5-fold CV AUC': 'higher-better',
   Brier: 'lower-better',
   'Precision @ top 1%': 'higher-better',

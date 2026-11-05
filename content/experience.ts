@@ -24,7 +24,7 @@ export const experience: ExperienceEntry[] = [
       'Full-time, deliberate investment in this portfolio and an active search for the next role, after the ' +
       'E.ON fixed-term contract ran its course in December 2025.',
     highlights: [
-      'Expected Next Threat on SkillCorner tracking and Frame2Threat on StatsBomb events, each self-audited for leakage',
+      'Expected Next Threat, Frame2Threat and contextual football metrics, each self-audited for leakage',
       'Retail uplift modelling and the model scorecard behind this site',
     ],
   },

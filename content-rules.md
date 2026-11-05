@@ -33,11 +33,11 @@ metric, or demo. A false claim reaching the site is the failure this file exists
      scikit-learn LogisticRegression / Ridge / GradientBoostingClassifier. NEVER claim plotly. (The repo
      README says "LightGBM classifier" and lists CxA as "planned"; the code and committed results say
      otherwise. Follow the code. Fix the README.)
-   - `contextual-football-metrics`: **Figures withdrawn 2026-11-05.** The unmerged `validation-audit` branch
-     found leakage, so quote no CxG, CxA or CxT figure, old or corrected, until it is merged and re-audited in
-     MASTER_PROFILE. The repo stays linkable with that disclosure on the page. NEVER claim catboost, captum, plotly, kaleido, pydantic,
+   - `contextual-football-metrics`: **Legacy figures withdrawn 2026-11-05** after the repo's own leakage audit (merged to main
+     at `3071ab3`). Cite only the corrected numbers: 0.8037 vs StatsBomb xG 0.8295. NEVER present the legacy
+     0.8131 family as a result (`/errata` records it as withdrawn), and NEVER say it beats StatsBomb xG. NEVER claim catboost, captum, plotly, kaleido, pydantic,
      imbalanced-learn, or a DVC-tracked pipeline. Cloud/GPU is documented setup only, never exercised.
-     **GitHub Actions CI IS real** (re-audited 2026-07-28: `.github/workflows/ci.yml` with an enforced
+     **CI is defined but ended with the billing lock:** the 2026-11-05 merge has no green run, so claim 571 passed and 9 skipped locally instead (re-audited 2026-07-28: `.github/workflows/ci.yml` with an enforced
      coverage floor, an import smoke build, pre-commit and a secrets audit). The Prefect flow wrapping every
      stage under one MLflow parent run is real and is the strongest MLOps evidence on file.
    - `bet-intelligence`: NEVER claim xgboost, statsmodels, plotly, or any positive market edge. The negative

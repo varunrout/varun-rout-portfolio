@@ -140,7 +140,7 @@ export const projects: Project[] = [
       { label: 'Danger layer', value: 'AUC 0.930 · calibration error 0.002', benchmark: 'ENT adds +0.010 [0.008, 0.012] over naive tracking', measured: true },
       {
         label: 'Honesty',
-        value: 'Found a leak in my own evaluation: refitting the value maps per fold cut every gain by 0.002 to 0.003',
+        value: 'Found a leak in my own evaluation: refitting the value maps per fold cut the gains over SkillCorner by 0.002 to 0.003',
         measured: true,
       },
     ],
@@ -183,28 +183,33 @@ export const projects: Project[] = [
       'Not early warning from completed possessions, not a live service, not a betting model.',
     ],
   },
-  // contextual-football-metrics: figures withdrawn 2026-11-05. The repo's unmerged validation-audit branch found
-  // leakage. Add corrected numbers only once that branch is merged and MASTER_PROFILE carries them.
+  // contextual-football-metrics: legacy figures withdrawn 2026-11-05 after the repo's own leakage audit. These are
+  // the corrected numbers from reports/cxg_revalidation.json at main 3071ab3.
   {
     slug: 'contextual-football-metrics',
     title: 'Contextual Football Metrics',
-    kicker: 'Football · under re-audit',
+    kicker: 'Football analytics · honest result',
     role: 'CxG / CxA / CxT training pipeline',
-    state: 'in-development',
+    state: 'live',
     featured: false,
     dataset: 'open',
     summary:
-      'A single Prefect flow under one MLflow parent run, with a model ladder from baseline through GLM to ' +
-      'boosting and neural. My own audit found leakage in the earlier results, so they are withdrawn from this site.',
+      'A contextual expected-goals, assists and threat pipeline. My own audit found leakage in all three, and ' +
+      'with causal features the context adds nothing measurable and StatsBomb’s own xG stays ahead.',
     metrics: [
-      { label: 'Status', value: 'Earlier figures withdrawn: my own re-audit found leakage. No figure is quoted until it is complete.', measured: true },
+      { label: 'Causal contextual xG', value: '0.8037 ROC AUC', benchmark: 'vs StatsBomb xG 0.8295, 1,340 Euro 2024 shots', measured: true },
+      { label: 'Against StatsBomb xG', value: 'Log loss +0.014 worse [0.001, 0.028]', benchmark: 'match-clustered paired bootstrap', measured: true },
+      { label: 'Does context help?', value: 'Euro 2024: log loss -0.0025 [-0.0076, +0.0029]', benchmark: 'vs traditional logistic 0.7996; on La Liga it is worse, +0.0123 [+0.0025, +0.0205]', measured: true },
+      { label: 'Honesty', value: 'Earlier figures, including 0.8131, came from leaky features and are withdrawn', measured: true },
+      { label: 'Testing', value: '571 tests pass and 9 skip, run locally from the lock file', measured: true },
     ],
-    stack: ['Prefect', 'MLflow', 'PyTorch', 'StatsBomb'],
+    stack: ['Prefect', 'MLflow', 'PyTorch', 'Match-clustered bootstrap', 'StatsBomb'],
     repo: 'https://github.com/varunrout/contextual-football-metrics',
     provenanceNote:
-      'The audit found features computed from whole possessions and faulty CxA and CxT labels. The repo’s main ' +
-      'branch and README still show the earlier figures until the corrected work is merged; do not rely on them.',
-    neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'pydantic', 'imbalanced-learn', 'DVC-tracked pipeline', 'cloud/GPU training'],
+      'The audit found whole-possession aggregates stored as pre-action features in all three metrics, and faulty ' +
+      'CxA and CxT labels. Euro 2024 was used for selection in earlier work, so it is not an untouched test set. ' +
+      'Hosted CI is not running because of an account billing lock, so the tests were run locally.',
+    neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'imbalanced-learn', 'DVC-tracked pipeline', 'cloud/GPU training', 'beating StatsBomb xG', 'working hosted CI'],
   },
   {
     slug: 'football-market-intelligence',
@@ -235,12 +240,12 @@ export const projects: Project[] = [
     dataset: 'open',
     summary:
       'Notable for what it refuses to claim. Compromised v0-v9 results were archived rather than presented. ' +
-      'Ships an enforced leakage-classification guard checked in CI. No model metric is quoted, deliberately.',
+      'Ships an enforced leakage-classification guard in its test suite. No model metric is quoted, deliberately.',
     metrics: [
-      { label: 'Guardrails', value: 'CI matrix 3.10-3.12 + leakage smoke test', measured: true },
+      { label: 'Guardrails', value: 'Leakage smoke test; hosted CI is defined but not passing', measured: true },
       { label: 'Testing', value: '195 tests', measured: true },
     ],
-    stack: ['CI matrix', 'Leakage guard', 'MLflow', '195 tests'],
+    stack: ['Leakage guard', 'MLflow', '195 tests'],
     neverClaim: ['any model accuracy or AUC metric', 'player DAx ranking'],
   },
   {

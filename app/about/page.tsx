@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const habits = [
   { verb: 'Benchmark', body: 'every metric against an incumbent, never in isolation.' },
   { verb: 'Calibrate', body: 'and check Brier scores and log loss, not just AUC.' },
-  { verb: 'Test for leakage', body: 'then enforce it in CI, not just at review time.' },
+  { verb: 'Test for leakage', body: 'then enforce it with tests, not just at review time.' },
   { verb: 'Monitor drift', body: 'once a model is in production, not just at launch.' },
 ];
 
