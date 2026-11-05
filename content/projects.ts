@@ -22,6 +22,7 @@ export type Project = {
   state: ProjectState;
   featured: boolean; // true = one of the 5 home hero cards
   dataset: Dataset;
+  datasetNote?: string; // overrides the dataset badge when 'open' is not StatsBomb
   summary: string; // 2 lines
   metrics: Metric[];
   stack: string[];
@@ -116,55 +117,95 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'frame2threat',
-    title: 'Frame2Threat — Possession-Danger Prediction',
-    kicker: 'Football analytics · deep learning',
-    role: 'Independent research · StatsBomb open data',
-    state: 'in-development',
-    featured: true,
-    dataset: 'open',
-    summary:
-      'Predicts possession danger from partial event sequences with an XGBoost + GRU ensemble, a graph ' +
-      'neural network (SAGEConv) and a SHAP explanation layer. Executed notebooks and 49 committed figures.',
-    metrics: [
-      // Every earlier AUC (0.965 ensemble, 0.9524 GRU, 0.9505 XGBoost, 0.882 pass-level) was withdrawn or
-      // re-scored by the repo's own October 2026 leakage audit. No figure returns until MASTER_PROFILE has it.
-      {
-        label: 'Status',
-        value: 'Under re-audit',
-        benchmark: 'Earlier AUCs withdrawn after a leakage review',
-        measured: true,
-      },
-    ],
-    stack: ['XGBoost', 'PyTorch GNN', 'GRU', 'SHAP', 'StatsBomb'],
-    neverClaim: [
-      'Not a production tracking-data model: StatsBomb open data with partial 360 coverage.',
-    ],
-  },
-
-  {
-    slug: 'contextual-football-metrics',
-    title: 'Contextual Football Metrics',
-    kicker: 'Football · live repo',
-    role: 'CxG / CxA / CxT training pipeline',
+    slug: 'expected-next-threat',
+    title: 'Expected Next Threat',
+    kicker: 'Football analytics · tracking data',
+    role: 'Independent research · SkillCorner open tracking data',
     state: 'live',
     featured: true,
     dataset: 'open',
+    datasetNote: 'Open data (SkillCorner)',
     summary:
-      'A single Prefect flow under one MLflow parent run, with a model ladder from baseline through GLM to ' +
-      'boosting and neural, and a from-scratch graph-attention encoder in plain PyTorch.',
+      'A calibrated next-action engine on broadcast tracking. Every 0.2 s it forecasts the carrier’s next ' +
+      'action, the likely receiver and where a carry ends, and values each outcome with expected threat.',
     metrics: [
-      { label: 'Contextual GLM', value: '0.8131 AUC · Brier 0.06669', benchmark: 'vs logistic 0.7982', measured: true },
-      { label: 'Validation', value: '5-fold CV 0.8083', measured: true },
-      { label: 'Honesty', value: 'Season-level CxA ranks assist-makers weakly: Spearman 0.39 vs CxG 0.69 for goals', measured: true },
-      { label: 'Testing', value: '560 tests · CI with an enforced coverage floor', measured: true },
+      {
+        label: 'Danger in the next 5 s',
+        value: '+0.008 AUC [0.004, 0.013]',
+        benchmark: 'over SkillCorner’s possession-start EPV, xShot and xLoss, out of match',
+        measured: true,
+      },
+      { label: 'Next receiver', value: '48.6% top-1 · 81.7% top-3', benchmark: 'vs 11.0% by chance', measured: true },
+      { label: 'Carry, 1 s ahead', value: 'R² 0.91 forward · 0.90 sideways', benchmark: 'vs constant velocity 0.69 · 0.63', measured: true },
+      { label: 'Danger layer', value: 'AUC 0.930 · calibration error 0.002', benchmark: 'ENT adds +0.010 [0.008, 0.012] over naive tracking', measured: true },
+      {
+        label: 'Honesty',
+        value: 'Found a leak in my own evaluation: refitting the value maps per fold cut every gain by 0.002 to 0.003',
+        measured: true,
+      },
     ],
-    stack: ['Prefect', 'MLflow', 'PyTorch', 'GitHub Actions CI', '560 tests'],
-    repo: 'https://github.com/varunrout/contextual-football-metrics',
-    demo: 'contextual',
-    neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'pydantic', 'imbalanced-learn', 'DVC-tracked pipeline', 'cloud/GPU training'],
+    stack: ['LightGBM', 'SkillCorner tracking', 'Markov xT', 'Match bootstrap'],
+    repo: 'https://github.com/varunrout/expected-next-threat',
+    provenanceNote:
+      'Out of match: five folds of four matches, and every model, calibrator and value map is fitted without ' +
+      'the fold it scores. 20 A-League 2024/25 matches of broadcast tracking. SkillCorner’s possession values ' +
+      'are set at the start of each player possession while this engine updates every 0.2 s, so the comparison ' +
+      'is not like for like. Associations, not causal effects. The CI workflow is defined but has never run ' +
+      '(account billing lock); the 8 tests pass locally.',
+    neverClaim: [
+      'Never "beats SkillCorner" without the start-of-possession caveat.',
+      'No live deployment, real-time serving or production.',
+      'No player or team rankings: 20 matches cannot support them.',
+      'Figure 1 and the demo notebook are in-sample, not evidence.',
+    ],
   },
   // ---------- FURTHER PROJECTS ----------
+  {
+    slug: 'frame2threat',
+    title: 'Frame2Threat — Possession-Danger Prediction',
+    kicker: 'Football analytics · honest result',
+    role: 'Independent research · StatsBomb open data',
+    state: 'in-development', // active research prototype, not a linkable repo, so never 'Live repo'
+    featured: false,
+    dataset: 'open',
+    summary:
+      'After every event in a possession, estimates the chance of a later shot or box entry from the events ' +
+      'so far. A self-audit withdrew earlier, leaky results; the honest number is modest and says so.',
+    metrics: [
+      { label: 'Event-time XGBoost', value: '0.665 ROC AUC [0.647, 0.681]', benchmark: 'vs ball x/y baseline 0.642', measured: true },
+      { label: 'Event-time GRU', value: '0.664 ROC AUC [0.642, 0.687]', benchmark: 'about 0.02 of lift; most signal is ball position', measured: true },
+      { label: 'Alerts', value: 'Fire on 55.9% (XGBoost) and 46.6% (GRU) of safe possessions', measured: true },
+      { label: 'Honesty', value: 'Earlier, leakier results withdrawn after a self-audit in October and November 2026', measured: true },
+    ],
+    stack: ['XGBoost', 'GRU', 'PyTorch', 'Match bootstrap', 'StatsBomb'],
+    neverClaim: [
+      'Never quote the withdrawn or retrospective full-possession figures as results.',
+      'Not early warning from completed possessions, not a live service, not a betting model.',
+    ],
+  },
+  // contextual-football-metrics: figures withdrawn 2026-11-05. The repo's unmerged validation-audit branch found
+  // leakage. Add corrected numbers only once that branch is merged and MASTER_PROFILE carries them.
+  {
+    slug: 'contextual-football-metrics',
+    title: 'Contextual Football Metrics',
+    kicker: 'Football · under re-audit',
+    role: 'CxG / CxA / CxT training pipeline',
+    state: 'in-development',
+    featured: false,
+    dataset: 'open',
+    summary:
+      'A single Prefect flow under one MLflow parent run, with a model ladder from baseline through GLM to ' +
+      'boosting and neural. My own audit found leakage in the earlier results, so they are withdrawn from this site.',
+    metrics: [
+      { label: 'Status', value: 'Earlier figures withdrawn: my own re-audit found leakage. No figure is quoted until it is complete.', measured: true },
+    ],
+    stack: ['Prefect', 'MLflow', 'PyTorch', 'StatsBomb'],
+    repo: 'https://github.com/varunrout/contextual-football-metrics',
+    provenanceNote:
+      'The audit found features computed from whole possessions and faulty CxA and CxT labels. The repo’s main ' +
+      'branch and README still show the earlier figures until the corrected work is merged; do not rely on them.',
+    neverClaim: ['catboost', 'captum', 'plotly', 'kaleido', 'pydantic', 'imbalanced-learn', 'DVC-tracked pipeline', 'cloud/GPU training'],
+  },
   {
     slug: 'football-market-intelligence',
     title: 'Football Market Intelligence',

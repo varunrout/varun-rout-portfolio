@@ -4,8 +4,8 @@ const habits = [
   {
     title: 'Benchmark against the incumbent',
     body:
-      'CxG is reported next to StatsBomb’s own xG on identical held-out shots, including where it does not ' +
-      'beat it. A metric with nothing to beat does not lead a headline.',
+      'Frame2Threat is reported next to a ball-position baseline on the same held-out matches, including that ' +
+      'the lift is only about 0.02 AUC. A metric with nothing to beat does not lead a headline.',
   },
   {
     title: 'Report negative results',

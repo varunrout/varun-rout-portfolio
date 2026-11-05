@@ -4,7 +4,7 @@ import { FigurePlate } from '@/components/figures/figure-plate';
 import { site } from '@/lib/site';
 
 const toolkit = [
-  'Contextual xG with a paired bootstrap',
+  'Match bootstrap on held-out matches',
   'Two-stage X-learner uplift',
   'Azure ML in production',
   'Drift & leakage monitoring',
@@ -78,13 +78,13 @@ export function Hero() {
             <FigurePlate
               number={1}
               className="mt-14"
-              caption="Contextual CxG against StatsBomb’s own xG on 1,340 held-out Euro 2024 shots. It does not beat it: the gap’s 95% interval crosses zero."
+              caption="Frame2Threat’s event-time danger model against a ball-position baseline on 15 held-out matches. The lift is about 0.02 AUC: most of the signal is ball position."
             >
               <BenchmarkRuler
-                ours={{ label: 'CxG', value: 0.8131, display: '0.8131' }}
-                incumbent={{ label: 'StatsBomb xG', value: 0.8295, display: '0.8295' }}
-                domain={[0.8, 0.84]}
-                ticks={[0.8, 0.81, 0.82, 0.83, 0.84]}
+                ours={{ label: 'Event-time XGBoost', value: 0.665, display: '0.665' }}
+                incumbent={{ label: 'Ball x/y logistic', value: 0.642, display: '0.642' }}
+                domain={[0.62, 0.68]}
+                ticks={[0.62, 0.64, 0.66, 0.68]}
                 tickDecimals={2}
               />
             </FigurePlate>

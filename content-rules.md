@@ -26,11 +26,16 @@ metric, or demo. A false claim reaching the site is the failure this file exists
    must never be used to upgrade the ~£78k. Never publish a sample size, split ratio, duration, statistical
    power, MDE, p-value or number of variants for that test, because none is on file.
 5. **Per-repo NEVER-claim list, enforced:**
-   - `opponent-adjusted-metrics`: NEVER headline LightGBM or "gradient boosting" as the tech. Models are
+   - `opponent-adjusted-metrics`: **SUSPENDED 2026-11-04.** The public repo was emptied on 2026-10-30 for a
+     redesign and the project is off the site. Do not link it or quote its figures until the new repo is public
+     and re-audited in MASTER_PROFILE. The rules below applied to the old repo.
+     NEVER headline LightGBM or "gradient boosting" as the tech. Models are
      scikit-learn LogisticRegression / Ridge / GradientBoostingClassifier. NEVER claim plotly. (The repo
      README says "LightGBM classifier" and lists CxA as "planned"; the code and committed results say
      otherwise. Follow the code. Fix the README.)
-   - `contextual-football-metrics`: NEVER claim catboost, captum, plotly, kaleido, pydantic,
+   - `contextual-football-metrics`: **Figures withdrawn 2026-11-05.** The unmerged `validation-audit` branch
+     found leakage, so quote no CxG, CxA or CxT figure, old or corrected, until it is merged and re-audited in
+     MASTER_PROFILE. The repo stays linkable with that disclosure on the page. NEVER claim catboost, captum, plotly, kaleido, pydantic,
      imbalanced-learn, or a DVC-tracked pipeline. Cloud/GPU is documented setup only, never exercised.
      **GitHub Actions CI IS real** (re-audited 2026-07-28: `.github/workflows/ci.yml` with an enforced
      coverage floor, an import smoke build, pre-commit and a secrets audit). The Prefect flow wrapping every
@@ -68,6 +73,24 @@ metric, or demo. A false claim reaching the site is the failure this file exists
      NEVER claim regime-aware or recency-weighted forecasting in production (M7 was evaluated and explicitly
      not promoted). NEVER claim external or paying customers. NEVER claim unqualified "production-grade" beyond
      what the reproducibility programme specifically supports.
+   - `expected-next-threat`: audited 2026-11-04 at main `dcbe35e`. Quote only the out-of-fold figures
+     (danger AUC 0.930; ENT +0.010 [0.008, 0.012] over naive tracking; +0.008 [0.004, 0.013] over SkillCorner's
+     possession values; receiver top-1 48.6% against 11.0% chance). The earlier 0.932 and +0.011 figures are
+     superseded. NEVER say "beats SkillCorner" without saying SkillCorner's possession values are set at the
+     start of each player possession while ENT updates every 0.2 s. NEVER claim a live deployment, real-time
+     serving or production ("live" in the repo means usable at prediction time). NEVER rank players or teams
+     (20 matches). NEVER use causal language. NEVER claim working CI: the workflow is defined but has never run
+     (account billing lock); 8 tests pass locally. NEVER present Figure 1 or the demo notebook as evidence:
+     they are in-sample. NEVER claim an Analytics Cup placement. Scope is 20 A-League 2024/25 matches of
+     broadcast tracking.
+   - `Frame2Threat`: re-audited 2026-11-04 at main `6c1406b`. Not linkable. The headline is event-time ROC AUC
+     0.665 (XGBoost) / 0.664 (GRU) against a 0.642 ball x/y baseline, about 0.02 of lift. NEVER quote the
+     withdrawn or retrospective figures (0.965, 0.9524, 0.9505, 0.882, the 0.624/0.847/0.891 progression,
+     fraction-prefix 0.82 to 0.85, the first event-time 0.668/0.670) except as withdrawn results in Errata.
+     NEVER call the full-possession models early warning, and NEVER headline an ensemble. NEVER claim working
+     CI (hosted CI has not run since the billing lock) or a live service.
+   - `edgeforge`: work in progress. Every number is interim until its Phase 10 audit, so NO metric may be
+     quoted. NEVER claim a positive edge, ROI, CLV or commercial use. Not linkable.
    - `player-availability-analysis`: NEVER say "production" (access is a shared review credential, not
      production authentication). NEVER claim real-time or online serving (inference is batch; serving is
      deferred to V2). NEVER cite the single-use confirmatory final-test ROC-AUC (0.827) as a performance
@@ -81,9 +104,15 @@ metric, or demo. A false claim reaching the site is the failure this file exists
    tooling is not disclosed either way. Results and analysis must always be genuinely yours and defensible.
 8. **Style:** British English. No em dashes. Never claim a model or document is error-free; report what was
    checked and what is uncertain.
-9. **Only six clean repos may be linked:** `opponent-adjusted-metrics`, `retail-intelligence`,
-   `contextual-football-metrics`, `sales-insight-agent`, `climate-transition-risk-platform`,
-   `player-availability-analysis`. Others are described without a clickable link.
+9. **Only six clean repos may be linked:** `retail-intelligence`, `contextual-football-metrics`,
+   `sales-insight-agent`, `climate-transition-risk-platform`, `player-availability-analysis`,
+   `expected-next-threat`. Others are described without a clickable link. `opponent-adjusted-metrics` is
+   suspended (see rule 5) and returns only after its new repo is public and re-audited.
+
+   > UPDATED 2026-11-04 on Varun's ruling. `expected-next-threat` was added and `opponent-adjusted-metrics`
+   > suspended. ENT is linked on an explicit exception to the bar below: it is public, audited and its 8 tests
+   > pass locally, but its CI has never run because of the account billing lock, and it is not deployed.
+   > Claim neither.
 
    > UPDATED 2026-08-26 on Varun's ruling. The last two were added: both are public, CI-green, independently
    > re-audited and deployed (Azure Container Apps + GitHub Pages for climate-transition-risk-platform; two

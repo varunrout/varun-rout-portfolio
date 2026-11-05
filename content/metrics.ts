@@ -31,34 +31,37 @@ export type ModelMetric = {
 export const metrics: ModelMetric[] = [
   // ---------- FOOTBALL ----------
   // Opponent-Adjusted Football Metrics: rows removed 2026-11-04 while the project is redesigned.
+  // Contextual Football Metrics: rows removed 2026-11-05. The repo's own validation-audit branch found leakage in
+  // these figures. Add corrected rows only once that branch is merged and MASTER_PROFILE carries them.
+  // Frame2Threat: the withdrawn 0.965 / 0.9524 / 0.882 rows were removed 2026-11-04. This is the re-audited
+  // event-time headline from MASTER_PROFILE section 4 (2026-11-04).
   {
-    project: 'Contextual Football Metrics',
+    project: 'Frame2Threat',
     domain: 'football',
-    model: 'Contextual GLM',
-    task: 'Contextual expected goals',
-    metric: 'ROC AUC (heldout)',
-    value: 0.8131,
+    model: 'Event-time XGBoost',
+    task: 'Danger after each event, from events so far',
+    metric: 'ROC AUC (held out)',
+    value: 0.665,
     unit: 'ratio',
-    benchmark: { name: 'Logistic baseline', value: 0.7982 },
+    benchmark: { name: 'Ball x/y logistic', value: 0.642 },
     dataset: 'open',
-    tests: 560,
-    state: 'live',
-    source: 'reports/cxg_training_summary.json',
+    state: 'in-development',
+    source: 'Frame2Threat README + reports/CLAIMS.md @ 6c1406b (15 held-out matches)',
   },
   {
-    project: 'Contextual Football Metrics',
+    project: 'Expected Next Threat',
     domain: 'football',
-    model: 'Contextual GLM',
-    task: 'Cross-validation',
-    metric: '5-fold CV AUC',
-    value: 0.8083,
-    unit: 'ratio',
+    model: 'LightGBM receiver model',
+    task: 'Next pass receiver, out of match',
+    metric: 'Top-1 accuracy',
+    value: 48.6,
+    unit: 'percent',
+    benchmark: { name: 'Chance', value: 11.0 },
     dataset: 'open',
+    tests: 8,
     state: 'live',
-    source: 'reports/cxg_training_summary.json',
+    source: 'expected-next-threat docs/validation/validation.json @ dcbe35e',
   },
-  // Frame2Threat: rows removed 2026-11-04. The repo's own leakage audit withdrew the 0.965 / 0.9524 AUCs and
-  // re-scored the 0.882 pass-level figure. Add rows back only from MASTER_PROFILE once it carries the re-audit.
   // Football Market Intelligence: intentionally NO metric row (removed 2026-08-10, Varun's ruling).
   // The best-config +6.72% ROI over 118 bets is a positive market edge, which content-rules rule 5 and
   // MASTER_PROFILE 4c bar for bet-intelligence, and which contradicted the rigour manifesto on the same

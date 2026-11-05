@@ -8,7 +8,7 @@ export function FeaturedWork() {
       <Reveal>
         <p className="font-mono text-sm text-cyan">Featured work</p>
         <h2 className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-txt sm:text-4xl">
-          Five projects, one habit: benchmark against the incumbent.
+          Four projects, one habit: benchmark against the incumbent.
         </h2>
       </Reveal>
 

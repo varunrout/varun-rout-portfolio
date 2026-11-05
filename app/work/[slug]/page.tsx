@@ -6,9 +6,7 @@ import { Reveal } from '@/components/motion/reveal';
 import { ForecastVisualiser, type PanelKey } from '@/components/demos/forecast-visualiser';
 import { ModelScorecard } from '@/components/demos/model-scorecard';
 import { UpliftExplorer } from '@/components/demos/uplift-explorer';
-import { ContextualLift } from '@/components/demos/contextual-lift';
 import { ShotMapExplorer } from '@/components/demos/shot-map-explorer';
-import { CxaExplorer } from '@/components/demos/cxa-explorer';
 import { ClimateExplorer } from '@/components/demos/climate-explorer';
 import { AvailabilityExplorer } from '@/components/demos/availability-explorer';
 import { getShots } from '@/lib/shots';
@@ -87,7 +85,7 @@ export default async function ProjectPage({
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <p className="font-mono text-sm text-cyan">{project.kicker}</p>
           <Badge variant="outline">{stateLabel[project.state]}</Badge>
-          <Badge variant="outline">{datasetLabel[project.dataset]}</Badge>
+          <Badge variant="outline">{project.datasetNote ?? datasetLabel[project.dataset]}</Badge>
         </div>
 
         <h1 className="mt-3 text-4xl font-semibold tracking-[-0.02em] text-txt">{project.title}</h1>
@@ -187,27 +185,6 @@ export default async function ProjectPage({
         </Reveal>
       )}
 
-      {project.demo === 'contextual' && (
-        <Reveal delay={0.05}>
-          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
-            <h2 className="font-mono text-sm text-cyan">Does the context earn its place?</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Each metric against the baseline it has to beat, over identical held-out rows with a paired
-              bootstrap. One of the three does not beat its benchmark, and the verdict says so in the
-              repo&rsquo;s own words.
-            </p>
-            <div className="mt-6">
-              <ContextualLift />
-            </div>
-            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
-              <span className="text-cyan">Data provenance.</span> Committed reports from
-              contextual-football-metrics (incremental_lift_cx&#123;g,a,t&#125;.json, external_validity.json),
-              generated into data/contextual-lift.json. Open StatsBomb data.
-            </p>
-          </section>
-        </Reveal>
-      )}
-
       {project.demo === 'scorecard' && (
         <Reveal delay={0.05}>
           <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
@@ -233,27 +210,6 @@ export default async function ProjectPage({
             <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
               <span className="text-cyan">Data provenance.</span> 440-shot sample from the CxG diagnostic model,
               benchmarked against StatsBomb xG. Open StatsBomb data, served from Supabase.
-            </p>
-          </section>
-        </Reveal>
-      )}
-
-      {project.slug === 'opponent-adjusted-metrics' && (
-        <Reveal delay={0.05}>
-          <section className="mt-6 rounded-xl border border-line bg-panel p-6 sm:p-8">
-            <h2 className="font-mono text-sm text-cyan">Explore contextual expected assists</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              The CxA diagnostic model against its own baseline over 1,091,388 action rows. Precision among the
-              model&apos;s most confident actions is the headline; the leaderboard shows volume against efficiency.
-            </p>
-            <div className="mt-6">
-              <CxaExplorer />
-            </div>
-            <p className="mt-4 border-t border-line/60 pt-3 text-xs text-dim">
-              <span className="text-cyan">Data provenance.</span> Generated into data/cxa.json from the committed CxA
-              portfolio export (headline metrics, top players and teams, feature drivers). Open StatsBomb data. The
-              comparison is against this project&apos;s own baseline, not an industry expected-assists incumbent, and
-              the model is provisionally promoted.
             </p>
           </section>
         </Reveal>

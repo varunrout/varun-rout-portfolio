@@ -3,9 +3,9 @@ import { CountUp } from '@/components/motion/count-up';
 
 const stats = [
   {
-    value: 0.8131,
-    decimals: 4,
-    caption: 'Contextual CxG ROC AUC. StatsBomb’s own xG scores 0.8295 on the same 1,340 held-out shots',
+    value: 0.665,
+    decimals: 3,
+    caption: 'Frame2Threat event-time ROC AUC on 15 held-out matches, against a ball-position baseline’s 0.642',
   },
   {
     value: 0.844,

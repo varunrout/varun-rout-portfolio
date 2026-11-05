@@ -33,8 +33,8 @@ Vercel Analytics + Speed Insights. MDX in-repo via `next-mdx-remote/rsc`. No CMS
 ## Non-negotiables (mirror of content-rules.md)
 
 - Only Manor Park carries the title "Data Scientist".
-- Only link the four clean repos: opponent-adjusted-metrics, retail-intelligence, contextual-football-metrics,
-  sales-insight-agent.
+- Only link the repos listed in `content-rules.md` rule 9 (six as of 2026-11-04; opponent-adjusted-metrics is
+  suspended).
 - Illustrative figures (£115k, ROAS mechanics) never appear as headline metrics. The ~£78k is "associated with".
 - Respect every per-repo NEVER-claim list in `content-rules.md`.
 - Ask before inventing any content.

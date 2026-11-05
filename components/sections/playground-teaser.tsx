@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { Reveal } from '@/components/motion/reveal';
 
 const demos = [
-  { name: 'Contextual lift and validity', blurb: 'CxG, CxA and CxT against their baselines, paired bootstrap' },
   { name: 'Uplift decile explorer', blurb: 'Qini curve and top-K targeting from the X-learner' },
   { name: 'Forecast error visualiser', blurb: 'Before/after accuracy at E.ON and Manor Park' },
+  { name: 'Climate backtest & gate explorer', blurb: 'A rolling-origin backtest and the 76.3%-vs-90% coverage shortfall' },
   { name: 'Model scorecard', blurb: 'Every model, every benchmark, sortable and filterable' },
 ];
 

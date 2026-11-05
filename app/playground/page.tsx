@@ -8,7 +8,7 @@ import { projects, type DemoKey } from '@/content/projects';
 export const metadata: Metadata = {
   title: 'Playground',
   description:
-    'Interactive demos: a contextual lift and validity explorer, an uplift decile explorer, a forecast error visualiser, and a model scorecard.',
+    'Interactive demos: an uplift decile explorer, a forecast error visualiser, a climate backtest explorer, an alert-budget explorer and a model scorecard.',
   alternates: { canonical: '/playground' },
 };
 
@@ -18,13 +18,6 @@ export const metadata: Metadata = {
  * Order is deliberate: the three that best carry the "earn their claims" promise come first.
  */
 const index: { demo: DemoKey; title: string; blurb: string; why: string }[] = [
-  {
-    demo: 'contextual',
-    title: 'Contextual lift and validity',
-    blurb:
-      'CxG, CxA and CxT each set against the baseline they have to beat, over identical held-out rows with a 2,000-sample paired bootstrap. Confidence intervals decide what may be claimed, and one of the three does not clear its benchmark.',
-    why: 'Includes a committed negative result on the flagship metric',
-  },
   {
     demo: 'uplift',
     title: 'Uplift decile explorer',

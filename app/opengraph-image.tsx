@@ -11,9 +11,9 @@ export default function Image() {
       <OgCard
         kicker="Applied data science · Birmingham, UK"
         title="Forecasting, causal ML, and models that earn their claims."
-        metricLabel="Contextual xG, next to the incumbent it has to beat"
-        mineText="0.8131 CxG"
-        benchText="vs StatsBomb 0.8295"
+        metricLabel="Possession danger, next to the baseline it has to beat"
+        mineText="0.665 AUC"
+        benchText="vs ball x/y 0.642"
       />
     ),
     { ...size },
